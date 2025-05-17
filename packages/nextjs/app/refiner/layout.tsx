@@ -6,12 +6,13 @@ import { Inter } from "next/font/google";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, RefreshCw, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Sidebar from "~~/components/dashboard/Sidebar";
 import TopBar from "~~/components/dashboard/topBar";
+import { Loading } from "~~/components/ui/loading";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { useSidebarStore } from "~~/stores/useSidebarStore";
 import { getSidebarItems } from "~~/types/dashboard/sidebarItems";
-import { Loading } from "~~/components/ui/loading";
 import { notification } from "~~/utils/scaffold-eth";
 
 const montserrat = Montserrat({
@@ -169,27 +170,6 @@ const AccessDeniedCard = ({
   );
 };
 
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex items-center justify-center min-h-screen p-4 bg-lightBlack">
-    <div className="max-w-md w-full bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-300 animate-spin" />
-        ) : (
-          <ShieldAlert className="w-8 h-8 text-blue-300" />
-        )}
-      </div>
-      <h1 className="text-2xl font-bold text-white mb-2">{isLoading ? "Connecting..." : "Connect Your Wallet"}</h1>
-      <p className="text-gray-300 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect a wallet with refiner privileges"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton />
-      </div>
-    </div>
-  </div>
-);
-
 export default function RefinerLayout({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebarStore();
   const { address, isConnected, isConnecting } = useAccount();
@@ -231,16 +211,18 @@ export default function RefinerLayout({ children }: { children: React.ReactNode 
   }, []);
 
   if (isConnected && isLoadingRoleCheck) {
-    return <Loading
-      title="Verifying Refiner Access"
-      description="Please wait while we verify your refiner access..."
-      progressValue={90}
-      progressText="Almost there..."
-    />;
+    return (
+      <Loading
+        title="Verifying Refiner Access"
+        description="Please wait while we verify your refiner access..."
+        progressValue={90}
+        progressText="Almost there..."
+      />
+    );
   }
 
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="refiner" />;
   }
 
   // Show warning but don't restrict access
@@ -269,12 +251,14 @@ export default function RefinerLayout({ children }: { children: React.ReactNode 
   }
 
   if (isDataLoading) {
-    return <Loading
-      title="Loading Refiner Dashboard"
-      description="Please wait while we load the refiner dashboard..."
-      progressValue={90}
-      progressText="Almost there..."
-    />;
+    return (
+      <Loading
+        title="Loading Refiner Dashboard"
+        description="Please wait while we load the refiner dashboard..."
+        progressValue={90}
+        progressText="Almost there..."
+      />
+    );
   }
 
   return (

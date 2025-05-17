@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Icon from "~~/components/dashboard/Icon";
 import MineralActivity from "~~/components/dashboard/minerals/mineralActivity";
 import MineralListTable from "~~/components/dashboard/minerals/mineralListTable/mineralList";
@@ -15,6 +16,10 @@ import TopDemands from "~~/components/dashboard/overview/topDemands";
 import { demands, mineralsList, reports, shipments } from "~~/data/data";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
+
+/* eslint-disable react/no-unescaped-entities, @next/next/no-img-element */
+
+/* eslint-disable react/no-unescaped-entities, @next/next/no-img-element */
 
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
@@ -157,29 +162,6 @@ const AccessDeniedCard = ({
   );
 };
 
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex items-center justify-center min-h-screen p-4">
-    <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-200 dark:border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-600 dark:text-blue-300 animate-spin" />
-        ) : (
-          <ShieldAlert className="w-8 h-8 text-blue-600 dark:text-blue-300" />
-        )}
-      </div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        {isLoading ? "Connecting..." : "Connect Your Wallet"}
-      </h1>
-      <p className="text-gray-600 dark:text-gray-300 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect a wallet with miner privileges"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton />
-      </div>
-    </div>
-  </div>
-);
-
 export default function Page() {
   const [activeTab, setActiveTab] = useState<"pending" | "validated">("pending");
   const { address, isConnected, isConnecting } = useAccount();
@@ -241,7 +223,7 @@ export default function Page() {
 
   // Not connected state
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="miner" />;
   }
 
   // No required role state

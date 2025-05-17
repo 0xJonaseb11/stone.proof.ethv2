@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Icon from "~~/components/dashboard/Icon";
 import MineralDisputesGraph from "~~/components/dashboard/disputes/mineralDisputesVariationGraph";
 import { NotificationList } from "~~/components/dashboard/disputes/recentActivities";
@@ -31,31 +33,13 @@ import Search from "~~/components/dashboard/search";
 import { demands, mineralDisputesData, mockDisputes, myNotifications, reports, shipments } from "~~/data/data";
 import { useScaffoldContract, useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
     <Loader2 className={`w-${size} h-${size} animate-spin`} />
     {text && <p className="text-sm text-muted-foreground">{text}</p>}
-  </div>
-);
-
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="text-white min-h-screen flex items-center justify-center">
-    <div className="text-center max-w-md p-6 bg-gray-800 rounded-xl border border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-600 dark:text-blue-300 animate-spin" />
-        ) : (
-          <ShieldAlert className="w-8 h-8 text-blue-600 dark:text-blue-300" />
-        )}
-      </div>
-      <h2 className="text-2xl font-bold mb-4">{isLoading ? "Connecting..." : "Wallet Not Connected"}</h2>
-      <p className="text-gray-400 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect your wallet to raise disputes"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton />
-      </div>
-    </div>
   </div>
 );
 
@@ -219,7 +203,7 @@ export default function Page() {
   }
 
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="miner" />;
   }
 
   if (!hasMinerRole) {
