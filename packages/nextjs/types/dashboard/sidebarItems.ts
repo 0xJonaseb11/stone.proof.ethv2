@@ -63,7 +63,7 @@ export const getSidebarItems = (basePath: string): SidebarItem[] => {
         },
         {
           name: "Inspection",
-          path: `${basePath}/inspector`,
+          path: `${basePath}/inspection`,
           icon: "/dashboard/icon_set/all_mines.svg",
           iconAlt: "Inspector icon",
         },
@@ -97,7 +97,7 @@ export const getSidebarItems = (basePath: string): SidebarItem[] => {
         },
         {
           name: "Auditory",
-          path: `${basePath}/auditor`,
+          path: `${basePath}/auditory`,
           icon: "/dashboard/icon_set/all_mines.svg",
           iconAlt: "Auditor icon",
         },
