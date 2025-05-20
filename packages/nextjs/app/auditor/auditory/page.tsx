@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { AlertCircle, Check, ChevronDown, Copy, Loader2, Minus, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import BypassWarningBanner from "~~/app/ByPassRoleCheck";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
 
@@ -147,9 +148,15 @@ export default function AuditMinerals() {
     /*enabled: isConnected*/
   });
 
+  // TEMPORARY: Override the auditor role check
+  // This will make all connected wallets have auditor access
+  const temporaryHasAuditorRole = true; // TEMPORARY OVERRIDE
+
   const validateForm = useCallback(() => {
-    return isConnected && hasAuditorRole && form.mineralId.trim() && form.report.trim();
-  }, [isConnected, hasAuditorRole, form.mineralId, form.report]);
+    // TEMPORARY: Use the override instead of the actual role check
+    // return isConnected && hasAuditorRole && form.mineralId.trim() && form.report.trim();
+    return isConnected && temporaryHasAuditorRole && form.mineralId.trim() && form.report.trim();
+  }, [isConnected, /*hasAuditorRole,*/ form.mineralId, form.report]);
 
   const { writeContractAsync } = useScaffoldWriteContract("RolesManager");
 
@@ -179,7 +186,9 @@ export default function AuditMinerals() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isConnected || !hasAuditorRole || !validateForm()) return;
+    // TEMPORARY: Use the override instead of the actual role check
+    // if (!isConnected || !hasAuditorRole || !validateForm()) return;
+    if (!isConnected || !temporaryHasAuditorRole || !validateForm()) return;
 
     setIsTransactionPending(true);
     try {
@@ -301,6 +310,12 @@ export default function AuditMinerals() {
     },
   ];
 
+  // TEMPORARY: Skip the role check and directly render the main UI
+  if (!isConnected) {
+    return <ConnectWalletView isLoading={isConnecting} />;
+  }
+
+  /*
   if (isConnected && isRoleLoading) {
     return <FullPageLoader text="Checking auditor permissions..." />;
   }
@@ -320,9 +335,11 @@ export default function AuditMinerals() {
       </div>
     );
   }
+  */
 
   return (
     <div className="min-h-screen text-white p-4 sm:p-6 md:p-8">
+      <BypassWarningBanner />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import { Inter } from "next/font/google";
 import { Loading } from "../../components/ui/loading";
+import BypassWarningBanner from "../ByPassRoleCheck";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
@@ -19,6 +20,15 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   display: "swap",
 });
+
+// const BypassWarningBanner = () => (
+//   <div className="mb-4 p-4 rounded-lg bg-yellow-900/20 border border-yellow-900/50">
+//     <div className="flex items-center gap-2 text-yellow-300">
+//       <ShieldAlert className="w-5 h-5" />
+//       <span>Role check temporarily bypassed - access restrictions removed</span>
+//     </div>
+//   </div>
+// );
 
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
@@ -50,6 +60,7 @@ const AccessDeniedCard = ({
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
+      <BypassWarningBanner />
       <div className="w-full max-w-4xl p-4 sm:p-6 bg-gray-800 rounded-xl shadow-lg border border-gray-700">
         <div className="text-center flex flex-col items-center gap-5">
           <div>

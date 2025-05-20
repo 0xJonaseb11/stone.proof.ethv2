@@ -194,7 +194,8 @@ export default function MineralsPage() {
   const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
 
-  const {
+  // Commented out the original role check but kept for reference
+  /* const {
     data: hasMinerRole,
     isLoading: isLoadingRoleCheck,
     error,
@@ -203,16 +204,16 @@ export default function MineralsPage() {
     contractName: "RolesManager",
     functionName: "hasMinerRole",
     args: [address],
-    /*enabled: isConnected*/
-  });
+  }); */
+
+  const hasMinerRole = true; // Bypassing role check
+  const isLoadingRoleCheck = false; // No loading needed
 
   const handleRefreshAccess = async () => {
     setIsRefreshingAccess(true);
     try {
-      const { data } = await refetchRoleCheck();
-      if (!data) {
-        toast.error("Still no miner access. Contact administrator.");
-      }
+      // await refetchRoleCheck();
+      toast.info("Access refreshed");
     } catch (e) {
       console.error("Error refreshing access:", e);
       toast.error("Error checking access");
@@ -222,14 +223,12 @@ export default function MineralsPage() {
   };
 
   useEffect(() => {
-    if (hasMinerRole) {
-      const timer = setTimeout(() => {
-        setIsDataLoading(false);
-        toast.success("Minerals data loaded successfully");
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [hasMinerRole]);
+    const timer = setTimeout(() => {
+      setIsDataLoading(false);
+      toast.success("Minerals data loaded successfully");
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Loading state while checking roles
   if (isConnected && isLoadingRoleCheck) {
@@ -241,15 +240,123 @@ export default function MineralsPage() {
     return <ConnectWalletView isLoading={isConnecting} />;
   }
 
-  // No miner role state
+  // Show warning but don't restrict access
   if (isConnected && !hasMinerRole) {
     return (
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <AccessDeniedCard
-          address={address || ""}
-          isLoadingRefresh={isRefreshingAccess}
-          onRefresh={handleRefreshAccess}
-        />
+      <div className="px-4 md:px-10 flex flex-col gap-6 md:gap-10">
+        <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
+          <div className="flex items-center gap-2 text-red-300">
+            <ShieldAlert className="w-5 h-5" />
+            <span>Your wallet doesn't have miner privileges</span>
+          </div>
+        </div>
+
+        {isDataLoading ? (
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <LoadingSpinner size={12} text="Loading minerals data..." />
+          </div>
+        ) : (
+          <>
+            {/* the welcome message */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
+              <div className="flex flex-col">
+                <p className="text-[24px] md:text-[28px] font-bold m-0 leading-tight">Minerals</p>
+                <p className="text-[14px] md:text-[16px] text-[#979AA0] m-0 leading-tight">
+                  Access detailed info about minerals
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 md:gap-1">
+                <button className="flex-1 md:flex-none bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+                  <span className="flex items-center gap-2">
+                    <h1 className="text-sm translate-y-[7px]">Download Report</h1>
+                    <Icon path="/dashboard/icon_set/download.svg" alt="Download icon" />
+                  </span>
+                </button>
+
+                <Link
+                  href={"/miner/minerals/registerMineral"}
+                  className="flex-1 md:flex-none bg-accentBlue gap-2 font-semibold px-4 py-1.5 rounded-[8px] flex items-center justify-center md:justify-start"
+                >
+                  <h1 className="translate-y-[4px]">Register Mineral</h1>
+                </Link>
+
+                <button className="bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+                  <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" />
+                </button>
+              </div>
+            </div>
+
+            {/* the mineral activity */}
+            <div className="flex flex-col lg:flex-row gap-5 w-full items-stretch">
+              <div className="w-full lg:w-2/3">
+                <div className="h-full">
+                  <MineralActivity />
+                </div>
+              </div>
+              <div className="w-full lg:w-1/3">
+                <div className="h-full">
+                  <RecentShipments shipments={shipments} onViewAll={() => console.log("View all shipments")} />
+                </div>
+              </div>
+            </div>
+
+            {/* the history table */}
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-3 justify-between">
+                <div>
+                  <p className="text-[18px] md:text-[20px] font-bold m-0 leading-tight">Minerals History</p>
+                </div>
+
+                <div className="w-full md:w-auto md:scale-90">
+                  <Search />
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <button className="flex-1 md:flex-none bg-[#252525] border border-[#323539] flex items-center justify-center gap-1 font-medium px-3 py-1 rounded-[6px] text-sm">
+                    <span className="flex items-center gap-1">
+                      <span>Download Report</span>
+                      <Icon path="/dashboard/icon_set/download.svg" alt="Download icon" width={14} height={14} />
+                    </span>
+                  </button>
+
+                  <Link
+                    href={"#"}
+                    className="flex-1 md:flex-none bg-red-500 gap-1 font-medium px-3 py-1 rounded-[6px] flex items-center justify-center text-sm"
+                  >
+                    Clear history
+                  </Link>
+
+                  <button className="bg-[#252525] border border-[#323539] flex items-center justify-center px-2 py-1 rounded-[6px]">
+                    <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" width={14} height={14} />
+                  </button>
+                </div>
+              </div>
+
+              {/* the table */}
+              <div className="overflow-x-auto">
+                <MineralListTable minerals={mineralsList} />
+              </div>
+            </div>
+
+            {/* the other metric cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <RecentShipments shipments={shipments} onViewAll={() => console.log("View all shipments")} />
+
+              <TopDemands
+                demands={demands}
+                onRefresh={() => console.log("Refresh demands")}
+                onAddDemand={id => console.log("Add demand", id)}
+              />
+
+              <MineralReports
+                reports={reports}
+                onRefresh={() => console.log("Refresh reports")}
+                onViewDetails={id => console.log("View report details", id)}
+              />
+            </div>
+          </>
+        )}
       </div>
     );
   }
