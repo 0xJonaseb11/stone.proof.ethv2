@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "../lib/toast";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ChevronRight, Copy, HardHat, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
+import { ChevronRight, Copy, HardHat, Loader2, Lock, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
@@ -70,6 +72,7 @@ const AdminContactSection = () => {
   );
 };
 
+// KEPT BUT NOT USED - Access Denied component remains for potential future use
 const AccessDeniedCard = ({
   address,
   isLoadingRefresh,
@@ -171,7 +174,7 @@ const MinerAccessGranted = () => {
           {isRedirecting ? (
             <Loader2 className="w-8 h-8 text-green-600 dark:text-green-300 animate-spin" />
           ) : (
-            <HardHat className="w-8 h-8 text-green-600 dark:text-green-300" />
+            <HardHat className="w-8 h-8 text-blue-600 dark:text-green-300" />
           )}
         </div>
 
@@ -181,7 +184,7 @@ const MinerAccessGranted = () => {
         <button
           onClick={handleEnterPortal}
           disabled={isRedirecting}
-          className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           {isRedirecting ? (
             <>
@@ -224,63 +227,65 @@ const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
 );
 
 export default function MinerPortalEntry() {
+  const router = useRouter();
   const { address, isConnected, isConnecting } = useAccount();
-  const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const {
-    data: hasMinerRole,
-    isLoading: isLoadingRoleCheck,
-    error,
-    refetch: refetchRoleCheck,
-  } = useScaffoldReadContract({
-    contractName: "RolesManager",
-    functionName: "hasMinerRole",
-    args: [address],
-    /*enabled: isConnected*/
-  });
+  // COMMENTED OUT: Original role check logic (kept for reference)
+  // const {
+  //   data: hasMinerRole,
+  //   isLoading: isLoadingRoleCheck,
+  //   error,
+  //   refetch: refetchRoleCheck,
+  // } = useScaffoldReadContract({
+  //   contractName: "RolesManager",
+  //   functionName: "hasRole",
+  //   args: [
+  //     "0x241ecf16d79d0f8dbfb92cbc07fe17840425976cf0667f022fe9877caa831b08",
+  //     address
+  //   ],
+  //   enabled: isConnected,
+  // });
 
-  const handleRefreshAccess = async () => {
-    setIsRefreshingAccess(true);
-    try {
-      const { data } = await refetchRoleCheck();
-      if (!data) {
-        toast.error("Still no miner access. Contact administrator.");
-      }
-    } catch (e) {
-      console.error("Error refreshing access:", e);
-      toast.error("Error checking access");
-    } finally {
-      setIsRefreshingAccess(false);
+  // COMMENTED OUT: Original refresh access logic (kept for reference)
+  // const handleRefreshAccess = async () => {
+  //   setIsRefreshingAccess(true);
+  //   try {
+  //     const { data } = await refetchRoleCheck();
+  //     if (!data) {
+  //       toast.error("Still no miner access. Contact administrator.");
+  //     }
+  //   } catch (e) {
+  //     console.error("Error refreshing access:", e);
+  //     toast.error("Error checking access");
+  //   } finally {
+  //     setIsRefreshingAccess(false);
+  //   }
+  // };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Reduced loading time
+    return () => clearTimeout(timer);
+  }, []);
+
+  // MODIFIED: Automatically redirect when connected
+  useEffect(() => {
+    if (isConnected && !isLoading) {
+      router.push("/miner/overview");
     }
-  };
+  }, [isConnected, isLoading, router]);
 
-  // Loading state while checking roles
-  if (isConnected && isLoadingRoleCheck) {
-    return <FullPageLoader text="Checking miner access permissions..." />;
+  // MODIFIED: Simplified rendering logic
+  if (isLoading) {
+    return <FullPageLoader text="Loading miner portal..." />;
   }
 
-  // Not connected state
   if (!isConnected) {
     return <ConnectWalletView isLoading={isConnecting} />;
   }
 
-  // No miner role state
-  if (isConnected && !hasMinerRole) {
-    return (
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <AccessDeniedCard
-          address={address || ""}
-          isLoadingRefresh={isRefreshingAccess}
-          onRefresh={handleRefreshAccess}
-        />
-      </div>
-    );
-  }
-
-  // Access granted state
-  return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <MinerAccessGranted />
-    </div>
-  );
+  // Fallback (shouldn't reach here due to useEffect redirect)
+  return <FullPageLoader text="Redirecting..." />;
 }
