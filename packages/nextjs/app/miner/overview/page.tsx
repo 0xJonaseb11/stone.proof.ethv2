@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
 import Icon from "~~/components/dashboard/Icon";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
@@ -65,8 +65,19 @@ export default function MinerOverviewPage() {
     name: "Miner",
   };
 
+  const BypassWarningBanner = () => (
+    <div className="mb-4 p-4 rounded-lg bg-yellow-900/20 border border-yellow-900/50">
+      <div className="flex items-center gap-2 text-yellow-300">
+        <ShieldAlert className="w-5 h-5" />
+        <span>Role check temporarily bypassed - access restrictions removed</span>
+      </div>
+    </div>
+  );
+
   return (
     <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
+      <BypassWarningBanner />
+
       {/* Welcome message */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div className="flex flex-col">

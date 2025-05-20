@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ShieldAlert } from "lucide-react";
 import Icon from "~~/components/dashboard/Icon";
 import NetworkTransactionsGraph from "~~/components/dashboard/admin/NetworkTransactionsGraph";
 import StatsSection from "~~/components/dashboard/admin/StatsSection";
@@ -33,9 +34,19 @@ const stats = {
   },
 };
 
+const BypassWarningBanner = () => (
+  <div className="mb-4 p-4 rounded-lg bg-yellow-900/20 border border-yellow-900/50">
+    <div className="flex items-center gap-2 text-yellow-300">
+      <ShieldAlert className="w-5 h-5" />
+      <span>Role check temporarily bypassed - access restrictions removed</span>
+    </div>
+  </div>
+);
+
 export default function AdminOverviewPage() {
   return (
     <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 md:py-8 space-y-6 sm:space-y-8">
+      <BypassWarningBanner />
       <div className="px-2 sm:px-4 md:px-6 lg:px-8 flex flex-col gap-4 sm:gap-6 md:gap-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
           <div className="flex flex-col">

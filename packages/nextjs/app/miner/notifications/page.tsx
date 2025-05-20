@@ -186,7 +186,8 @@ export default function NotificationsPage() {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [notification, setNotifications] = useState(notifications);
 
-  const {
+  // Commented out the original role check but kept for reference
+  /* const {
     data: hasMinerRole,
     isLoading: isLoadingRoleCheck,
     error,
@@ -195,16 +196,24 @@ export default function NotificationsPage() {
     contractName: "RolesManager",
     functionName: "hasMinerRole",
     args: [address],
-    /*enabled: isConnected*/
-  });
+    enabled: isConnected
+  }); */
+
+  // Bypass the role check by setting these values directly
+  const hasMinerRole = true; // Always grant access
+  const isLoadingRoleCheck = false; // Skip loading state
 
   const handleRefreshAccess = async () => {
     setIsRefreshingAccess(true);
     try {
-      const { data } = await refetchRoleCheck();
+      // Original code - commented out
+      /* const { data } = await refetchRoleCheck();
       if (!data) {
         toast.error("Still no miner access. Contact administrator.");
-      }
+      } */
+
+      // Always show success when bypassing
+      toast.info("Access refreshed");
     } catch (e) {
       console.error("Error refreshing access:", e);
       toast.error("Error checking access");
@@ -214,14 +223,13 @@ export default function NotificationsPage() {
   };
 
   useEffect(() => {
-    if (hasMinerRole) {
-      const timer = setTimeout(() => {
-        setIsDataLoading(false);
-        toast.success("Notifications data loaded successfully");
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [hasMinerRole]);
+    // Always show data since we're bypassing the role check
+    const timer = setTimeout(() => {
+      setIsDataLoading(false);
+      toast.success("Notifications data loaded successfully");
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleClose = (id: number) => {
     setNotifications(
@@ -242,17 +250,17 @@ export default function NotificationsPage() {
     // fetch more notifications
   };
 
-  // Loading state while checking roles
+  // Loading state while checking roles - kept for reference but will be skipped
   if (isConnected && isLoadingRoleCheck) {
     return <FullPageLoader text="Checking access permissions..." />;
   }
 
-  // Not connected state
+  // Not connected state - still require wallet connection
   if (!isConnected) {
     return <ConnectWalletView isLoading={isConnecting} />;
   }
 
-  // No miner role state
+  // No miner role state - this code block is kept but will never execute due to hasMinerRole = true
   if (isConnected && !hasMinerRole) {
     return (
       <div className="flex items-center justify-center min-h-screen p-4">
@@ -265,8 +273,21 @@ export default function NotificationsPage() {
     );
   }
 
+  // Add a warning banner to indicate bypass is active
+  const BypassWarningBanner = () => (
+    <div className="mb-4 p-4 rounded-lg bg-yellow-900/20 border border-yellow-900/50">
+      <div className="flex items-center gap-2 text-yellow-300">
+        <ShieldAlert className="w-5 h-5" />
+        <span>Role check temporarily bypassed - access restrictions removed</span>
+      </div>
+    </div>
+  );
+
   return (
     <div className="px-4 md:px-10 flex flex-col gap-6 md:gap-10">
+      {/* Warning banner to indicate bypass is active */}
+      <BypassWarningBanner />
+
       {isDataLoading ? (
         <div className="flex justify-center items-center min-h-[60vh]">
           <LoadingSpinner size={12} text="Loading notifications..." />
