@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import BypassWarningBanner from "~~/app/ByPassRoleCheck";
 import Icon from "~~/components/dashboard/Icon";
 import LocationMap from "~~/components/dashboard/transporter/MapSection";
 import StatsSection from "~~/components/dashboard/transporter/StatsSection";
@@ -32,6 +33,7 @@ const stats = {
 export default function Page() {
   return (
     <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
+      <BypassWarningBanner />
       {/* the welcome message */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div className="flex flex-col">

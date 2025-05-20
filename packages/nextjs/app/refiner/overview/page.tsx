@@ -1,6 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Loader2, ShieldAlert } from "lucide-react";
+import { useAccount } from "wagmi";
 import Icon from "~~/components/dashboard/Icon";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
 import RecentShipments from "~~/components/dashboard/overview/recentShipments";
@@ -8,20 +11,123 @@ import StatsCard from "~~/components/dashboard/overview/statsCard";
 import TopDemands from "~~/components/dashboard/overview/topDemands";
 import MineralRefineryGraph from "~~/components/dashboard/refiner/mineralRefinery";
 import { demands, mineralsData, reports, shipments, shipmentsData, transfersData } from "~~/data/data";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+import { notification } from "~~/utils/scaffold-eth";
+import BypassWarningBanner from "~~/app/ByPassRoleCheck"; 
 
-// dummy user
+const LoadingSpinner = ({ text = "Loading..." }: { text?: string }) => (
+  <div className="flex flex-col items-center justify-center min-h-[300px] gap-2">
+    <Loader2 className="w-12 h-12 animate-spin" />
+    <p className="text-sm text-muted-foreground">{text}</p>
+  </div>
+);
+
 interface User {
   name: string;
 }
 
-// sample user
-const user: User = {
-  name: "Refiner",
-};
-
 export default function Page() {
+  const { address, isConnected } = useAccount();
+  const [isDataLoading, setIsDataLoading] = useState(true);
+
+  // 1. First - Implemented the restriction logic (commented out below for reference)
+  /*
+  const {
+    data: hasRefinerRole,
+    isLoading: isLoadingRoleCheck,
+    refetch: refetchRoleCheck,
+  } = useScaffoldReadContract({
+    contractName: "RolesManager",
+    functionName: "hasRefinerRole",
+    args: [address],
+  });
+
+  const handleRefreshAccess = async () => {
+    try {
+      await refetchRoleCheck();
+      notification.success("Access rechecked");
+    } catch (e) {
+      console.error("Error refreshing access:", e);
+      notification.error("Error checking permissions");
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDataLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoadingRoleCheck || isDataLoading) {
+    return <LoadingSpinner text="Verifying access..." />;
+  }
+
+  if (!hasRefinerRole) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] gap-4 text-center p-4">
+        <ShieldAlert className="w-16 h-16 text-red-500" />
+        <h2 className="text-2xl font-bold">Access Restricted</h2>
+        <p className="text-muted-foreground max-w-md">
+          This portal requires <span className="font-semibold text-primary">Refiner Role</span> privileges.
+        </p>
+        <button 
+          onClick={handleRefreshAccess}
+          className="mt-4 px-6 py-2 bg-primary rounded-md hover:bg-primary/90 transition-colors"
+        >
+          Recheck Access
+        </button>
+      </div>
+    );
+  }
+  */
+
+  // 2. Then - Commented out the restriction logic and added bypass variables
+  const hasRefinerRole = true; // Bypass access check
+  const isLoadingRoleCheck = false; // No loading needed
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDataLoading(false);
+    }, 500); // Shorter loading for demo purposes
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show warning but don't restrict access
+  if (isConnected && !hasRefinerRole) {
+    return (
+      <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
+        <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
+          <div className="flex items-center gap-2 text-red-300">
+            <ShieldAlert className="w-5 h-5" />
+            <span>Your wallet doesn't have refiner privileges</span>
+          </div>
+        </div>
+
+        {/* Rest of the dashboard content */}
+        <DashboardContent />
+      </div>
+    );
+  }
+
+  if (isDataLoading) {
+    return <LoadingSpinner text="Loading dashboard..." />;
+  }
+
+  return <DashboardContent />;
+}
+
+// Extracted dashboard content to a separate component for reusability
+function DashboardContent() {
+  const user: User = {
+    name: "Refiner",
+  };
+
   return (
     <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
+      <BypassWarningBanner />
       {/* the welcome message */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div className="flex flex-col">

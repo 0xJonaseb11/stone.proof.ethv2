@@ -38,6 +38,7 @@ const AccessDeniedCard = ({
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
+      
       <div className="w-full max-w-4xl p-4 sm:p-6 bg-gray-800 rounded-xl shadow-lg border border-gray-700">
         <div className="text-center flex flex-col items-center gap-5">
           <div>
