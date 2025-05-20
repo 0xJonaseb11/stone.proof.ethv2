@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FaChartBar } from "react-icons/fa";
 import { FaRegCheckSquare } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import BypassWarningBanner from "~~/app/ByPassRoleCheck";
 import Icon from "~~/components/dashboard/Icon";
 import AdminStatCard from "~~/components/dashboard/admin/AdminStatCard";
 import TransactionTable from "~~/components/dashboard/buyer/recentPurchasesTable";
@@ -27,6 +28,7 @@ const Page = () => {
   const router = useRouter();
   return (
     <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
+      <BypassWarningBanner />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div className="flex flex-col">
           <p className="text-[24px] sm:text-[28px] font-bold m-0 leading-tight">Hey there, {user.name}!</p>
@@ -44,7 +46,7 @@ const Page = () => {
           </button>
 
           <Link
-            href={"/buyer/buyMineral"}
+            href={"/buyer/mineral-market/buyMineral"}
             className="flex-1 md:flex-none bg-accentBlue gap-2 font-semibold px-4 py-1.5 rounded-[8px] flex items-center justify-center md:justify-start"
           >
             <h1 className="translate-y-[4px]">Buy Mineral</h1>
