@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -8,7 +9,11 @@ import { toast } from "../lib/toast";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, HardHat, Loader2, Lock, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
@@ -214,29 +219,6 @@ const MinerAccessGranted = () => {
   );
 };
 
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex items-center justify-center min-h-screen p-4">
-    <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-200 dark:border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-600 dark:text-blue-300 animate-spin" />
-        ) : (
-          <HardHat className="w-8 h-8 text-blue-600 dark:text-blue-300" />
-        )}
-      </div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        {isLoading ? "Connecting..." : "Connect Miner Wallet"}
-      </h1>
-      <p className="text-gray-600 dark:text-gray-300 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect a wallet with miner privileges"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton showBalance={false} accountStatus="address" chainStatus="none" />
-      </div>
-    </div>
-  </div>
-);
-
 export default function MinerPortalEntry() {
   const router = useRouter();
   const { address, isConnected, isConnecting } = useAccount();
@@ -294,7 +276,7 @@ export default function MinerPortalEntry() {
   }
 
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="miner" />;
   }
 
   // Fallback (shouldn't reach here due to useEffect redirect)
