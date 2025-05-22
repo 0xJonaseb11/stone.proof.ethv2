@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { mineralsData, supplyData } from "../../data/data";
+import { mineralsData } from "../../data/data";
 import {
   Area,
   AreaChart,
   Bar,
   BarChart,
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
