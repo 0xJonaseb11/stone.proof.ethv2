@@ -22,7 +22,6 @@ const navLinks: NavLink[] = [
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,12 +52,7 @@ const Header: React.FC = () => {
   }, [mobileMenuOpen]);
 
   const toggleMobileMenu = () => {
-    setIsAnimating(true);
     setMobileMenuOpen(!mobileMenuOpen);
-    // Reset animating state after animation completes
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 300); // Match this with the transition duration
   };
 
   return (
