@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import StoneProof from "../../../components/landing/Header/StoneProof";
 import { toast } from "../../lib/toast";
@@ -38,7 +37,7 @@ export default function LoginPage() {
         toast.error(data.message || "Login failed. Please check your credentials.");
       }
     } catch (err) {
-      toast.error("An error occurred during login.");
+      toast.error(`An error occurred during login: ${err instanceof Error ? err.message : "Unknown error"}`);
     }
   };
 
@@ -105,7 +104,7 @@ export default function LoginPage() {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="Password"
+                    placeholder="Enter your valid email"
                     required
                     className="w-full py-3 px-4 bg-[#14171F] focus:bg-[#14171F] border border-[#2A2F3D] rounded-md text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
                     value={formData.email}
