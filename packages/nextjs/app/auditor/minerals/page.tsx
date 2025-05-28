@@ -155,7 +155,6 @@ export default function Page() {
         message="There are currently no pending transactions waiting for validation. Check back later for new transactions."
         description="All transactions have been processed and validated. The system is up to date with no pending items requiring your attention."
         portalType="auditor"
-        icon="/no-data.png"
         actionText="View Validated Transactions"
         onAction={() => {
           setActiveTab("validated");

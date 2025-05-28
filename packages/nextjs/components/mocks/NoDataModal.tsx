@@ -5,7 +5,6 @@ interface NoDataModalProps {
   onClose: () => void;
   message: string;
   portalType?: "auditor" | "miner" | "refiner" | "inspector";
-  icon?: string;
   actionText?: string;
   onAction?: () => void;
   description?: string;
@@ -16,7 +15,6 @@ const NoDataModal = ({
   onClose,
   message,
   portalType = "auditor",
-  icon = "/dashboard/icon_set/empty-box.svg",
   actionText,
   onAction,
   description,
@@ -73,10 +71,13 @@ const NoDataModal = ({
         </button>
 
         <div className="flex flex-col items-center text-center">
-          {/* Image Container */}
-          <div className="w-full max-w-[400px] mb-4">
-            <img src={icon} alt="No Data" className="w-full h-auto object-contain" />
+          {/* Image Container with Bounce Animation */}
+          <div className="w-full max-w-[400px] mb-4 animate-bounce-subtle">
+            <img src="/empty-state.png" alt="No Data" className="w-full h-auto object-contain" />
           </div>
+
+          {/* Default Title */}
+          <h2 className="text-3xl font-bold text-white mb-2">Ooops! No data found!</h2>
 
           {/* Description */}
           <p className="text-[#979AA0] text-lg max-w-[600px]">{description || message}</p>
@@ -92,6 +93,21 @@ const NoDataModal = ({
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes bounce-subtle {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        .animate-bounce-subtle {
+          animation: bounce-subtle 2s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 };
