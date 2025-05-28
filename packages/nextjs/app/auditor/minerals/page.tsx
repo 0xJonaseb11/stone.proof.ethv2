@@ -87,7 +87,7 @@ export default function Page() {
           <button
             onClick={() => {
               setActiveTab("pending");
-              setIsNoDataModalOpen(true);
+             
             }}
             className={`w-full sm:flex-1 py-2 sm:py-3 px-3 sm:px-6 text-base sm:text-lg transition-colors ${
               activeTab === "pending" ? "text-white font-semibold" : "text-[#71727A]"
