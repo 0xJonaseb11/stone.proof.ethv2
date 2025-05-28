@@ -249,7 +249,14 @@ export default function AuditorLayout({ children }: { children: React.ReactNode 
   // }
 
   if (isDataLoading) {
-    return <FullPageLoader text="Loading auditor dashboard..." />;
+    return (
+      <Loading
+        title="Loading auditor dashboard..."
+        description="Please wait while we load the auditor dashboard..."
+        progressValue={90}
+        progressText="Almost there..."
+      />
+    );
   }
 
   return (

@@ -5,11 +5,14 @@ import AuditionWorkrateGraph from "../../../components/auditor/AuditionWorkrateG
 import BypassWarningBanner from "../../ByPassRoleCheck";
 import Icon from "~~/components/dashboard/Icon";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
-import MineralSupplyGraph from "~~/components/dashboard/overview/mineralSupply";
 import RecentShipments from "~~/components/dashboard/overview/recentShipments";
 import StatsCard from "~~/components/dashboard/overview/statsCard";
 import TopDemands from "~~/components/dashboard/overview/topDemands";
-import { demands, mineralsData, reports, shipments, shipmentsData, supplyData, transfersData } from "~~/data/data";
+import MenuModal from "~~/components/mocks/MenuModal";
+import SuccessModal from "~~/components/mocks/SuccessModal";
+import { demands, mineralsData, reports, shipments, shipmentsData, transfersData } from "~~/data/data";
+import { useMenuModal } from "~~/hooks/useMenuModal";
+import { useSuccessModal } from "~~/hooks/useSuccessModal";
 
 // dummy user
 interface User {
@@ -22,6 +25,18 @@ const user: User = {
 };
 
 export default function Page() {
+  const { isOpen: isSuccessModalOpen, config: successConfig, showSuccessModal, hideSuccessModal } = useSuccessModal();
+  const { isOpen: isMenuModalOpen, config: menuConfig, showMenuModal, hideMenuModal } = useMenuModal();
+
+  const handleDownloadReport = () => {
+    showSuccessModal({
+      title: "Report Downloaded Successfully!",
+      message: "Your audit report has been downloaded successfully. You can find it in your downloads folder.",
+      downloadType: "Audit Report - Q1 2024.pdf",
+      portalType: "auditor",
+    });
+  };
+
   return (
     <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
       <BypassWarningBanner />
@@ -36,7 +51,10 @@ export default function Page() {
         </div>
 
         <div className="flex flex-wrap gap-2 sm:gap-1">
-          <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+          <button
+            onClick={handleDownloadReport}
+            className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]"
+          >
             <span className="flex items-center gap-2">
               <h1 className="text-sm translate-y-[7px]">Download Report</h1>
               <Icon path="/dashboard/icon_set/download.svg" alt="Download icon" />
@@ -50,11 +68,20 @@ export default function Page() {
             <h1 className="translate-y-[4px]">Audit Mineral</h1>
           </Link>
 
-          <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+          <button
+            onClick={() => showMenuModal({ portalType: "auditor" })}
+            className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]"
+          >
             <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" />
           </button>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <SuccessModal isOpen={isSuccessModalOpen} onClose={hideSuccessModal} {...successConfig} />
+
+      {/* Menu Modal */}
+      <MenuModal isOpen={isMenuModalOpen} onClose={hideMenuModal} {...menuConfig} />
 
       {/* the stats cards */}
       <div>
