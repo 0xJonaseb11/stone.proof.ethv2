@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Icon from "~~/components/dashboard/Icon";
 import MineralActivity from "~~/components/dashboard/minerals/mineralActivity";
 import MineralListTable from "~~/components/dashboard/minerals/mineralListTable/mineralList";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
 import RecentShipments from "~~/components/dashboard/overview/recentShipments";
 import TopDemands from "~~/components/dashboard/overview/topDemands";
-import Search from "~~/components/dashboard/search";
+import MenuModal from "~~/components/mocks/MenuModal";
+import NoDataModal from "~~/components/mocks/NoDataModal";
+import SuccessModal from "~~/components/mocks/SuccessModal";
 import { demands, mineralsList, reports, shipments } from "~~/data/data";
 
 export type Shipment = {
@@ -21,6 +22,9 @@ export type Shipment = {
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<"pending" | "validated">("pending");
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNoDataModalOpen, setIsNoDataModalOpen] = useState(false);
 
   return (
     <div className="px-4 md:px-10 flex flex-col gap-6 md:gap-10">
@@ -34,21 +38,30 @@ export default function Page() {
         </div>
 
         <div className="flex flex-wrap gap-2 md:gap-3">
-          <button className="flex-1 md:flex-none bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+          <button
+            onClick={() => setIsSuccessModalOpen(true)}
+            className="flex-1 md:flex-none bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]"
+          >
             <span className="flex items-center gap-2">
               <h1 className="text-sm translate-y-[7px]">Download Report</h1>
               <Icon path="/dashboard/icon_set/download.svg" alt="Download icon" />
             </span>
           </button>
 
-          <Link
-            href={""}
+          <button
+            onClick={() => {
+              setActiveTab("pending");
+              setIsNoDataModalOpen(true);
+            }}
             className="flex-1 md:flex-none bg-accentBlue gap-2 font-semibold px-4 py-1.5 rounded-[8px] flex items-center justify-center md:justify-start"
           >
             <h1 className="translate-y-[4px]">View Pending Transactions</h1>
-          </Link>
+          </button>
 
-          <button className="bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]"
+          >
             <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" />
           </button>
         </div>
@@ -72,7 +85,10 @@ export default function Page() {
       <div className="w-full">
         <div className="bg-[#252525] rounded-2xl flex flex-col sm:flex-row items-center">
           <button
-            onClick={() => setActiveTab("pending")}
+            onClick={() => {
+              setActiveTab("pending");
+              setIsNoDataModalOpen(true);
+            }}
             className={`w-full sm:flex-1 py-2 sm:py-3 px-3 sm:px-6 text-base sm:text-lg transition-colors ${
               activeTab === "pending" ? "text-white font-semibold" : "text-[#71727A]"
             }`}
@@ -121,6 +137,31 @@ export default function Page() {
           onViewDetails={id => console.log("View report details", id)}
         />
       </div>
+
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        title="Report Downloaded Successfully"
+        message="Your mineral report has been downloaded and saved to your device."
+        portalType="auditor"
+        downloadType="Mineral_Report_2024.pdf"
+      />
+
+      <MenuModal isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} portalType="auditor" />
+
+      <NoDataModal
+        isOpen={isNoDataModalOpen}
+        onClose={() => setIsNoDataModalOpen(false)}
+        message="There are currently no pending transactions waiting for validation. Check back later for new transactions."
+        description="All transactions have been processed and validated. The system is up to date with no pending items requiring your attention."
+        portalType="auditor"
+        icon="/no-data.png"
+        actionText="View Validated Transactions"
+        onAction={() => {
+          setActiveTab("validated");
+          setIsNoDataModalOpen(false);
+        }}
+      />
     </div>
   );
 }

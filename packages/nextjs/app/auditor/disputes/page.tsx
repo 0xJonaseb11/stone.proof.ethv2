@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Icon from "~~/components/dashboard/Icon";
 import MineralDisputesGraphCard from "~~/components/dashboard/admin/MineralDisputesGraphCard";
 import { NotificationList } from "~~/components/dashboard/disputes/recentActivities";
-import MineralActivity from "~~/components/dashboard/minerals/mineralActivity";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
 import RecentShipments from "~~/components/dashboard/overview/recentShipments";
 import TopDemands from "~~/components/dashboard/overview/topDemands";
 import Search from "~~/components/dashboard/search";
+import MenuModal from "~~/components/mocks/MenuModal";
 import { demands, mockDisputes, reports, shipments } from "~~/data/data";
 
 export default function Page() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="px-4 sm:px-10 flex flex-col gap-10">
       {/* the welcome message */}
@@ -31,7 +34,10 @@ export default function Page() {
             <h1 className="translate-y-[4px]">Raise Dispute</h1>
           </Link>
 
-          <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]"
+          >
             <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" />
           </button>
         </div>
@@ -43,7 +49,6 @@ export default function Page() {
           <div className="h-full">
             <MineralDisputesGraphCard
               containerBg="#1c1c1e"
-              cardBg="#1c1c1e"
               selectBg="#252525"
               graphBg="#1a1a1a"
               footerBg="#252525"
@@ -77,7 +82,10 @@ export default function Page() {
               Clear Activities
             </Link>
 
-            <button className="bg-[#252525] border border-[#323539] flex items-center justify-center px-2 py-1 rounded-[6px]">
+            <button
+              onClick={() => setIsMenuOpen(true)}
+              className="bg-[#252525] border border-[#323539] flex items-center justify-center px-2 py-1 rounded-[6px]"
+            >
               <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" width={14} height={14} />
             </button>
           </div>
@@ -103,6 +111,8 @@ export default function Page() {
           onViewDetails={id => console.log("View report details", id)}
         />
       </div>
+
+      <MenuModal isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} portalType="auditor" />
     </div>
   );
 }

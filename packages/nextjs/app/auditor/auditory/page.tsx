@@ -23,8 +23,8 @@ const FullPageLoader = ({ text = "Verifying auditor access..." }: { text?: strin
 );
 
 const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 bg-gray-900">
-    <div className="max-w-md w-full p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
+  <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4">
+    <div className="max-w-md w-full p-8 rounded-xl bg-[#1A1A1A] border border-[#323539] shadow-xl">
       <h2 className="text-2xl font-bold text-white text-center mb-4">Connect Your Wallet</h2>
       <p className="text-gray-400 text-center mb-6">Please connect your wallet to audit minerals</p>
       <div className="flex justify-center">
@@ -134,7 +134,6 @@ export default function AuditMinerals() {
   const [isTransactionPending, setIsTransactionPending] = useState(false);
   const [inputMethod, setInputMethod] = useState<"select" | "manual">("select");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
 
   // Check if user has auditor role
   const {
