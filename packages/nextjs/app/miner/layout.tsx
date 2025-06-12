@@ -252,7 +252,7 @@ export default function MinerLayout({ children }: { children: React.ReactNode })
     contractName: "RolesManager",
     functionName: "hasMinerRole",
     args: [address],
-    enabled: isConnected && !!address,
+    // enabled: isConnected && !!address,
   });
 
   const handleRefreshAccess = async () => {

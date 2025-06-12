@@ -128,7 +128,7 @@ export default function AdminOverviewPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDataLoading(false);
-    }, 500); // Match other portals' loading time
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
