@@ -204,7 +204,7 @@ const NoRoleBanner = ({
       <div className="flex items-center justify-between gap-2 text-yellow-300">
         <div className="flex items-center gap-2">
           <ShieldAlert className="w-5 h-5" />
-          <span>Your wallet doesn't have inspector privileges. Contact Super Admin!</span>
+          <span>Your wallet doesn't have Inspector privileges. Contact Super Admin!</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="font-mono text-xs sm:text-sm text-gray-200">

@@ -3,130 +3,27 @@
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { AlertCircle, Check, ChevronDown, Copy, Loader2, Minus, ShieldAlert } from "lucide-react";
+import { AlertCircle, ChevronDown, Copy, Loader2 } from "lucide-react";
 import { useAccount } from "wagmi";
-import BypassWarningBanner from "~~/app/ByPassRoleCheck";
-import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-import { notification } from "~~/utils/scaffold-eth";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
-const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
-  <div className="flex flex-col items-center justify-center gap-2">
-    <Loader2 className={`w-${size} h-${size} animate-spin text-accentBlue`} />
-    {text && <p className="text-sm text-gray-400">{text}</p>}
-  </div>
-);
-
-const FullPageLoader = ({ text = "Verifying auditor access..." }: { text?: string }) => (
-  <div className="flex items-center justify-center min-h-screen bg-gray-900">
-    <LoadingSpinner size={12} text={text} />
-  </div>
-);
-
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
+const ConnectWalletView = ({ isLoading, role }: { isLoading: boolean; role: string }) => (
   <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4">
     <div className="max-w-md w-full p-8 rounded-xl bg-[#1A1A1A] border border-[#323539] shadow-xl">
-      <h2 className="text-2xl font-bold text-white text-center mb-4">Connect Your Wallet</h2>
+      <h2 className="text-2xl font-bold text-white text-center mb-4">Connect Your {role} Wallet</h2>
       <p className="text-gray-400 text-center mb-6">Please connect your wallet to audit minerals</p>
       <div className="flex justify-center">
         <ConnectButton />
       </div>
     </div>
-    {isLoading && <LoadingSpinner size={8} text="Connecting wallet..." />}
+    {isLoading && (
+      <div className="flex flex-col items-center gap-2">
+        <Loader2 className="w-8 h-8 animate-spin text-accentBlue" />
+        <p className="text-sm text-gray-400">Connecting wallet...</p>
+      </div>
+    )}
   </div>
 );
-
-const AccessDeniedView = ({
-  address,
-  isLoadingRefresh,
-  onRefresh,
-}: {
-  address: string;
-  isLoadingRefresh: boolean;
-  onRefresh: () => void;
-}) => {
-  const copyAddress = () => {
-    navigator.clipboard.writeText(address);
-    notification.success("Wallet address copied!");
-  };
-
-  return (
-    <div className="max-w-md w-full p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <div className="h-16 w-16 rounded-full bg-red-900/30 flex items-center justify-center">
-          <ShieldAlert className="w-8 h-8 text-red-500" />
-        </div>
-        <h3 className="text-2xl font-bold text-white">Access Denied</h3>
-        <p className="text-gray-400">The connected wallet doesn't have auditor privileges to audit minerals.</p>
-        <div className="flex items-center gap-2 p-2 px-4 mt-2 border border-gray-700 rounded-lg bg-gray-900/50 w-full">
-          <span className="font-mono text-sm text-gray-300 truncate">{address}</span>
-          <button onClick={copyAddress} className="p-1 rounded-md hover:bg-gray-700 text-gray-400">
-            <Copy className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="w-full mt-4 p-4 rounded-lg border border-gray-700 bg-gray-900/30">
-          <h3 className="text-base font-medium text-white mb-4">How to get auditor access:</h3>
-          <ol className="space-y-4 text-sm text-gray-400">
-            <li className="flex items-start gap-3">
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-emerald-900/50 text-emerald-400 text-xs font-medium">
-                1
-              </span>
-              <div>
-                <p>Contact system administrator at:</p>
-                <div className="mt-1 space-y-2 pl-2">
-                  <a
-                    href="mailto:admin@stone.proof?subject=Auditor%20Role%20Request"
-                    className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300"
-                  >
-                    admin@stone.proof
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-emerald-900/50 text-emerald-400 text-xs font-medium">
-                2
-              </span>
-              <div>
-                <p>Request auditor role assignment</p>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-emerald-900/50 text-emerald-400 text-xs font-medium">
-                3
-              </span>
-              <div>
-                <p>Refresh this page after approval</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  If access isn't granted immediately, wait a few minutes then refresh
-                </p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <button
-          onClick={onRefresh}
-          disabled={isLoadingRefresh}
-          className={`w-full mt-4 py-3 px-4 rounded-lg font-medium transition-colors ${
-            isLoadingRefresh
-              ? "bg-gray-700 text-gray-400 cursor-not-allowed"
-              : "bg-emerald-600 hover:bg-emerald-700 text-white"
-          }`}
-        >
-          {isLoadingRefresh ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin mr-2 inline" />
-              Refreshing...
-            </>
-          ) : (
-            "Refresh Access"
-          )}
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export default function AuditMinerals() {
   const { address, isConnected, isConnecting } = useAccount();
@@ -135,44 +32,15 @@ export default function AuditMinerals() {
   const [inputMethod, setInputMethod] = useState<"select" | "manual">("select");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Check if user has auditor role
-  const {
-    // data: hasAuditorRole,
-    isLoading: isRoleLoading,
-    // refetch: refetchRoleCheck,
-  } = useScaffoldReadContract({
-    contractName: "RolesManager",
-    functionName: "hasAuditorRole",
-    args: [address],
-    /*enabled: isConnected*/
-  });
-
-  // TEMPORARY: Override the auditor role check
-  // This will make all connected wallets have auditor access
-  const temporaryHasAuditorRole = true; // TEMPORARY OVERRIDE
-
   const validateForm = useCallback(() => {
-    // TEMPORARY: Use the override instead of the actual role check
-    // return isConnected && hasAuditorRole && form.mineralId.trim() && form.report.trim();
-    return isConnected && temporaryHasAuditorRole && form.mineralId.trim() && form.report.trim();
-  }, [isConnected, /*hasAuditorRole,*/ form.mineralId, form.report]);
+    return isConnected && form.mineralId.trim() && form.report.trim();
+  }, [isConnected, form.mineralId, form.report]);
 
   const { writeContractAsync } = useScaffoldWriteContract("RolesManager");
 
   const resetForm = () => {
     setForm({ mineralId: "", report: "" });
   };
-
-  // const handleRefreshAccess = async () => {
-  //   setIsRefreshingAccess(true);
-  //   try {
-  //     await refetchRoleCheck();
-  //   } catch (e) {
-  //     console.error("Error refreshing access:", e);
-  //   } finally {
-  //     setIsRefreshingAccess(false);
-  //   }
-  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -184,10 +52,7 @@ export default function AuditMinerals() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // TEMPORARY: Use the override instead of the actual role check
-    // if (!isConnected || !hasAuditorRole || !validateForm()) return;
-    if (!isConnected || !temporaryHasAuditorRole || !validateForm()) return;
+    if (!isConnected || !validateForm()) return;
 
     setIsTransactionPending(true);
     try {
@@ -196,31 +61,15 @@ export default function AuditMinerals() {
         args: [form.mineralId.trim(), form.report.trim()],
       });
 
-      notification.info("Transaction submitted. Waiting for confirmation...");
       console.log("Transaction submitted:", tx);
-
-      notification.success("Mineral audited successfully!");
       resetForm();
     } catch (err: any) {
       console.error("Transaction error:", err);
-
-      if (err.message.includes("User rejected the request")) {
-        notification.error("Transaction rejected by user");
-      } else if (err.message.includes("RolesManager__InvalidMineralIdOrNotFound")) {
-        notification.error("Invalid mineral ID or mineral not found");
-      } else if (err.message.includes("RolesManager__MineralAlreadyAudited")) {
-        notification.error("This mineral has already been audited");
-      } else if (err.message.includes("caller is missing role")) {
-        notification.error("No auditor privileges");
-      } else {
-        notification.error("Transaction failed. See console for details.");
-      }
     } finally {
       setIsTransactionPending(false);
     }
   };
 
-  // Mock data - replace with real data from your contract
   const pendingMinerals = [
     {
       id: "GOLD-0x8e07d295",
@@ -286,7 +135,7 @@ export default function AuditMinerals() {
       description: "Battery-grade lithium carbonate for EV production",
     },
     {
-      id: "COBALT-0xd9e8f7a6",  
+      id: "COBALT-0xd9e8f7a6",
       name: "Cobalt Ingot",
       type: "Cobalt",
       purity: 99.8,
@@ -309,26 +158,12 @@ export default function AuditMinerals() {
     },
   ];
 
-  // TEMPORARY: Skip the role check and directly render the main UI
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
-  }
-
-  if (isConnected && isRoleLoading) {
-    return <FullPageLoader text="Checking auditor permissions..." />;
-  }
-
-  if (isConnected && !temporaryHasAuditorRole) {
-    return (
-      <div className="flex items-center justify-center min-h-screen p-4 bg-gray-900">
-        <AccessDeniedView address={address || ""} isLoadingRefresh={false} onRefresh={() => {}} />
-      </div>
-    );
+    return <ConnectWalletView isLoading={isConnecting} role="Auditor" />;
   }
 
   return (
     <div className="min-h-screen text-white p-4 sm:p-6 md:p-8">
-      <BypassWarningBanner />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-accentBlue to-blue-600 bg-clip-text text-transparent">
@@ -481,7 +316,6 @@ export default function AuditMinerals() {
                       type="button"
                       onClick={() => {
                         navigator.clipboard.writeText(form.mineralId);
-                        notification.success("Mineral ID copied to clipboard");
                       }}
                       className="ml-auto text-gray-400 hover:text-accentBlue transition-colors"
                     >
@@ -542,7 +376,15 @@ export default function AuditMinerals() {
                       form.mineralId.trim() ? "bg-accentBlue/20 text-accentBlue" : "bg-[#252525] text-gray-500"
                     }`}
                   >
-                    {form.mineralId.trim() ? <Check className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
+                    {form.mineralId.trim() ? (
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
+                      </svg>
+                    )}
                   </div>
                   <div>
                     <p className="text-sm font-medium">
@@ -562,7 +404,15 @@ export default function AuditMinerals() {
                       form.report.trim() ? "bg-accentBlue/20 text-accentBlue" : "bg-[#252525] text-gray-500"
                     }`}
                   >
-                    {form.report.trim() ? <Check className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
+                    {form.report.trim() ? (
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
+                      </svg>
+                    )}
                   </div>
                   <div>
                     <p className="text-sm font-medium">Audit report provided</p>
