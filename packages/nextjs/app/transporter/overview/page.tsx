@@ -41,7 +41,7 @@ const NoRoleBanner = ({
           <span>Your wallet doesn't have Transporter privileges. Contact Super Admin!</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs sm:text-sm">
+          <span className="font-mono text-xs sm:text-sm text-gray-200">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
           <button onClick={copyAddress} className="text-red-300 hover:text-red-200" title="Copy address">
