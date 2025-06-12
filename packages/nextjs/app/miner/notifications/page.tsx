@@ -264,7 +264,7 @@ export default function NotificationsPage() {
   return (
     <div className="px-4 md:px-10 flex flex-col gap-6 md:gap-10">
       {/* Warning banner to indicate bypass is active */}
-      <BypassWarningBanner />
+      {/* <BypassWarningBanner /> */}
 
       {isDataLoading ? (
         <div className="flex justify-center items-center min-h-[60vh]">

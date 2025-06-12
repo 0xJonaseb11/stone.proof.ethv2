@@ -1,18 +1,22 @@
+/* eslint-disable prettier/prettier */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
-import { Inter } from "next/font/google";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, HardHat, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
 import Sidebar from "~~/components/dashboard/Sidebar";
 import TopBar from "~~/components/dashboard/topBar";
-import { Loading } from "~~/components/ui/loading";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { useSidebarStore } from "~~/stores/useSidebarStore";
 import { getSidebarItems } from "~~/types/dashboard/sidebarItems";
 import { notification } from "~~/utils/scaffold-eth";
+
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -36,7 +40,28 @@ const FullPageLoader = ({ text = "Verifying miner permissions..." }: { text?: st
   </div>
 );
 
-// Commented out but kept for reference - Access Denied component
+const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
+  <div className="flex items-center justify-center min-h-screen p-4 bg-lightBlack">
+    <div className="max-w-md w-full bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-700">
+      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-900 rounded-full mb-4 mx-auto">
+        {isLoading ? (
+          <Loader2 className="w-8 h-8 text-blue-300 animate-spin" />
+        ) : (
+          <HardHat className="w-8 h-8 text-blue-300" />
+        )}
+      </div>
+      <h1 className="text-2xl font-bold text-white mb-2">{isLoading ? "Connecting..." : "Connect Miner Wallet"}</h1>
+      <p className="text-gray-300 mb-6">
+        {isLoading ? "Verifying wallet..." : "Please connect a wallet with miner privileges"}
+      </p>
+      <div className="flex justify-center">
+        <ConnectButton />
+      </div>
+    </div>
+  </div>
+);
+
+// Kept commented for reference
 const AccessDeniedCard = ({
   address,
   isLoadingRefresh,
@@ -59,16 +84,12 @@ const AccessDeniedCard = ({
             <div className="inline-flex items-center justify-center w-16 h-16 bg-pink-700 rounded-full mx-auto">
               <ShieldAlert className="w-8 h-8 text-red-300" />
             </div>
-
             <h2 className="text-xl sm:text-2xl font-bold text-red-400 mt-3">Miner Privileges Required</h2>
             <p className="text-sm sm:text-base text-gray-300 mt-2">
-              Your wallet doesn&apos;t have miner access permissions to view this dashboard.
+              Your wallet doesn't have miner access permissions to view this dashboard.
             </p>
           </div>
-
-          {/* Main content - switches from row to column on small screens */}
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-6 w-[100%] ">
-            {/* Left section - miner privileges */}
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-6 w-[100%]">
             <div className="w-full lg:w-[50%] h-[100%] flex flex-col justify-between">
               <div className="bg-gray-700 p-3 sm:p-4 rounded-lg mt-4">
                 <div className="flex justify-between items-center mb-1">
@@ -79,7 +100,6 @@ const AccessDeniedCard = ({
                 </div>
                 <p className="font-mono text-xs sm:text-sm break-all text-left text-gray-200">{address}</p>
               </div>
-
               <div className="pt-4 space-y-3">
                 <h3 className="font-medium text-white">How to get miner access:</h3>
                 <ol className="space-y-2 text-xs sm:text-sm text-gray-300 text-left">
@@ -104,8 +124,6 @@ const AccessDeniedCard = ({
                 </ol>
               </div>
             </div>
-
-            {/* Right section - contact administrators */}
             <div className="w-full lg:w-[40%] mt-4 lg:mt-0 lg:pt-0">
               <h3 className="font-medium text-white mb-3 sm:mb-4">Contact Administrators</h3>
               <div className="space-y-2 sm:space-y-3">
@@ -151,8 +169,6 @@ const AccessDeniedCard = ({
               </div>
             </div>
           </div>
-
-          {/* Refresh button */}
           <div className="w-full pt-2 sm:pt-4">
             <button
               onClick={onRefresh}
@@ -175,27 +191,53 @@ const AccessDeniedCard = ({
   );
 };
 
-// Commented out but kept for reference
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex items-center justify-center min-h-screen p-4 bg-lightBlack">
-    <div className="max-w-md w-full bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-300 animate-spin" />
-        ) : (
-          <HardHat className="w-8 h-8 text-blue-300" />
-        )}
-      </div>
-      <h1 className="text-2xl font-bold text-white mb-2">{isLoading ? "Connecting..." : "Connect Miner Wallet"}</h1>
-      <p className="text-gray-300 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect a wallet with miner privileges"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton />
+const NoRoleBanner = ({
+  address,
+  isLoadingRefresh,
+  onRefresh,
+}: {
+  address: string;
+  isLoadingRefresh: boolean;
+  onRefresh: () => void;
+}) => {
+  const copyAddress = () => {
+    navigator.clipboard.writeText(address);
+    notification.success("Wallet address copied!");
+  };
+
+  return (
+    <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
+      <div className="flex items-center justify-between gap-2 text-yellow-300">
+        <div className="flex items-center gap-2">
+          <ShieldAlert className="w-5 h-5" />
+          <span>Your wallet doesn't have Miner privileges. Contact Super Admin!</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs sm:text-sm text-gray-200">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </span>
+          <button onClick={copyAddress} className="text-red-300 hover:text-red-200" title="Copy address">
+            <Copy className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onRefresh}
+            disabled={isLoadingRefresh}
+            className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 text-sm text-white"
+          >
+            {isLoadingRefresh ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                Check Again
+                <ChevronRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function MinerLayout({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebarStore();
@@ -203,71 +245,50 @@ export default function MinerLayout({ children }: { children: React.ReactNode })
   const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
 
-  // Commented out the miner role check but kept for reference
-  // const {
-  //   data: hasMinerRole,
-  //   isLoading: isLoadingRoleCheck,
-  //   refetch: refetchRoleCheck,
-  // } = useScaffoldReadContract({
-  //   contractName: "RolesManager",
-  //   functionName: "hasMinerRole",
-  //   args: [address],
-  //   /*enabled: isConnected*/
-  // });
+  // Check if wallet has miner role
+  const {
+    data: hasMinerRole,
+    isLoading: isLoadingRoleCheck,
+    refetch: refetchRoleCheck,
+  } = useScaffoldReadContract({
+    contractName: "RolesManager",
+    functionName: "hasMinerRole",
+    args: [address],
+    enabled: isConnected && !!address,
+  });
 
-  // Commented out but kept for reference
-  // const handleRefreshAccess = async () => {
-  //   setIsRefreshingAccess(true);
-  //   try {
-  //     const { data } = await refetchRoleCheck();
-  //     if (!data) {
-  //       notification.error("Still no miner access. Contact administrator.");
-  //     }
-  //   } catch (e) {
-  //     console.error("Error refreshing access:", e);
-  //     notification.error("Error checking access");
-  //   } finally {
-  //     setIsRefreshingAccess(false);
-  //   }
-  // };
+  const handleRefreshAccess = async () => {
+    setIsRefreshingAccess(true);
+    try {
+      const { data } = await refetchRoleCheck();
+      if (data) {
+        notification.success("Access rechecked");
+      } else {
+        notification.error("Still no miner role. Contact system owner.");
+      }
+    } catch (e) {
+      console.error("Error refreshing access:", e);
+      notification.error("Error checking access");
+    } finally {
+      setIsRefreshingAccess(false);
+    }
+  };
 
   useEffect(() => {
-    // Skip the miner check and just set loading to false after delay
-    const timer = setTimeout(() => {
-      setIsDataLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
+    if (isConnected && !isLoadingRoleCheck) {
+      const timer = setTimeout(() => {
+        setIsDataLoading(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isConnected, isLoadingRoleCheck]);
 
-  // Commented out the original access control logic but kept for reference
-  // if (isConnected && isLoadingRoleCheck) {
-  //   return  <Loading
-  //   title="Verifying Miner Access"
-  //   description="Please wait while we verify your miner access..."
-  //   progressValue={90}
-  //   progressText="Almost there..."
-  // />;
-  // }
+  if (!isConnected) {
+    return <ConnectWalletView isLoading={isConnecting} />;
+  }
 
-  // if (!isConnected) {
-  //   return <ConnectWalletView isLoading={isConnecting} />;
-  // }
-
-  // if (!hasMinerRole) {
-  //   return (
-  //     <AccessDeniedCard address={address!} isLoadingRefresh={isRefreshingAccess} onRefresh={handleRefreshAccess} />
-  //   );
-  // }
-
-  if (isDataLoading) {
-    return (
-      <Loading
-        title="Loading Miner Dashboard"
-        description="Please wait while we load the miner dashboard..."
-        progressValue={90}
-        progressText="Almost there..."
-      />
-    );
+  if (isConnected && (isLoadingRoleCheck || isDataLoading)) {
+    return <FullPageLoader text="Verifying miner permissions..." />;
   }
 
   return (
@@ -279,7 +300,12 @@ export default function MinerLayout({ children }: { children: React.ReactNode })
         }`}
       >
         <TopBar sidebarItems={sideBarItems} basePath={basepath} />
-        <main className="flex-1 overflow-y-auto px-6 py-4">{children}</main>
+        <main className="flex-1 flex flex-col overflow-y-auto px-6 py-4">
+          {isConnected && hasMinerRole === false && (
+            <NoRoleBanner address={address!} isLoadingRefresh={isRefreshingAccess} onRefresh={handleRefreshAccess} />
+          )}
+          {children}
+        </main>
       </div>
     </div>
   );
