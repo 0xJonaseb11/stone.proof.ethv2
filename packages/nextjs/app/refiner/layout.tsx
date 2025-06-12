@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
+import { Inter } from "next/font/google";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
+import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, RefreshCw, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
 import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Sidebar from "~~/components/dashboard/Sidebar";
@@ -19,7 +20,6 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   display: "swap",
 });
-
 const basepath = "/refiner";
 const sidebarItems = getSidebarItems(basepath);
 
@@ -58,13 +58,15 @@ const AccessDeniedCard = ({
             <div className="inline-flex items-center justify-center w-16 h-16 bg-pink-700 rounded-full mx-auto">
               <ShieldAlert className="w-8 h-8 text-red-300" />
             </div>
+
             <h2 className="text-xl sm:text-2xl font-bold text-red-400 mt-3">Refiner Privileges Required</h2>
             <p className="text-sm sm:text-base text-gray-300 mt-2">
-              Your wallet doesn't have refiner access permissions to view this dashboard.
+              Your wallet doesn&apos;t have refiner access permissions to view this dashboard.
             </p>
           </div>
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-6 w-full">
-            <div className="w-full lg:w-1/2 flex flex-col justify-between">
+
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-6 w-[100%] ">
+            <div className="w-full lg:w-[50%] h-[100%] flex flex-col justify-between">
               <div className="bg-gray-700 p-3 sm:p-4 rounded-lg mt-4">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-xs sm:text-sm font-medium text-gray-400">Connected Wallet:</span>
@@ -74,6 +76,7 @@ const AccessDeniedCard = ({
                 </div>
                 <p className="font-mono text-xs sm:text-sm break-all text-left text-gray-200">{address}</p>
               </div>
+
               <div className="pt-4 space-y-3">
                 <h3 className="font-medium text-white">How to get refiner access:</h3>
                 <ol className="space-y-2 text-xs sm:text-sm text-gray-300 text-left">
@@ -98,7 +101,8 @@ const AccessDeniedCard = ({
                 </ol>
               </div>
             </div>
-            <div className="w-full lg:w-2/5 mt-4 lg:mt-0">
+
+            <div className="w-full lg:w-[40%] mt-4 lg:mt-0 lg:pt-0">
               <h3 className="font-medium text-white mb-3 sm:mb-4">Contact Administrators</h3>
               <div className="space-y-2 sm:space-y-3">
                 {[
@@ -106,7 +110,7 @@ const AccessDeniedCard = ({
                     name: "Admin Email",
                     value: "admin@stone.proof",
                     icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5" />,
-                    action: "mailto:admin@stone.proof?subject=Refiner%20Access%20Request",
+                    action: "mailto:admin@stone.proof?subject=Miner%20Access%20Request",
                   },
                   {
                     name: "Support Phone",
@@ -126,26 +130,29 @@ const AccessDeniedCard = ({
                     href={contact.action}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                    className="flex items-center gap-1 px-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-xs"
                   >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full text-blue-300 flex items-center justify-center">
-                      {contact.icon}
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center justify-center w-5 h-5 rounded-full text-blue-300">
+                        {contact.icon}
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white truncate">{contact.name}</p>
-                      <p className="text-xs text-gray-400 truncate">{contact.value}</p>
+                    <div className="flex-1 min-w-0 overflow-hidden">
+                      <p className="font-medium text-white truncate leading-tight text-xs sm:text-sm">{contact.name}</p>
+                      <p className="text-xs text-gray-400 truncate leading-tight">{contact.value}</p>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    <ChevronRight className="w-3 h-3 text-gray-400 flex-shrink-0" />
                   </a>
                 ))}
               </div>
             </div>
           </div>
-          <div className="w-full pt-4">
+
+          <div className="w-full pt-2 sm:pt-4">
             <button
               onClick={onRefresh}
               disabled={isLoadingRefresh}
-              className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+              className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               {isLoadingRefresh ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -163,37 +170,14 @@ const AccessDeniedCard = ({
   );
 };
 
-
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex items-center justify-center min-h-screen p-4 bg-lightBlack">
-    <div className="max-w-md w-full bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-300 animate-spin" />
-        ) : (
-          <ShieldAlert className="w-8 h-8 text-blue-300" />
-        )}
-      </div>
-      <h1 className="text-2xl font-bold text-white mb-2">{isLoading ? "Connecting..." : "Connect Your Wallet"}</h1>
-      <p className="text-gray-300 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect a wallet with refiner privileges"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton showBalance={false} accountStatus="address" chainStatus="none" />
-      </div>
-    </div>
-  </div>
-);
-
-
 export default function RefinerLayout({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebarStore();
   const { address, isConnected, isConnecting } = useAccount();
   const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
 
-  // Check if wallet has refiner role
-  const {
+  // Commented out the original role check but kept for reference
+  /* const {
     data: hasRefinerRole,
     isLoading: isLoadingRoleCheck,
     refetch: refetchRoleCheck,
@@ -201,18 +185,16 @@ export default function RefinerLayout({ children }: { children: React.ReactNode 
     contractName: "RolesManager",
     functionName: "hasRefinerRole",
     args: [address],
-    enabled: isConnected && !!address,
-  });
+  }); */
+
+  const hasRefinerRole = true; // Bypassing role check
+  const isLoadingRoleCheck = false; // No loading needed
 
   const handleRefreshAccess = async () => {
     setIsRefreshingAccess(true);
     try {
-      const { data } = await refetchRoleCheck();
-      if (data) {
-        notification.success("Access rechecked");
-      } else {
-        notification.error("Still no refiner role. Contact administrator.");
-      }
+      // await refetchRoleCheck();
+      notification.info("Access refreshed");
     } catch (e) {
       console.error("Error refreshing access:", e);
       notification.error("Error checking access");
@@ -228,11 +210,47 @@ export default function RefinerLayout({ children }: { children: React.ReactNode 
     return () => clearTimeout(timer);
   }, []);
 
+  if (isConnected && isLoadingRoleCheck) {
+    return (
+      <Loading
+        title="Verifying Refiner Access"
+        description="Please wait while we verify your refiner access..."
+        progressValue={90}
+        progressText="Almost there..."
+      />
+    );
+  }
+
   if (!isConnected) {
     return <ConnectWalletView isLoading={isConnecting} role="refiner" />;
   }
 
-  if (isDataLoading || isLoadingRoleCheck) {
+  // Show warning but don't restrict access
+  if (!hasRefinerRole) {
+    return (
+      <div className={`${montserrat.variable} font-montserrat bg-lightBlack flex text-white h-screen`}>
+        <Sidebar basePath={basepath} />
+        <div
+          className={`flex flex-col flex-1 overflow-hidden transition-all duration-300 ${
+            !isCollapsed ? "md:ml-[250px]" : ""
+          }`}
+        >
+          <TopBar sidebarItems={sidebarItems} basePath="/refiner" />
+          <main className="flex-1 overflow-y-auto px-6 py-4">
+            <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
+              <div className="flex items-center gap-2 text-red-300">
+                <ShieldAlert className="w-5 h-5" />
+                <span>Your wallet doesn't have refiner privileges</span>
+              </div>
+            </div>
+            {children}
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  if (isDataLoading) {
     return (
       <Loading
         title="Loading Refiner Dashboard"
