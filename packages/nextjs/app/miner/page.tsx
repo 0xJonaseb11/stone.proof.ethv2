@@ -50,18 +50,18 @@ const AdminContactSection = () => {
     },
   ];
 
-    const BypassWarningBanner = () => (
-      <div className="mb-4 p-4 rounded-lg bg-yellow-900/20 border border-yellow-900/50">
-        <div className="flex items-center gap-2 text-yellow-300">
-          <ShieldAlert className="w-5 h-5" />
-          <span>Role check temporarily bypassed - access restrictions removed</span>
-        </div>
+  const BypassWarningBanner = () => (
+    <div className="mb-4 p-4 rounded-lg bg-yellow-900/20 border border-yellow-900/50">
+      <div className="flex items-center gap-2 text-yellow-300">
+        <ShieldAlert className="w-5 h-5" />
+        <span>Role check temporarily bypassed - access restrictions removed</span>
       </div>
-    );
+    </div>
+  );
 
   return (
     <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
-            <BypassWarningBanner />
+      <BypassWarningBanner />
 
       <h3 className="font-medium text-gray-900 dark:text-white mb-4">Contact Administrators</h3>
       <div className="space-y-3">

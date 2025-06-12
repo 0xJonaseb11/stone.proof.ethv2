@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2, ShieldAlert } from "lucide-react";
+import { ChevronRight, Copy, Loader2, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
 import Icon from "~~/components/dashboard/Icon";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
@@ -13,7 +13,6 @@ import MineralRefineryGraph from "~~/components/dashboard/refiner/mineralRefiner
 import { demands, mineralsData, reports, shipments, shipmentsData, transfersData } from "~~/data/data";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
-import BypassWarningBanner from "~~/app/ByPassRoleCheck"; 
 
 const LoadingSpinner = ({ text = "Loading..." }: { text?: string }) => (
   <div className="flex flex-col items-center justify-center min-h-[300px] gap-2">
@@ -22,6 +21,47 @@ const LoadingSpinner = ({ text = "Loading..." }: { text?: string }) => (
   </div>
 );
 
+// NoRoleBanner component (styled to match existing warning banner)
+const NoRoleBanner = ({ address, isLoadingRefresh, onRefresh }) => {
+  const copyAddress = () => {
+    navigator.clipboard.writeText(address);
+    notification.success("Wallet address copied!");
+  };
+
+  return (
+    <div className="w-full mb-6 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
+      <div className="flex items-center justify-between gap-2 text-yellow-300">
+        <div className="flex items-center gap-2">
+          <ShieldAlert className="w-5 h-5" />
+          <span>Your wallet doesn't have refiner privileges. Contact Admin!</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs sm:text-sm">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </span>
+          <button onClick={copyAddress} className="text-red-300 hover:text-red-200" title="Copy address">
+            <Copy className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onRefresh}
+            disabled={isLoadingRefresh}
+            className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 text-sm text-white"
+          >
+            {isLoadingRefresh ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                Check Again
+                <ChevronRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface User {
   name: string;
 }
@@ -29,9 +69,9 @@ interface User {
 export default function Page() {
   const { address, isConnected } = useAccount();
   const [isDataLoading, setIsDataLoading] = useState(true);
+  const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
 
-  // 1. First - Implemented the restriction logic (commented out below for reference)
-  /*
+  // Check if wallet has refiner role
   const {
     data: hasRefinerRole,
     isLoading: isLoadingRoleCheck,
@@ -40,119 +80,81 @@ export default function Page() {
     contractName: "RolesManager",
     functionName: "hasRefinerRole",
     args: [address],
+    enabled: isConnected && !!address,
   });
 
   const handleRefreshAccess = async () => {
+    setIsRefreshingAccess(true);
     try {
-      await refetchRoleCheck();
-      notification.success("Access rechecked");
+      const { data } = await refetchRoleCheck();
+      if (data) {
+        notification.success("Access rechecked");
+      } else {
+        notification.error("Still no refiner role. Contact administrator.");
+      }
     } catch (e) {
       console.error("Error refreshing access:", e);
-      notification.error("Error checking permissions");
+      notification.error("Error checking access");
+    } finally {
+      setIsRefreshingAccess(false);
     }
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDataLoading(false);
-    }, 1500);
-
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoadingRoleCheck || isDataLoading) {
-    return <LoadingSpinner text="Verifying access..." />;
-  }
-
-  if (!hasRefinerRole) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] gap-4 text-center p-4">
-        <ShieldAlert className="w-16 h-16 text-red-500" />
-        <h2 className="text-2xl font-bold">Access Restricted</h2>
-        <p className="text-muted-foreground max-w-md">
-          This portal requires <span className="font-semibold text-primary">Refiner Role</span> privileges.
-        </p>
-        <button 
-          onClick={handleRefreshAccess}
-          className="mt-4 px-6 py-2 bg-primary rounded-md hover:bg-primary/90 transition-colors"
-        >
-          Recheck Access
-        </button>
-      </div>
-    );
-  }
-  */
-
-  // 2. Then - Commented out the restriction logic and added bypass variables
-  const hasRefinerRole = true; // Bypass access check
-  const isLoadingRoleCheck = false; // No loading needed
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsDataLoading(false);
-    }, 500); // Shorter loading for demo purposes
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Show warning but don't restrict access
-  if (isConnected && !hasRefinerRole) {
-    return (
-      <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
-        <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
-          <div className="flex items-center gap-2 text-red-300">
-            <ShieldAlert className="w-5 h-5" />
-            <span>Your wallet doesn't have refiner privileges</span>
-          </div>
-        </div>
-
-        {/* Rest of the dashboard content */}
-        <DashboardContent />
-      </div>
-    );
-  }
-
-  if (isDataLoading) {
+  if (isDataLoading || isLoadingRoleCheck) {
     return <LoadingSpinner text="Loading dashboard..." />;
   }
 
-  return <DashboardContent />;
+  return (
+    <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
+      {/* Show NoRoleBanner if connected but no refiner role */}
+      {isConnected && hasRefinerRole === false && (
+        <NoRoleBanner address={address} isLoadingRefresh={isRefreshingAccess} onRefresh={handleRefreshAccess} />
+      )}
+      <DashboardContent />
+    </div>
+  );
 }
 
-// Extracted dashboard content to a separate component for reusability
+// Dashboard content component
 function DashboardContent() {
   const user: User = {
     name: "Refiner",
   };
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
-      <BypassWarningBanner />
+    <div className="-m-8 px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
       {/* the welcome message */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div className="flex flex-col">
           <p className="text-[24px] sm:text-[28px] font-bold m-0 leading-tight">Hey there, {user.name}!</p>
           <p className="text-[14px] sm:text-[16px] text-[#979AA0] m-0 leading-tight">
-            Welcome back, we&apos;re happy to have you here!
+            Welcome back, we're happy to have you here!
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2 sm:gap-1">
           <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
             <span className="flex items-center gap-2">
-              <h1 className="text-sm translate-y-[7px]">Download Report</h1>
+              <h1 className="text-sm translate-y-[7px]">"Download Report</h1>
               <Icon path="/dashboard/icon_set/download.svg" alt="Download icon" />
             </span>
           </button>
 
           <Link
-            href={"/refiner/refinery"}
-            className="w-full sm:w-auto bg-accentBlue gap-2 font-semibold px-4 py-1.5 rounded-[8px] flex items-center justify-center"
+            href="/"
+            className="w-full sm:w-auto bg-accentBlue gap-2 font-semibold px-4 py-1.5 rounded-[8px] sm:flex sm:items-center sm:justify-center"
           >
-            <h1 className="translate-y-[4px]">Refine Mineral</h1>
+            <h1 className="translate-y-[4px]">"Refine Mineral</h1>
           </Link>
 
-          <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">
+          <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5-[8px]">
             <Icon path="/dashboard/icon_set/menu.svg" alt="menu icon" />
           </button>
         </div>
@@ -161,17 +163,11 @@ function DashboardContent() {
       {/* the stats cards */}
       <div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <StatsCard
-            title="Total Minerals Supplied"
-            value="30"
-            tagName="Coltan"
-            chartData={mineralsData}
-            color="blue"
-          />
+          <StatsCard title="Total Minerals" value="30" tagName="Coltan" chartData={mineralsData} color="blue" />
 
           <StatsCard title="Completed Transfers" value="27" tagName="Gold" chartData={transfersData} color="green" />
 
-          <StatsCard title="Active Shipments" value="27" tagName="Copper" chartData={shipmentsData} color="red" />
+          <StatsCard title="Active Shipments" value="25" tagName="Copper" chartData={shipmentsData} color="red" />
         </div>
       </div>
 
