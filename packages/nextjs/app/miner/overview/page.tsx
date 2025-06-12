@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, Copy, Loader2, ShieldAlert } from "lucide-react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import BypassWarningBanner from "~~/app/ByPassRoleCheck";
 import Icon from "~~/components/dashboard/Icon";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
 import MineralSupplyGraph from "~~/components/dashboard/overview/mineralSupply";
@@ -21,111 +22,60 @@ const LoadingSpinner = ({ text = "Loading miner data..." }: { text?: string }) =
   </div>
 );
 
-// NoRoleBanner component (same as in previous updates)
-const NoRoleBanner = ({
-  address,
-  isLoadingRefresh,
-  onRefresh,
-}: {
-  address: string;
-  isLoadingRefresh: boolean;
-  onRefresh: () => void;
-}) => {
-  const copyAddress = () => {
-    navigator.clipboard.writeText(address);
-    notification.success("Wallet address copied!");
-  };
-
-  return (
-    <div className="w-full mb-3 px-4 py-0 bg-red-900/20 text-yellow-300 flex items-center justify-between rounded-lg shadow-lg border border-red-900/50">
-      <div className="flex items-center gap-3">
-        <ShieldAlert className="w-5 h-5 text-yellow-300" />
-        <p className="text-sm sm:text-base">Connected wallet does not have Miner previleges. Contact Admin!</p>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="font-mono text-xs sm:text-sm text-gray-300">
-          {address.slice(0, 6)}...{address.slice(-4)}
-        </span>
-        <button onClick={copyAddress} className="text-blue-300 hover:text-blue-200" title="Copy address">
-          <Copy className="w-4 h-4" />
-        </button>
-        <button
-          onClick={onRefresh}
-          disabled={isLoadingRefresh}
-          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 text-sm"
-        >
-          {isLoadingRefresh ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <>
-              Check Again
-              <ChevronRight className="w-4 h-4" />
-            </>
-          )}
-        </button>
-      </div>
-    </div>
-  );
-};
-
 export default function MinerOverviewPage() {
   const { address, isConnected } = useAccount();
   const [isDataLoading, setIsDataLoading] = useState(true);
-  const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
 
-  // Check if wallet has miner role
-  const { data: hasMinerRole, refetch: refetchRoleCheck } = useScaffoldReadContract({
-    contractName: "RolesManager",
-    functionName: "hasMinerRole",
-    args: [address],
-    enabled: isConnected && !!address,
-  });
+  // COMMENTED OUT: Original role check (kept for reference)
+  // const {
+  //   data: hasMinerRole,
+  //   isLoading: isLoadingRoleCheck,
+  //   refetch: refetchRoleCheck,
+  // } = useScaffoldReadContract({
+  //   contractName: "RolesManager",
+  //   functionName: "hasMinerRole",
+  //   args: [address],
+  //   /*enabled: isConnected*/
+  // });
 
-  const handleRefreshAccess = async () => {
-    setIsRefreshingAccess(true);
-    try {
-      const { data } = await refetchRoleCheck();
-      if (!data) {
-        notification.error("Still no miner role. Contact administrator.");
-      }
-    } catch (e) {
-      console.error("Error refreshing access:", e);
-      notification.error("Error checking access");
-    } finally {
-      setIsRefreshingAccess(false);
-    }
-  };
+  // COMMENTED OUT: Original refresh access logic (kept for reference)
+  // const handleRefreshAccess = async () => {
+  //   try {
+  //     await refetchRoleCheck();
+  //   } catch (e) {
+  //     console.error("Error refreshing access:", e);
+  //     notification.error("Error checking miner permissions");
+  //   }
+  // };
 
   // Simulate data loading
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDataLoading(false);
-    }, 1500);
+    }, 1500); // Reduced loading time
     return () => clearTimeout(timer);
   }, []);
 
+  // MODIFIED: Simplified loading state
   if (isDataLoading) {
     return <LoadingSpinner text="Loading miner dashboard..." />;
   }
 
-  // Sample user data
+  // Sample user data (would normally come from your backend)
   const user = {
     name: "Miner",
   };
 
   return (
     <div className="px-4 sm:px-6 md:px-10 flex flex-col gap-6 sm:gap-8 md:gap-10">
-      {/* Show NoRoleBanner if connected but no miner role */}
-      {isConnected && hasMinerRole === false && (
-        <NoRoleBanner address={address!} isLoadingRefresh={isRefreshingAccess} onRefresh={handleRefreshAccess} />
-      )}
+      <BypassWarningBanner />
 
       {/* Welcome message */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div className="flex flex-col">
           <p className="text-[24px] sm:text-[28px] font-bold m-0 leading-tight">Hey there, {user.name}!</p>
           <p className="text-[14px] sm:text-[16px] text-[#979AA0] m-0 leading-tight">
-            Welcome back, we're happy to have you here!
+            Welcome back, we&apos;re happy to have you here!
           </p>
         </div>
 
@@ -150,7 +100,7 @@ export default function MinerOverviewPage() {
         </div>
       </div>
 
-      {/* Stats cards */}
+      {/* Stats cards with loading states */}
       <div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <StatsCard
