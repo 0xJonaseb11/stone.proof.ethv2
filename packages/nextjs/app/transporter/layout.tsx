@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -184,13 +185,13 @@ const NoRoleBanner = ({
       <div className="flex items-center justify-between gap-2 text-yellow-300">
         <div className="flex items-center gap-2">
           <ShieldAlert className="w-5 h-5" />
-          <span>Your wallet doesn't have transporter privileges</span>
+          <span>Your wallet doesn't have Transporter privileges. Contact Super Admin!</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs sm:text-sm">
+          <span className="font-mono text-xs sm:text-sm text-gray-200">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
-          <button onClick={copyAddress} className="text-yellow-300 hover:text-yellow-200" title="Copy address">
+          <button onClick={copyAddress} className="text-red-300 hover:text-yellow-200" title="Copy address">
             <Copy className="w-4 h-4" />
           </button>
           <button

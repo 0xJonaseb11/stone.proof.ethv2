@@ -213,7 +213,7 @@ const NoRoleBanner = ({
           <span className="font-mono text-xs sm:text-sm text-gray-200">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
-          <button onClick={copyAddress} className="text-yellow-300 hover:text-yellow-200" title="Copy address">
+          <button onClick={copyAddress} className="text-red-300 hover:text-yellow-200" title="Copy address">
             <Copy className="w-4 h-4" />
           </button>
           <button
