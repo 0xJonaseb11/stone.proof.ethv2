@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Sidebar from "~~/components/dashboard/Sidebar";
 import TopBar from "~~/components/dashboard/topBar";
 import { Loading } from "~~/components/ui/loading";
@@ -162,6 +163,7 @@ const AccessDeniedCard = ({
   );
 };
 
+
 const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
   <div className="flex items-center justify-center min-h-screen p-4 bg-lightBlack">
     <div className="max-w-md w-full bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-700">
@@ -182,6 +184,7 @@ const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
     </div>
   </div>
 );
+
 
 export default function RefinerLayout({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebarStore();
@@ -226,7 +229,7 @@ export default function RefinerLayout({ children }: { children: React.ReactNode 
   }, []);
 
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="refiner" />;
   }
 
   if (isDataLoading || isLoadingRoleCheck) {

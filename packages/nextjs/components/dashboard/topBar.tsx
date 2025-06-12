@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Icon from "./Icon";
 import { useSidebarStore } from "~~/stores/useSidebarStore";
 import { SidebarItem } from "~~/types/dashboard/sidebarItems";
@@ -14,6 +14,7 @@ interface BreadcrumbProps {
 
 export default function TopBar({ sidebarItems, basePath }: BreadcrumbProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const getPortalName = useMemo(() => {
     if (!pathname) return "";
@@ -152,6 +153,15 @@ export default function TopBar({ sidebarItems, basePath }: BreadcrumbProps) {
 
   const { isCollapsed, toggleSidebar } = useSidebarStore();
 
+  // Get portal base (e.g., 'auditor', 'miner', etc.)
+  const portalBase = useMemo(() => {
+    if (!pathname) return "";
+    return pathname.split("/")[1];
+  }, [pathname]);
+
+  // Hardcoded notification count for now
+  const notificationCount = 3;
+
   return (
     <div
       className={`flex h-16 sticky top-0 z-30 items-center justify-between px-3 sm:px-6 md:px-[50px] transition-all duration-300 ease-in-out ${isCollapsed ? "w-[100vw]" : "w-[80vw]"}`}
@@ -191,8 +201,21 @@ export default function TopBar({ sidebarItems, basePath }: BreadcrumbProps) {
         <button className="mx-2">
           <Icon path="/dashboard/icon_set/clock.svg" alt="History" />
         </button>
-        <button className="mx-2">
+        {/* Notifications Button with Badge */}
+        <button
+          className="mx-2 relative"
+          onClick={() => {
+            if (portalBase) router.push(`/${portalBase}/notifications`);
+          }}
+        >
           <Icon path="/dashboard/icon_set/notification.svg" alt="Notifications" />
+          {/* Red badge */}
+          <span
+            className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[20px] flex items-center justify-center border-2 border-[#1A1A1A]"
+            style={{ minHeight: "20px" }}
+          >
+            {notificationCount}
+          </span>
         </button>
         <button className="mx-2">
           <Icon path="/dashboard/icon_set/book.svg" alt="Apps" />

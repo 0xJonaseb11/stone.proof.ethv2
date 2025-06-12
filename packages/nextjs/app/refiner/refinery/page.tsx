@@ -14,7 +14,7 @@ const UNREFINED_MINERALS = [
     purity: 85.2,
     weight: "50 kg",
     origin: "South Africa",
-    image: "/minerals/raw-gold.png",
+    image: "/dashboard/gold.jpeg",
     description: "High-grade gold ore requiring refinement",
   },
   {
@@ -24,7 +24,7 @@ const UNREFINED_MINERALS = [
     purity: 78.5,
     weight: "100 kg",
     origin: "Mexico",
-    image: "/minerals/silver-concentrate.png",
+    image: "/dashboard/copper.jpeg",
     description: "Silver concentrate ready for smelting",
   },
   {
@@ -34,7 +34,7 @@ const UNREFINED_MINERALS = [
     purity: 30.8,
     weight: "500 kg",
     origin: "Chile",
-    image: "/minerals/copper-ore.png",
+    image: "/dashboard/copper.jpeg",
     description: "Copper ore requiring beneficiation",
   },
   {
@@ -44,7 +44,7 @@ const UNREFINED_MINERALS = [
     purity: 15.7,
     weight: "75 kg",
     origin: "Russia",
-    image: "/minerals/platinum-ore.png",
+    image: "/dashboard/cobalt.jpeg",
     description: "Platinum group metals ore",
   },
   {
@@ -54,7 +54,7 @@ const UNREFINED_MINERALS = [
     purity: 15.7,
     weight: "75 kg",
     origin: "Rwanda",
-    image: "/minerals/platinum-ore.png",
+    image: "/dashboard/copper.jpeg",
     description: "Platinum group metals ore",
   },
 ];

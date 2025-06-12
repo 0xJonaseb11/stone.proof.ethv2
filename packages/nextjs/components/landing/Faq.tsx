@@ -3,39 +3,39 @@ import React, { useState } from "react";
 const FAQ_ITEMS = [
   {
     id: 1,
-    question: "What is StoneProof?",
+    question: "How does Stone.proof enhance mineral traceability?",
     answer:
-      "StoneProof is a platform designed to bring transparency and traceability to the mineral supply chain, ensuring every step is verifiable and trustworthy.",
+      "Stone.proof uses blockchain technology to create immutable records of mineral assets from extraction to market. Each mineral batch is registered as an ERC721 token on the Base Layer 2 blockchain, providing verifiable proof of origin, processing history, and ownership throughout the entire supply chain.",
   },
   {
     id: 2,
-    question: "How do I get started?",
+    question: "How do different roles work in the platform?",
     answer:
-      "Simply sign up on our platform, complete your profile, and follow the onboarding steps to start tracking your minerals or verifying supply chain data.",
+      "Our platform enforces role-based access through smart contracts. Miners register minerals, Refiners process and document stages, Inspectors validate quality, Auditors ensure compliance, Transporters track shipments, and Buyers can verify the full history before purchase. Each role has a dedicated portal with specific capabilities.",
   },
   {
     id: 3,
-    question: "Is my data secure?",
+    question: "What blockchain technology powers Stone.proof?",
     answer:
-      "Yes, we use industry-standard encryption and best practices to ensure your data is safe and only accessible to authorized parties.",
+      "Stone.proof is built on Base Layer 2, providing low gas fees, high throughput, and enterprise-grade security while maintaining compatibility with Ethereum's robust ecosystem. This enables cost-effective tracking of even high-volume mineral transactions.",
   },
   {
     id: 4,
-    question: "Can I invite my team?",
+    question: "How does tokenization of minerals work?",
     answer:
-      "Absolutely! You can invite team members from your dashboard and assign them roles and permissions as needed.",
+      "Minerals are registered and minted as unique NFTs (ERC721 tokens), embedding crucial data like origin, composition, processing stages, and validation status. This creates a digital twin of the physical asset that follows it through the supply chain, ensuring end-to-end traceability.",
   },
   {
     id: 5,
-    question: "What support is available?",
+    question: "How does the validation process ensure mineral integrity?",
     answer:
-      "Our support team is available 24/7 via chat and email. We also have a comprehensive help center and community forum.",
+      "Our system requires multiple validation checkpoints from authorized Inspectors and Auditors before minerals can be cleared for sale. Each validation event is recorded on-chain, creating an immutable audit trail that prevents fraud and ensures regulatory compliance.",
   },
   {
     id: 6,
-    question: "How often is the FAQ updated?",
+    question: "How does Stone.proof resolve disputes in the supply chain?",
     answer:
-      "We regularly update our FAQ based on user feedback and new features. Check back often for the latest information.",
+      "Our platform includes a dedicated dispute resolution mechanism where issues can be raised, documented, and resolved. Super Admins can intervene when necessary, with all actions recorded on-chain to maintain transparency and accountability throughout the resolution process.",
   },
 ];
 
@@ -83,8 +83,8 @@ const Faq = () => {
     <section className="w-full bg-gradient-to-b from-[#10131A] to-[#0A0F1B] py-16 px-4 flex flex-col items-center justify-center min-h-screen">
       <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-2">Frequently Asked Questions</h2>
       <p className="text-gray-300 text-center max-w-2xl mb-12 text-base md:text-lg">
-        Our FAQ area is the best place to look to find answers to your questions. Our community and support team
-        constantly updates the questions and answers.
+        Learn more about how our blockchain solution transforms mineral supply chain transparency, verification, and
+        trust. These questions address the core functionality of our mineral traceability platform.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl auto-rows-min">
         {FAQ_ITEMS.map(item => (

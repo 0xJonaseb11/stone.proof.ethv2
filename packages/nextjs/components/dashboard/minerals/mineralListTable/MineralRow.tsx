@@ -1,9 +1,9 @@
 import Link from "next/link";
-import router from "next/router";
 import Icon from "../../Icon";
 import PurityIndicator from "./PurityIndicator";
 import StatusBadge from "./StatusBadge";
 import { Mineral } from "./types";
+import {useRouter} from 'next/navigation'
 
 type MineralRowProps = {
   mineral: Mineral;
@@ -22,6 +22,7 @@ export default function MineralRow({
   isInspector = false,
   isAuditor = false,
 }: MineralRowProps) {
+  const router = useRouter();
   return (
     <tr key={mineral.id} className={`  hover:bg-[#2B2D2F] ${isSelected ? "bg-[#2B2D2F]" : ""} transition-colors`}>
       <td className="px-2 sm:px-4 py-3 sm:py-4">
@@ -99,7 +100,7 @@ export default function MineralRow({
           </button>
         ) : isAuditor ? (
           <button
-            onClick={() => router.push(`/auditor/minerals`)}
+            onClick={() => router.push(`/auditor/auditory`)}
             className="bg-blue-700 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm flex items-center transition-colors"
           >
             <span>Audit Mineral</span>

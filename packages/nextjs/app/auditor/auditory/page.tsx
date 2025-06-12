@@ -11,7 +11,7 @@ import { notification } from "~~/utils/scaffold-eth";
 
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
-    <Loader2 className={`w-${size} h-${size} animate-spin text-emerald-500`} />
+    <Loader2 className={`w-${size} h-${size} animate-spin text-accentBlue`} />
     {text && <p className="text-sm text-gray-400">{text}</p>}
   </div>
 );
@@ -23,8 +23,8 @@ const FullPageLoader = ({ text = "Verifying auditor access..." }: { text?: strin
 );
 
 const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 bg-gray-900">
-    <div className="max-w-md w-full p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
+  <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4">
+    <div className="max-w-md w-full p-8 rounded-xl bg-[#1A1A1A] border border-[#323539] shadow-xl">
       <h2 className="text-2xl font-bold text-white text-center mb-4">Connect Your Wallet</h2>
       <p className="text-gray-400 text-center mb-6">Please connect your wallet to audit minerals</p>
       <div className="flex justify-center">
@@ -131,16 +131,15 @@ const AccessDeniedView = ({
 export default function AuditMinerals() {
   const { address, isConnected, isConnecting } = useAccount();
   const [form, setForm] = useState({ mineralId: "", report: "" });
-  const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
   const [isTransactionPending, setIsTransactionPending] = useState(false);
   const [inputMethod, setInputMethod] = useState<"select" | "manual">("select");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Check if user has auditor role
   const {
-    data: hasAuditorRole,
+    // data: hasAuditorRole,
     isLoading: isRoleLoading,
-    refetch: refetchRoleCheck,
+    // refetch: refetchRoleCheck,
   } = useScaffoldReadContract({
     contractName: "RolesManager",
     functionName: "hasAuditorRole",
@@ -164,16 +163,16 @@ export default function AuditMinerals() {
     setForm({ mineralId: "", report: "" });
   };
 
-  const handleRefreshAccess = async () => {
-    setIsRefreshingAccess(true);
-    try {
-      await refetchRoleCheck();
-    } catch (e) {
-      console.error("Error refreshing access:", e);
-    } finally {
-      setIsRefreshingAccess(false);
-    }
-  };
+  // const handleRefreshAccess = async () => {
+  //   setIsRefreshingAccess(true);
+  //   try {
+  //     await refetchRoleCheck();
+  //   } catch (e) {
+  //     console.error("Error refreshing access:", e);
+  //   } finally {
+  //     setIsRefreshingAccess(false);
+  //   }
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -241,7 +240,7 @@ export default function AuditMinerals() {
       quantity: "200 KG",
       price: "$6,000",
       image: "/dashboard/cobalt.png",
-      description: "Pure cobals bar with certified authenticity",
+      description: "Pure cobalts bar with certified authenticity",
     },
     {
       id: "IRON-0xb2c4e3f1",
@@ -250,7 +249,7 @@ export default function AuditMinerals() {
       purity: 90,
       quantity: "100 KG",
       price: "$8,000",
-      image: "/dashboard/iron.png",
+      image: "/dashboard/gold.jpeg",
       description: "Pure iron bar with certified authenticity",
     },
     {
@@ -261,7 +260,7 @@ export default function AuditMinerals() {
       weight: "5 kg",
       price: "3,800",
       origin: "Mexico",
-      image: "/minerals/silver-bullion.png",
+      image: "/dashboard/gold.jpeg",
       description: "Investment-grade silver bullion with assay certificate",
     },
     {
@@ -272,7 +271,7 @@ export default function AuditMinerals() {
       weight: "100 kg",
       price: "900",
       origin: "Chile",
-      image: "/minerals/copper-cathode.png",
+      image: "/dashboard/gold.jpeg",
       description: "High-grade copper cathode for industrial use",
     },
     {
@@ -283,18 +282,18 @@ export default function AuditMinerals() {
       weight: "500 kg",
       price: "12,000",
       origin: "Australia",
-      image: "/minerals/lithium-carbonate.png",
+      image: "/dashboard/gold.jpeg",
       description: "Battery-grade lithium carbonate for EV production",
     },
     {
-      id: "COBALT-0xd9e8f7a6",
+      id: "COBALT-0xd9e8f7a6",  
       name: "Cobalt Ingot",
       type: "Cobalt",
       purity: 99.8,
       weight: "25 kg",
       price: "18,750",
       origin: "DR Congo",
-      image: "/minerals/cobalt-ingot.png",
+      image: "/dashboard/gold.jpeg",
       description: "High-purity cobalt for aerospace and battery applications",
     },
     {
@@ -305,7 +304,7 @@ export default function AuditMinerals() {
       weight: "1 kg",
       price: "32,000",
       origin: "Russia",
-      image: "/minerals/platinum-bar.png",
+      image: "/dashboard/gold.jpeg",
       description: "Certified platinum bar with unique serial number",
     },
   ];
@@ -315,34 +314,24 @@ export default function AuditMinerals() {
     return <ConnectWalletView isLoading={isConnecting} />;
   }
 
-  /*
   if (isConnected && isRoleLoading) {
     return <FullPageLoader text="Checking auditor permissions..." />;
   }
 
-  if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
-  }
-
-  if (isConnected && !hasAuditorRole) {
+  if (isConnected && !temporaryHasAuditorRole) {
     return (
       <div className="flex items-center justify-center min-h-screen p-4 bg-gray-900">
-        <AccessDeniedView
-          address={address || ""}
-          isLoadingRefresh={isRefreshingAccess}
-          onRefresh={handleRefreshAccess}
-        />
+        <AccessDeniedView address={address || ""} isLoadingRefresh={false} onRefresh={() => {}} />
       </div>
     );
   }
-  */
 
   return (
     <div className="min-h-screen text-white p-4 sm:p-6 md:p-8">
       <BypassWarningBanner />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-accentBlue to-blue-600 bg-clip-text text-transparent">
             Audit Minerals
           </h1>
           <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mt-3">
@@ -353,26 +342,26 @@ export default function AuditMinerals() {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Side - Minerals List */}
           <div className="w-full lg:w-2/5">
-            <div className="bg-gray-800 rounded-xl p-5 border border-gray-700 shadow-lg">
+            <div className="bg-[#1A1A1A] rounded-xl p-5 border border-[#323539] shadow-lg">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-xl font-semibold">Minerals waiting for Auditory</h2>
                 <div className="relative">
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 rounded-lg px-4 py-2 text-sm transition-colors"
+                    className="flex items-center gap-2 bg-[#252525] hover:bg-[#2A2A2A] rounded-lg px-4 py-2 text-sm transition-colors"
                   >
                     {inputMethod === "select" ? "Select Mineral" : "Enter ID Manually"}
                     <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
                   </button>
                   {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-10 border border-gray-600">
+                    <div className="absolute right-0 mt-2 w-48 bg-[#252525] rounded-md shadow-lg z-10 border border-[#323539]">
                       <button
                         onClick={() => {
                           setInputMethod("select");
                           setIsDropdownOpen(false);
                         }}
                         className={`block w-full text-left px-4 py-2 text-sm ${
-                          inputMethod === "select" ? "bg-emerald-600 text-white" : "text-gray-200 hover:bg-gray-600"
+                          inputMethod === "select" ? "bg-accentBlue text-white" : "text-gray-200 hover:bg-[#2A2A2A]"
                         }`}
                       >
                         Select Mineral
@@ -384,7 +373,7 @@ export default function AuditMinerals() {
                           setForm(prev => ({ ...prev, mineralId: "" }));
                         }}
                         className={`block w-full text-left px-4 py-2 text-sm ${
-                          inputMethod === "manual" ? "bg-emerald-600 text-white" : "text-gray-200 hover:bg-gray-600"
+                          inputMethod === "manual" ? "bg-accentBlue text-white" : "text-gray-200 hover:bg-[#2A2A2A]"
                         }`}
                       >
                         Enter ID Manually
@@ -395,15 +384,15 @@ export default function AuditMinerals() {
               </div>
 
               {inputMethod === "select" ? (
-                <div className="space-y-4">
+                <div className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
                   {pendingMinerals.map(mineral => (
                     <div
                       key={mineral.id}
                       onClick={() => handleSelectMineral(mineral.id)}
                       className={`p-4 rounded-lg border cursor-pointer transition-all ${
                         form.mineralId === mineral.id
-                          ? "border-emerald-500 bg-emerald-900/20"
-                          : "border-gray-700 hover:border-gray-600 bg-gray-700/50 hover:bg-gray-700/70"
+                          ? "border-accentBlue bg-accentBlue/10"
+                          : "border-[#323539] hover:border-[#404040] bg-[#252525] hover:bg-[#2A2A2A]"
                       }`}
                     >
                       <div className="flex items-start gap-4">
@@ -418,15 +407,13 @@ export default function AuditMinerals() {
                           <div className="mt-2">
                             <div className="text-xs mb-1 flex justify-between">
                               <span>Purity: {mineral.purity}%</span>
-                              <span className="text-emerald-400">
-                                {form.mineralId === mineral.id ? "Selected" : ""}
-                              </span>
+                              <span className="text-accentBlue">{form.mineralId === mineral.id ? "Selected" : ""}</span>
                             </div>
-                            <div className="h-2 bg-gray-600 rounded-full overflow-hidden">
+                            <div className="h-2 bg-[#323539] rounded-full overflow-hidden">
                               <div
                                 className={`h-full ${
                                   mineral.purity > 90
-                                    ? "bg-green-500"
+                                    ? "bg-accentBlue"
                                     : mineral.purity > 85
                                       ? "bg-blue-500"
                                       : "bg-yellow-500"
@@ -436,11 +423,11 @@ export default function AuditMinerals() {
                             </div>
                           </div>
                           <div className="grid grid-cols-2 gap-3 mt-3">
-                            <div className="bg-gray-800/50 rounded p-2">
+                            <div className="bg-[#1A1A1A] rounded p-2">
                               <div className="text-xs text-gray-400">Quantity</div>
                               <div className="font-medium">{mineral.quantity}</div>
                             </div>
-                            <div className="bg-gray-800/50 rounded p-2">
+                            <div className="bg-[#1A1A1A] rounded p-2">
                               <div className="text-xs text-gray-400">Value</div>
                               <div className="font-medium">{mineral.price}</div>
                             </div>
@@ -453,20 +440,20 @@ export default function AuditMinerals() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-700">
+                  <div className="bg-[#252525] p-4 rounded-lg border border-[#323539]">
                     <label className="block text-sm font-medium mb-2">Enter Mineral ID</label>
                     <input
                       name="mineralId"
                       value={form.mineralId}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-lg bg-[#1A1A1A] border border-[#323539] focus:border-accentBlue focus:ring-1 focus:ring-accentBlue outline-none transition-all"
                       placeholder="e.g. GOLD-0x8e07d295"
                     />
                   </div>
-                  <div className="bg-emerald-900/10 border border-emerald-800/50 rounded-lg p-4">
+                  <div className="bg-accentBlue/10 border border-accentBlue/20 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                      <AlertCircle className="w-5 h-5 mt-0.5 text-emerald-400 flex-shrink-0" />
-                      <div className="text-sm text-emerald-200">
+                      <AlertCircle className="w-5 h-5 mt-0.5 text-accentBlue flex-shrink-0" />
+                      <div className="text-sm text-blue-200">
                         <p className="font-medium">Need help finding the Mineral ID?</p>
                         <p className="mt-1 opacity-80">
                           Check the mineral's details page or transaction history for its unique identifier. Mineral IDs
@@ -482,11 +469,11 @@ export default function AuditMinerals() {
 
           {/* Right Side - Audit Form */}
           <div className="w-full lg:w-3/5">
-            <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-lg">
+            <form onSubmit={handleSubmit} className="bg-[#1A1A1A] rounded-xl p-6 border border-[#323539] shadow-lg">
               <h2 className="text-xl font-semibold mb-6">Audit Report</h2>
 
               {inputMethod === "select" && form.mineralId && (
-                <div className="mb-5 p-3 bg-gray-700/30 rounded-lg border border-gray-600">
+                <div className="mb-5 p-3 bg-[#252525] rounded-lg border border-[#323539]">
                   <div className="flex items-center gap-2 text-sm">
                     <span className="text-gray-400">Selected Mineral ID:</span>
                     <span className="font-mono break-all">{form.mineralId}</span>
@@ -496,7 +483,7 @@ export default function AuditMinerals() {
                         navigator.clipboard.writeText(form.mineralId);
                         notification.success("Mineral ID copied to clipboard");
                       }}
-                      className="ml-auto text-gray-400 hover:text-emerald-400 transition-colors"
+                      className="ml-auto text-gray-400 hover:text-accentBlue transition-colors"
                     >
                       <Copy className="w-4 h-4" />
                     </button>
@@ -511,25 +498,25 @@ export default function AuditMinerals() {
                     name="report"
                     value={form.report}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all min-h-32"
+                    className="w-full px-4 py-3 rounded-lg bg-[#252525] border border-[#323539] focus:border-accentBlue focus:ring-1 focus:ring-accentBlue outline-none transition-all min-h-32"
                     placeholder="Enter your detailed audit findings..."
                   />
                 </div>
               </div>
 
-              <div className="mt-8 pt-5 border-t border-gray-700 flex justify-end gap-3">
+              <div className="mt-8 pt-5 border-t border-[#323539] flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={resetForm}
                   disabled={isTransactionPending}
-                  className="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 rounded-lg bg-[#252525] hover:bg-[#2A2A2A] border border-[#323539] text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={!validateForm() || isTransactionPending}
-                  className="px-6 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-32"
+                  className="px-6 py-3 rounded-lg bg-accentBlue hover:bg-blue-600 text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-32"
                 >
                   {isTransactionPending ? (
                     <>
@@ -544,7 +531,7 @@ export default function AuditMinerals() {
             </form>
 
             {/* Validation Summary */}
-            <div className="mt-6 bg-gray-800 rounded-xl p-5 border border-gray-700 shadow-lg">
+            <div className="mt-6 bg-[#1A1A1A] rounded-xl p-5 border border-[#323539] shadow-lg">
               <h3 className="text-sm font-medium text-gray-300 uppercase tracking-wider mb-4">
                 Submission Requirements
               </h3>
@@ -552,7 +539,7 @@ export default function AuditMinerals() {
                 <div className="flex items-start gap-3">
                   <div
                     className={`h-5 w-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                      form.mineralId.trim() ? "bg-emerald-500/20 text-emerald-400" : "bg-gray-700 text-gray-500"
+                      form.mineralId.trim() ? "bg-accentBlue/20 text-accentBlue" : "bg-[#252525] text-gray-500"
                     }`}
                   >
                     {form.mineralId.trim() ? <Check className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
@@ -572,7 +559,7 @@ export default function AuditMinerals() {
                 <div className="flex items-start gap-3">
                   <div
                     className={`h-5 w-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                      form.report.trim() ? "bg-emerald-500/20 text-emerald-400" : "bg-gray-700 text-gray-500"
+                      form.report.trim() ? "bg-accentBlue/20 text-accentBlue" : "bg-[#252525] text-gray-500"
                     }`}
                   >
                     {form.report.trim() ? <Check className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
