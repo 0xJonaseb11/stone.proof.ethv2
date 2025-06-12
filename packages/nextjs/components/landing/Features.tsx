@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { mineralsData, supplyData } from "../../data/data";
+import { mineralsData } from "../../data/data";
 import {
   Area,
   AreaChart,
   Bar,
   BarChart,
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -31,7 +27,7 @@ const ACCORDION_ITEMS = [
   {
     id: 3,
     title: "Dispute Management System",
-    icon: "/landing/icon3.svg", // Replace with your icon
+    icon: "/landing/icon2.svg", // Replace with your icon
     content: "Quickly resolve issues and maintain trust with a robust, transparent dispute management system.",
   },
 ];

@@ -43,7 +43,7 @@ const MINERAL_EXAMPLES = [
     weight: "1 kg",
     price: "65,000",
     origin: "South Africa",
-    image: "/minerals/gold-bar.png",
+    image: "/dashboard/gold.jpeg",
     description: "24K pure gold bar with certified authenticity",
   },
   {
@@ -54,7 +54,7 @@ const MINERAL_EXAMPLES = [
     weight: "5 kg",
     price: "3,800",
     origin: "Mexico",
-    image: "/minerals/silver-bullion.png",
+    image: "/dashboard/copper.jpeg",
     description: "Investment-grade silver bullion with assay certificate",
   },
   {
@@ -65,7 +65,7 @@ const MINERAL_EXAMPLES = [
     weight: "100 kg",
     price: "900",
     origin: "Chile",
-    image: "/minerals/copper-cathode.png",
+    image: "/dashboard/copper.jpeg",
     description: "High-grade copper cathode for industrial use",
   },
   {
@@ -76,7 +76,7 @@ const MINERAL_EXAMPLES = [
     weight: "500 kg",
     price: "12,000",
     origin: "Australia",
-    image: "/minerals/lithium-carbonate.png",
+    image: "/dashboard/cobalt.jpeg",
     description: "Battery-grade lithium carbonate for EV production",
   },
   {
@@ -87,7 +87,7 @@ const MINERAL_EXAMPLES = [
     weight: "25 kg",
     price: "18,750",
     origin: "DR Congo",
-    image: "/minerals/cobalt-ingot.png",
+    image: "/dashboard/cobalt.jpeg",
     description: "High-purity cobalt for aerospace and battery applications",
   },
   {
@@ -98,7 +98,7 @@ const MINERAL_EXAMPLES = [
     weight: "1 kg",
     price: "32,000",
     origin: "Russia",
-    image: "/minerals/platinum-bar.png",
+    image: "/dashboard/copper.jpeg",
     description: "Certified platinum bar with unique serial number",
   },
 ];
@@ -119,7 +119,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 bg-gray-900">
+  <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4">
     <div className="max-w-md w-full p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
       <h2 className="text-2xl font-bold text-white text-center mb-4">Connect Your Wallet</h2>
       <p className="text-gray-400 text-center mb-6">Please connect your wallet to purchase minerals</p>
@@ -381,8 +381,8 @@ export default function BuyMineralPage() {
                       <div className="text-sm text-blue-200">
                         <p className="font-medium">Need help finding the Mineral ID?</p>
                         <p className="mt-1 opacity-80">
-                          Check the mineral&apos;s details page or transaction history for its unique identifier. Mineral IDs
-                          are typically in format &quot;TYPE-0x...&quot;.
+                          Check the mineral&apos;s details page or transaction history for its unique identifier.
+                          Mineral IDs are typically in format &quot;TYPE-0x...&quot;.
                         </p>
                       </div>
                     </div>

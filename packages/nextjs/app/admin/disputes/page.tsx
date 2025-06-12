@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Icon from "~~/components/dashboard/Icon";
 import MineralDisputesGraphCard from "~~/components/dashboard/admin/MineralDisputesGraphCard";
 import RecentDisputesCard from "~~/components/dashboard/admin/RecentDisputesCard";
@@ -158,29 +159,6 @@ const AccessDeniedCard = ({
   );
 };
 
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="flex items-center justify-center min-h-screen p-4">
-    <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center border border-gray-200 dark:border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-600 dark:text-blue-300 animate-spin" />
-        ) : (
-          <ShieldAlert className="w-8 h-8 text-blue-600 dark:text-blue-300" />
-        )}
-      </div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-        {isLoading ? "Connecting..." : "Connect Admin Wallet"}
-      </h1>
-      <p className="text-gray-600 dark:text-gray-300 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect a wallet with admin privileges"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton />
-      </div>
-    </div>
-  </div>
-);
-
 export default function AdminDisputesPage() {
   const { address, isConnected, isConnecting } = useAccount();
   const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
@@ -227,7 +205,7 @@ export default function AdminDisputesPage() {
 
   // Not connected state
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="admin" />;
   }
 
   // Show warning but don't restrict access

@@ -1,35 +1,19 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import {
-  AlertCircle,
-  AlertTriangle,
-  Check,
-  ChevronDown,
-  ChevronRight,
-  Copy,
-  Loader2,
-  Mail,
-  MessageSquare,
-  Phone,
-  ShieldAlert,
-} from "lucide-react";
-import toast from "react-hot-toast";
+import { ChevronRight, Loader2 } from "lucide-react";
 import { useAccount } from "wagmi";
+import { ConnectWalletView } from "~~/components/ConnectWalletView";
 import Icon from "~~/components/dashboard/Icon";
 import MineralDisputesGraph from "~~/components/dashboard/disputes/mineralDisputesVariationGraph";
 import { NotificationList } from "~~/components/dashboard/disputes/recentActivities";
-import MineralActivity from "~~/components/dashboard/minerals/mineralActivity";
 import MineralReports from "~~/components/dashboard/overview/mineralReports";
 import RecentShipments from "~~/components/dashboard/overview/recentShipments";
 import TopDemands from "~~/components/dashboard/overview/topDemands";
 import Search from "~~/components/dashboard/search";
-import { demands, mineralDisputesData, mockDisputes, myNotifications, reports, shipments } from "~~/data/data";
-import { useScaffoldContract, useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+import { demands, mineralDisputesData, mockDisputes, reports, shipments } from "~~/data/data";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
@@ -38,29 +22,7 @@ const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text
   </div>
 );
 
-const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
-  <div className="text-white min-h-screen flex items-center justify-center">
-    <div className="text-center max-w-md p-6 bg-gray-800 rounded-xl border border-gray-700">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4 mx-auto">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 text-blue-600 dark:text-blue-300 animate-spin" />
-        ) : (
-          <ShieldAlert className="w-8 h-8 text-blue-600 dark:text-blue-300" />
-        )}
-      </div>
-      <h2 className="text-2xl font-bold mb-4">{isLoading ? "Connecting..." : "Wallet Not Connected"}</h2>
-      <p className="text-gray-400 mb-6">
-        {isLoading ? "Verifying wallet..." : "Please connect your wallet to raise disputes"}
-      </p>
-      <div className="flex justify-center">
-        <ConnectButton />
-      </div>
-    </div>
-  </div>
-);
-
 const AccessDeniedView = ({
-  address,
   isLoadingRefresh,
   onRefresh,
 }: {
@@ -68,11 +30,6 @@ const AccessDeniedView = ({
   isLoadingRefresh: boolean;
   onRefresh: () => void;
 }) => {
-  const copyAddress = () => {
-    navigator.clipboard.writeText(address);
-    toast.success("Wallet address copied!");
-  };
-
   return (
     <div className="px-4 sm:px-10 flex flex-col gap-10">
       {/* the welcome message */}
@@ -80,13 +37,13 @@ const AccessDeniedView = ({
         <div className="flex flex-col">
           <p className="text-[24px] sm:text-[28px] font-bold m-0 leading-tight">Disputes resolutions</p>
           <p className="text-[14px] sm:text-[16px] text-[#979AA0] m-0 leading-tight">
-            View all On-goint disputes in the network
+            View all On-going disputes in the network
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2 sm:gap-1">
           <Link
-            href={"/refiner/disputes/raiseDispute"}
+            href={"/miner/disputes/raiseDispute"}
             className="w-full sm:w-auto bg-red-600 gap-2 font-semibold px-4 py-1.5 rounded-[8px] flex items-center justify-center sm:justify-start"
           >
             <h1 className="translate-y-[4px]">Raise Dispute</h1>
@@ -198,11 +155,7 @@ export default function Page() {
   };
 
   // Check if user has miner role
-  const {
-    data: hasMinerRole,
-    isLoading: isRoleLoading,
-    refetch: refetchRoleCheck,
-  } = useScaffoldReadContract({
+  const { data: hasMinerRole, isLoading: isRoleLoading } = useScaffoldReadContract({
     contractName: "RolesManager",
     functionName: "hasMinerRole",
     args: [address],
@@ -219,7 +172,7 @@ export default function Page() {
   }
 
   if (!isConnected) {
-    return <ConnectWalletView isLoading={isConnecting} />;
+    return <ConnectWalletView isLoading={isConnecting} role="miner" />;
   }
 
   if (!hasMinerRole) {
@@ -233,7 +186,7 @@ export default function Page() {
         <div className="flex flex-col">
           <p className="text-[24px] sm:text-[28px] font-bold m-0 leading-tight">Disputes resolutions</p>
           <p className="text-[14px] sm:text-[16px] text-[#979AA0] m-0 leading-tight">
-            View all On-goint disputes in the network
+            View all On-going disputes in the network
           </p>
         </div>
 
@@ -242,7 +195,7 @@ export default function Page() {
             href={"/miner/disputes/raiseDispute"}
             className="w-full sm:w-auto bg-red-600 gap-2 font-semibold px-4 py-1.5 rounded-[8px] flex items-center justify-center sm:justify-start"
           >
-            <h1 className="translate-y-[4px]">Raise Dispute</h1>
+            <h1 className="translate-y-[4px]">Raise Disputes</h1>
           </Link>
 
           <button className="w-full sm:w-auto bg-[#252525] border border-[#323539] flex items-center justify-center gap-2 font-semibold px-4 py-1.5 pb-2.5 rounded-[8px]">

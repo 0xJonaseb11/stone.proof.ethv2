@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
+interface MineralDisputesGraphCardProps {
+  containerBg?: string;
+  selectBg?: string;
+  graphBg?: string;
+  footerBg?: string;
+  borderColor?: string;
+}
+
 const data = [
   { name: "Sun", value: 15 },
   { name: "Mon", value: 25 },
@@ -15,12 +23,21 @@ const data = [
 const years = [2025, 2024, 2023];
 const disputeTypes = ["All Disputes", "Defendant", "Complainant"];
 
-export default function MineralDisputesGraphCard() {
+export default function MineralDisputesGraphCard({
+  containerBg = "#060910",
+  selectBg = "#232A36",
+  graphBg = "#060910",
+  footerBg = "#181C23",
+  borderColor = "#23262B",
+}: MineralDisputesGraphCardProps) {
   const [selectedYear, setSelectedYear] = useState(years[0]);
   const [selectedType, setSelectedType] = useState(disputeTypes[0]);
 
   return (
-    <div className="bg-[#060910] border border-[#23262B] rounded-2xl p-4 md:p-5 flex flex-col w-full max-w-full min-w-[320px] shadow-lg">
+    <div
+      style={{ backgroundColor: containerBg, borderColor }}
+      className="border rounded-2xl p-4 md:p-5 flex flex-col w-full max-w-full min-w-[320px] shadow-lg"
+    >
       <div className="flex items-center justify-between mb-4 md:mb-5">
         <span className="text-white text-base md:text-lg lg:text-xl font-semibold">
           Mineral Disputes Variation Graph
@@ -37,10 +54,10 @@ export default function MineralDisputesGraphCard() {
       <div className="flex flex-col sm:flex-row gap-3 mb-5 w-full">
         <div className="relative w-full sm:w-auto flex-1 sm:max-w-[250px]">
           <select
-            className="appearance-none bg-[#232A36] border border-[#23262B] rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none w-full font-medium pr-8"
+            style={{ backgroundColor: selectBg, borderColor }}
+            className="appearance-none border rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none w-full font-medium pr-8"
             value={selectedType}
             onChange={e => setSelectedType(e.target.value)}
-            style={{ WebkitAppearance: "none", MozAppearance: "none" }}
           >
             {disputeTypes.map(type => (
               <option key={type} value={type}>
@@ -63,10 +80,10 @@ export default function MineralDisputesGraphCard() {
 
         <div className="relative w-full sm:w-auto sm:min-w-[120px]">
           <select
-            className="appearance-none bg-[#060910] border border-[#23262B] rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none w-full font-medium pr-8"
+            style={{ backgroundColor: selectBg, borderColor }}
+            className="appearance-none border rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none w-full font-medium pr-8"
             value={selectedYear}
             onChange={e => setSelectedYear(Number(e.target.value))}
-            style={{ WebkitAppearance: "none", MozAppearance: "none" }}
           >
             {years.map(year => (
               <option key={year} value={year}>
@@ -88,7 +105,10 @@ export default function MineralDisputesGraphCard() {
         </div>
       </div>
 
-      <div className="w-full h-[220px] md:h-[260px] lg:h-[300px] bg-[#060910] rounded-lg overflow-hidden border border-[#23262B] mb-2">
+      <div
+        style={{ backgroundColor: graphBg, borderColor }}
+        className="w-full h-[220px] md:h-[260px] lg:h-[300px] rounded-lg overflow-hidden border mb-2"
+      >
         <div className="w-full h-full pt-5 px-2">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
@@ -118,8 +138,8 @@ export default function MineralDisputesGraphCard() {
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#181C23",
-                  borderColor: "#23262B",
+                  backgroundColor: footerBg,
+                  borderColor,
                   color: "white",
                   borderRadius: "8px",
                   padding: "8px 12px",
@@ -145,7 +165,10 @@ export default function MineralDisputesGraphCard() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-3 py-3.5 border border-[#23262B] bg-[#181C23] rounded-lg text-xs md:text-sm text-[#979AA0] mt-1">
+      <div
+        style={{ backgroundColor: footerBg, borderColor }}
+        className="flex items-center justify-between px-3 py-3.5 border rounded-lg text-xs md:text-sm text-[#979AA0] mt-1"
+      >
         <span>Data in person range</span>
         <a
           href="#"

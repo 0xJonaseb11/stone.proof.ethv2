@@ -2,38 +2,34 @@ import React, { useState } from "react";
 
 const CARDS = [
   {
-    title: "Advanced Data Encryption",
-    desc: "Immutable and traceable transactions for complete trust.",
-    icon: "/landing/pic4.svg", // Replace with your icon
+    title: "Blockchain-Based Traceability",
+    desc: "End-to-end mineral tracking with immutable records ensuring transparent and verifiable supply chains.",
+    icon: "/landing/pic4.svg",
   },
   {
-    title: "Blockchain-based Supply Chain",
-    desc: "Immutable and traceable transactions for complete trust.",
-    icon: "/landing/pic2.svg", // Replace with your icon
+    title: "Multi-Role Architecture",
+    desc: "Isolated portals for each supply chain actor with strict wallet-based role verification.",
+    icon: "/landing/pic2.svg",
   },
   {
-    title: "Advanced Data Encryption",
-    desc: "Immutable and traceable transactions for complete trust.",
-    icon: "/landing/pic3.svg", // Replace with your icon
+    title: "Mineral Tokenization",
+    desc: "ERC721-based NFTs embedding proof of origin, status, and ownership for each mineral asset.",
+    icon: "/landing/pic3.svg",
   },
   {
-    title: "Advanced Data Encryption",
-    desc: "Immutable and traceable transactions for complete trust.",
-    icon: "/landing/pic1.svg", // Replace with your icon
+    title: "Validation Workflow",
+    desc: "Supervisory roles validate minerals before trade, ensuring data integrity across the supply chain.",
+    icon: "/landing/pic1.svg",
   },
   {
-    title: "Advanced Data Encryption",
-    desc: "Immutable and traceable transactions for complete trust.",
-
-    icon: "/landing/verified.png", // Replace with your icon
-
+    title: "Real-Time Role Control",
+    desc: "Admin-controlled role assignment and revocation with instant reflection in the frontend portals.",
+    icon: "/landing/verified.png",
   },
   {
-    title: "Advanced Data Encryption",
-    desc: "Immutable and traceable transactions for complete trust.",
-
-    icon: "/landing/wallet.png", // Replace with your icon
-
+    title: "Base Layer 2 Optimized",
+    desc: "Low gas fees and high throughput for scalable, enterprise-grade mineral logistics and trading.",
+    icon: "/landing/wallet.png",
   },
 ];
 
@@ -117,7 +113,7 @@ const Unique = () => {
       {/* Background image (user to provide actual image) */}
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
         <img
-          src="/landing/bg.svg" // User to provide
+          src="/landing/bg.svg"
           alt="background"
           className="w-full h-full object-cover opacity-60"
           style={{ filter: "brightness(0.7) blur(0.5px)" }}
@@ -126,9 +122,10 @@ const Unique = () => {
 
       {/* Content overlay */}
       <div className="relative z-10 w-full max-w-7xl mx-auto">
-        <h2 className="text-white text-3xl md:text-4xl font-bold mb-2 text-left">What Sets Us Apart</h2>
+        <h2 className="text-white text-3xl md:text-4xl font-bold mb-2 text-left">Mineral Traceability Reimagined</h2>
         <p className="text-gray-300 text-base md:text-lg mb-10 text-left max-w-2xl">
-          Discover the powerful foundations behind our secure blockchain ecosystem.
+          Stone.proof.eth leverages blockchain technology to ensure transparency, trust, and accountability across the
+          entire mineral supply chain.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

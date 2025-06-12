@@ -32,6 +32,25 @@ const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Add effect to prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      // Add styles to body to prevent scrolling
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      // Restore scroll position and remove fixed positioning
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    }
+  }, [mobileMenuOpen]);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -64,9 +83,10 @@ const Header: React.FC = () => {
 
         {/* Mobile menu button */}
         <button
-          className="lg:hidden text-white fixed top-4 right-4 z-50"
+          className="lg:hidden text-white fixed top-4 right-4 z-50 transition-transform duration-300"
           onClick={toggleMobileMenu}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          style={{ transform: mobileMenuOpen ? "rotate(90deg)" : "rotate(0deg)" }}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -78,11 +98,25 @@ const Header: React.FC = () => {
       </div>
 
       {/* Mobile Navigation Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-[#060910] z-40 flex flex-col items-center justify-center lg:hidden">
+      <div
+        className={`fixed inset-0 bg-[#060910] z-40 flex flex-col items-center justify-center lg:hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        <div
+          className={`w-full h-full flex flex-col items-center justify-center transition-all duration-300 ${
+            mobileMenuOpen ? "translate-y-0" : "translate-y-4"
+          }`}
+        >
           <ul className="flex flex-col gap-6 text-center">
-            {navLinks.map(link => (
-              <li key={link.name}>
+            {navLinks.map((link, index) => (
+              <li
+                key={link.name}
+                className={`transition-all duration-300 ${
+                  mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                }`}
+                style={{ transitionDelay: `${index * 50}ms` }}
+              >
                 <a
                   href={link.href}
                   className="text-white text-lg opacity-70 hover:opacity-100 transition-colors duration-200"
@@ -92,12 +126,17 @@ const Header: React.FC = () => {
                 </a>
               </li>
             ))}
-            <li className="mt-4">
+            <li
+              className={`mt-4 transition-all duration-300 ${
+                mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              }`}
+              style={{ transitionDelay: `${navLinks.length * 50}ms` }}
+            >
               <ContactUsButton />
             </li>
           </ul>
         </div>
-      )}
+      </div>
     </header>
   );
 };

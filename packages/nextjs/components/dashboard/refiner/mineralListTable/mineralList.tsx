@@ -7,12 +7,13 @@ import TableHeader from "./TableHeader";
 import { Mineral, MineralKey, SortConfig } from "./types";
 
 type MineralListTableProps = {
+  path?: string;
   minerals: Mineral[];
 };
 
 const PAGE_SIZE = 6;
 
-export default function MineralListTable({ minerals }: MineralListTableProps) {
+export default function MineralListTable({ path, minerals }: MineralListTableProps) {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: "time", direction: "descending" });
   const [selected, setSelected] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,6 +84,7 @@ export default function MineralListTable({ minerals }: MineralListTableProps) {
                   mineral={mineral}
                   isSelected={selected.includes(mineral.id)}
                   onSelect={handleSelect}
+                  path={path}
                 />
               ))}
             </tbody>

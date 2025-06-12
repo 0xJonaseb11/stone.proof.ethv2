@@ -4,32 +4,32 @@ import React, { useEffect, useState } from "react";
 const ENTERPRISES = [
   {
     title: "Mining Enterprises",
-    desc: "Stay up to date with the latest features, enhancements, and fixes",
+    desc: "Register mineral origins and verify ownership with ERC721 tokens on the blockchain",
     icon: "/dashboard/icon_set/mineCart.svg",
   },
   {
     title: "Refining Enterprises",
-    desc: "Effortlessly integrate our SaaS product with your existing systems",
+    desc: "Process and validate mineral assets with immutable documentation of refinement stages",
     icon: "/dashboard/icon_set/refineCart.svg",
   },
   {
     title: "Warehouse Enterprises",
-    desc: "Tailor the SaaS product to fit your unique business processes.",
+    desc: "Track inventory and storage conditions with real-time blockchain verification",
     icon: "/dashboard/icon_set/warehouseCart.svg",
   },
   {
     title: "Transport Companies",
-    desc: "Gain valuable insights and make data-driven decisions.",
+    desc: "Secure transfer of mineral assets across the supply chain with location tracking",
     icon: "/dashboard/icon_set/mineTruck.svg",
   },
   {
     title: "Inspectors",
-    desc: "Gain valuable insights and make data-driven decisions.",
+    desc: "Validate mineral quality and compliance with transparent verification workflows",
     icon: "/dashboard/icon_set/inspectorTemp.svg",
   },
   {
     title: "Auditors",
-    desc: "Gain valuable insights and make data-driven decisions.",
+    desc: "Ensure supply chain integrity with comprehensive blockchain-based auditing tools",
     icon: "/dashboard/icon_set/refiners.svg",
   },
 ];
@@ -146,10 +146,11 @@ const Ecosystem = () => {
     <section className="w-full py-12 sm:py-16 px-4 flex flex-col items-center justify-center bg-gradient-to-b from-[#10131A] to-[#0A0F1B]">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-2">Our Ecosystem</h2>
       <p className="text-gray-300 text-center max-w-2xl mb-8 sm:mb-12 text-sm sm:text-base md:text-lg px-2">
-        Uniting Enterprises Across the Mineral Supply Chain
+        Securing the Mineral Supply Chain with Blockchain Technology
         <br />
         <span className="text-gray-400 text-xs sm:text-sm md:text-base">
-          From extraction to refinement — we connect every step with trust and transparency.
+          Each participant plays a vital role in our decentralized verification framework, ensuring mineral integrity
+          from mine to market.
         </span>
       </p>
 
