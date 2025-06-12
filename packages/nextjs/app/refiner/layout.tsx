@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ChevronRight, Copy, Loader2, Mail, MessageSquare, Phone, ShieldAlert } from "lucide-react";
 import { useAccount } from "wagmi";
 import { ConnectWalletView } from "~~/components/ConnectWalletView";
@@ -180,11 +179,11 @@ const NoRoleBanner = ({
   };
 
   return (
-    <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
+    <div className="mb-6 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
       <div className="flex items-center justify-between gap-2 text-yellow-300">
         <div className="flex items-center gap-2">
           <ShieldAlert className="w-5 h-5" />
-          <span>Your wallet doesn't have refiner privileges</span>
+          <span>Your wallet doesn't have Refiner privileges. Contact Super Admin!</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="font-mono text-xs sm:text-sm text-gray-200">

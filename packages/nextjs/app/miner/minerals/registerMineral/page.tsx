@@ -1,27 +1,44 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+/* eslint-disable react-hooks/exhaustive-deps */
+
+/* eslint-disable prettier/prettier */
 "use client";
 
 import { useCallback, useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import {
-  AlertCircle,
-  Check,
-  ChevronDown,
-  Copy,
-  Droplet,
-  Loader2,
-  Mail,
-  MapPin,
-  MessageSquare,
-  Minus,
-  Phone,
-  Plus,
-  ShieldAlert,
-  Thermometer,
-} from "lucide-react";
+import { AlertCircle, Check, ChevronDown, Droplet, Loader2, MapPin, Minus, Plus, Thermometer } from "lucide-react";
 import { useAccount } from "wagmi";
-import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
-import BypassWarningBanner from "~~/app/ByPassRoleCheck";
+
+
+// Types
+interface SelectedCondition {
+  temperature: string;
+  storage: string;
+  humidity: string;
+}
+
+interface RegistrationFormProps {
+  quantity: number;
+  purity: number;
+  portalOpen: boolean;
+  mineralName: string;
+  mineralType: string;
+  origin: string;
+  selectedCondition: SelectedCondition;
+  isTransactionPending: boolean;
+  validateForm: () => boolean;
+  setPortalOpen: (open: boolean) => void;
+  setMineralName: (name: string) => void;
+  setMineralType: (type: string) => void;
+  setOrigin: (origin: string) => void;
+  handleQuantityChange: (value: number) => void;
+  handlePurityChange: (value: number) => void;
+  handleRegister: () => void;
+  setSelectedCondition: (condition: SelectedCondition) => void;
+}
 
 const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text?: string }) => (
   <div className="flex flex-col items-center justify-center gap-2">
@@ -30,7 +47,7 @@ const LoadingSpinner = ({ size = 8, text = "Loading..." }: { size?: number; text
   </div>
 );
 
-const FullPageLoader = ({ text = "Verifying miner access..." }: { text?: string }) => (
+const FullPageLoader = ({ text = "Loading..." }: { text?: string }) => (
   <div className="flex items-center justify-center min-h-screen bg-gray-900">
     <LoadingSpinner size={12} text={text} />
   </div>
@@ -49,180 +66,36 @@ const ConnectWalletView = ({ isLoading }: { isLoading: boolean }) => (
   </div>
 );
 
-const AccessDeniedView = ({
-  address,
-  isLoadingRefresh,
-  onRefresh,
-}: {
-  address: string;
-  isLoadingRefresh: boolean;
-  onRefresh: () => void;
-}) => {
-  const copyAddress = () => {
-    navigator.clipboard.writeText(address);
-    notification.success("Wallet address copied!");
-  };
-
-  return (
-    <div className="max-w-md w-full p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <div className="h-16 w-16 rounded-full bg-red-900/30 flex items-center justify-center">
-          <ShieldAlert className="w-8 h-8 text-red-500" />
-        </div>
-        <h3 className="text-2xl font-bold text-white">Access Denied</h3>
-        <p className="text-gray-400">The connected wallet doesn&apos;t have miner privileges to register minerals.</p>
-        <div className="flex items-center gap-2 p-2 px-4 mt-2 border border-gray-700 rounded-lg bg-gray-900/50 w-full">
-          <span className="font-mono text-sm text-gray-300 truncate">{address}</span>
-          <button onClick={copyAddress} className="p-1 rounded-md hover:bg-gray-700 text-gray-400">
-            <Copy className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="w-full mt-4 p-4 rounded-lg border border-gray-700 bg-gray-900/30">
-          <h3 className="text-base font-medium text-white mb-4">How to get miner access:</h3>
-          <ol className="space-y-4 text-sm text-gray-400">
-            <li className="flex items-start gap-3">
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-emerald-900/50 text-emerald-400 text-xs font-medium">
-                1
-              </span>
-              <div>
-                <p>Contact system administrator at:</p>
-                <div className="mt-1 space-y-2 pl-2">
-                  <a
-                    href="mailto:admin@stone.proof?subject=Miner%20Role%20Request"
-                    className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300"
-                  >
-                    <Mail className="w-4 h-4" />
-                    admin@stone.proof
-                  </a>
-                  <a
-                    href="tel:+250795107436"
-                    className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300"
-                  >
-                    <Phone className="w-4 h-4" />
-                    +(250) 795 107 436
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <li className="flex items-start gap-3">
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-emerald-900/50 text-emerald-400 text-xs font-medium">
-                2
-              </span>
-              <div>
-                <p>Request miner role assignment through:</p>
-                <div className="mt-1 pl-2">
-                  <a
-                    href="https://t.me/StoneProofSupport"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    @StoneProofSupport
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <li className="flex items-start gap-3">
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-emerald-900/50 text-emerald-400 text-xs font-medium">
-                3
-              </span>
-              <div>
-                <p>Refresh this page after approval</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  If access isn&apos;t granted immediately, wait a few minutes then refresh
-                </p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <button
-          onClick={onRefresh}
-          disabled={isLoadingRefresh}
-          className={`w-full mt-4 py-3 px-4 rounded-lg font-medium transition-colors ${
-            isLoadingRefresh
-              ? "bg-gray-700 text-gray-400 cursor-not-allowed"
-              : "bg-emerald-600 hover:bg-emerald-700 text-white"
-          }`}
-        >
-          {isLoadingRefresh ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin mr-2 inline" />
-              Refreshing...
-            </>
-          ) : (
-            "Refresh Access"
-          )}
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default function MineralRegistrationPage() {
-  const { address, isConnected, isConnecting } = useAccount();
-  const [quantity, setQuantity] = useState(0);
-  const [purity, setPurity] = useState(0);
-  const [portalOpen, setPortalOpen] = useState(false);
-  const [mineralName, setMineralName] = useState("");
-  const [mineralType, setMineralType] = useState("");
-  const [origin, setOrigin] = useState("");
-  const [selectedCondition, setSelectedCondition] = useState({
+const MineralRegistrationPage: React.FC = () => {
+  const { isConnected, isConnecting } = useAccount();
+  const [quantity, setQuantity] = useState<number>(0);
+  const [purity, setPurity] = useState<number>(0);
+  const [portalOpen, setPortalOpen] = useState<boolean>(false);
+  const [mineralName, setMineralName] = useState<string>("");
+  const [mineralType, setMineralType] = useState<string>("");
+  const [origin, setOrigin] = useState<string>("");
+  const [selectedCondition, setSelectedCondition] = useState<SelectedCondition>({
     temperature: "In Celsius",
     storage: "Select Type",
     humidity: "Select Type",
   });
-
-  const [isRefreshingAccess, setIsRefreshingAccess] = useState(false);
-  const [isTransactionPending, setIsTransactionPending] = useState(false);
-
-  // 1. First - Implemented the restriction logic (commented out below for reference)
-  /*
-  const {
-    data: hasMinerRole,
-    isLoading: isRoleLoading,
-    refetch: refetchRoleCheck,
-  } = useScaffoldReadContract({
-    contractName: "RolesManager",
-    functionName: "hasMinerRole",
-    args: [address],
-  });
-
-  const handleRefreshAccess = async () => {
-    try {
-      await refetchRoleCheck();
-    } catch (e) {
-      console.error("Error refreshing access:", e);
-    } finally {
-      setIsRefreshingAccess(false);
-    }
-  };
-  */
-
-  // 2. Then - Commented out the restriction logic and added bypass variables
-  const hasMinerRole = true; // Bypass access check
-  const isRoleLoading = false; // No loading needed
+  const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
 
   const storageConditions = `${selectedCondition.storage} | ${selectedCondition.temperature} | ${selectedCondition.humidity}`;
 
   const validateForm = useCallback(() => {
-    return (
+    return Boolean(
       isConnected &&
-      hasMinerRole &&
-      mineralName.trim() &&
-      mineralType.trim() &&
-      origin.trim() &&
-      selectedCondition.storage !== "Select Type" &&
-      selectedCondition.humidity !== "Select Type" &&
-      quantity > 0 &&
-      purity > 80 &&
-      purity <= 100
+        mineralName.trim() &&
+        mineralType.trim() &&
+        origin.trim() &&
+        selectedCondition.storage !== "Select Type" &&
+        selectedCondition.humidity !== "Select Type" &&
+        quantity > 0 &&
+        purity > 80 &&
+        purity <= 100,
     );
-  }, [isConnected, hasMinerRole, mineralName, mineralType, origin, selectedCondition, quantity, purity]);
+  }, [isConnected, mineralName, mineralType, origin, selectedCondition, quantity, purity]);
 
   const { writeContractAsync } = useScaffoldWriteContract("RolesManager");
 
@@ -239,19 +112,6 @@ export default function MineralRegistrationPage() {
     });
   };
 
-  const handleRefreshAccess = async () => {
-    setIsRefreshingAccess(true);
-    try {
-      // await refetchRoleCheck();
-      notification.success("Access rechecked");
-    } catch (e) {
-      console.error("Error refreshing access:", e);
-      notification.error("Error checking permissions");
-    } finally {
-      setIsRefreshingAccess(false);
-    }
-  };
-
   const handleQuantityChange = (value: number) => {
     setQuantity(Math.max(0, value));
   };
@@ -261,7 +121,7 @@ export default function MineralRegistrationPage() {
   };
 
   const handleRegister = async () => {
-    if (!isConnected || !hasMinerRole || !validateForm()) return;
+    if (!isConnected || !validateForm()) return;
 
     setIsTransactionPending(true);
     try {
@@ -277,15 +137,14 @@ export default function MineralRegistrationPage() {
       resetForm();
     } catch (err: any) {
       console.error("Transaction error:", err);
+      const errorMessage = typeof err.message === "string" ? err.message : "Transaction failed";
 
-      if (err.message.includes("User rejected the request")) {
+      if (errorMessage.includes("User rejected the request")) {
         notification.error("Transaction rejected by user");
-      } else if (err.message.includes("RolesManager__MineralPurityPercentageTooLowToRegister")) {
+      } else if (errorMessage.includes("RolesManager__MineralPurityPercentageTooLowToRegister")) {
         notification.error("Purity must be greater than 80%");
-      } else if (err.message.includes("RolesManager__InvalidMineralWeight")) {
+      } else if (errorMessage.includes("RolesManager__InvalidMineralWeight")) {
         notification.error("Quantity must be greater than 0");
-      } else if (err.message.includes("caller is missing role")) {
-        notification.error("No miner privileges");
       } else {
         notification.error("Transaction failed. See console for details.");
       }
@@ -293,43 +152,6 @@ export default function MineralRegistrationPage() {
       setIsTransactionPending(false);
     }
   };
-
-  // Show warning but don't restrict access
-  if (isConnected && !hasMinerRole) {
-    return (
-      <div className="min-h-screen flex flex-col items-center p-6 text-white bg-gray-900">
-        <div className="w-full max-w-4xl">
-          <div className="mb-4 p-4 rounded-lg bg-red-900/20 border border-red-900/50">
-            <div className="flex items-center gap-2 text-red-300">
-              <ShieldAlert className="w-5 h-5" />
-              <span>Your wallet doesn't have miner privileges</span>
-            </div>
-          </div>
-
-          {/* Rest of the registration form */}
-          <RegistrationForm
-            quantity={quantity}
-            purity={purity}
-            portalOpen={portalOpen}
-            mineralName={mineralName}
-            mineralType={mineralType}
-            origin={origin}
-            selectedCondition={selectedCondition}
-            isTransactionPending={isTransactionPending}
-            validateForm={validateForm}
-            setPortalOpen={setPortalOpen}
-            setMineralName={setMineralName}
-            setMineralType={setMineralType}
-            setOrigin={setOrigin}
-            handleQuantityChange={handleQuantityChange}
-            handlePurityChange={handlePurityChange}
-            handleRegister={handleRegister}
-            setSelectedCondition={setSelectedCondition}
-          />
-        </div>
-      </div>
-    );
-  }
 
   if (!isConnected) {
     return <ConnectWalletView isLoading={isConnecting} />;
@@ -356,9 +178,9 @@ export default function MineralRegistrationPage() {
       setSelectedCondition={setSelectedCondition}
     />
   );
-}
+};
 
-function RegistrationForm({
+const RegistrationForm: React.FC<RegistrationFormProps> = ({
   quantity,
   purity,
   portalOpen,
@@ -376,28 +198,9 @@ function RegistrationForm({
   handlePurityChange,
   handleRegister,
   setSelectedCondition,
-}: {
-  quantity: number;
-  purity: number;
-  portalOpen: boolean;
-  mineralName: string;
-  mineralType: string;
-  origin: string;
-  selectedCondition: any;
-  isTransactionPending: boolean;
-  validateForm: () => boolean;
-  setPortalOpen: (open: boolean) => void;
-  setMineralName: (name: string) => void;
-  setMineralType: (type: string) => void;
-  setOrigin: (origin: string) => void;
-  handleQuantityChange: (value: number) => void;
-  handlePurityChange: (value: number) => void;
-  handleRegister: () => void;
-  setSelectedCondition: (condition: any) => void;
-}) {
+}) => {
   return (
-    <div className="min-h-screen flex flex-col items-center p-6 text-white bg-gray-900">
-      <BypassWarningBanner />
+    <div className="min-h-screen flex flex-col items-center p-6 text-white ">
       <div className="w-full max-w-4xl">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-3">Register Mineral</h1>
@@ -492,7 +295,7 @@ function RegistrationForm({
                     Purity Percentage
                     {purity <= 80 && (
                       <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-red-900/50 text-red-300">
-                        Must be &gt; 80%
+                        Must be {">"} 80%
                       </span>
                     )}
                   </label>
@@ -580,7 +383,7 @@ function RegistrationForm({
             </p>
           </div>
 
-          <div className="lg:w-80">
+          <div className="lg:w-80 w-full">
             <div className="p-6 rounded-xl border border-gray-700 shadow-lg h-full">
               <h2 className="text-lg font-medium mb-6 text-white">Validation Status</h2>
               <div className="space-y-3">
@@ -632,7 +435,7 @@ function RegistrationForm({
                   >
                     {purity > 80 && purity <= 100 ? <Check size={14} /> : <Minus size={14} />}
                   </div>
-                  <span className="text-sm text-gray-300">Purity &gt; 80%</span>
+                  <span className="text-sm text-gray-300">Purity {">"} 80%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div
@@ -659,7 +462,7 @@ function RegistrationForm({
                 <div className="flex gap-3 text-sm bg-gray-700/50 p-4 rounded-lg">
                   <AlertCircle className="min-w-5 h-5 mt-0.5 text-amber-400" />
                   <p className="text-gray-300">
-                    Ensure the details entered are accurate. Modifications won&apos;t be allowed post registration.
+                    Ensure the details entered are accurate. Modifications won't be allowed post registration.
                   </p>
                 </div>
               </div>
@@ -724,9 +527,9 @@ function RegistrationForm({
                   className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
                 >
                   <option value="Select Type">Select Type</option>
-                  <option value="Low (<30%)">Low (&lt;30%)</option>
+                  <option value="Low (&lt;30%)">Low (&lt;30%)</option>
                   <option value="Moderate (30-60%)">Moderate (30-60%)</option>
-                  <option value="High (>60%)">High (&gt;60%)</option>
+                  <option value="High (&gt;60%)">High (&gt;60%)</option>
                 </select>
               </div>
             </div>
@@ -759,4 +562,6 @@ function RegistrationForm({
       )}
     </div>
   );
-}
+};
+
+export default MineralRegistrationPage;
