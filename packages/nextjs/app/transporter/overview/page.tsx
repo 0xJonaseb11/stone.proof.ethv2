@@ -38,7 +38,7 @@ const NoRoleBanner = ({
       <div className="flex items-center justify-between gap-2 text-yellow-300">
         <div className="flex items-center gap-2">
           <ShieldAlert className="w-5 h-5" />
-          <span>Your wallet doesn't have transporter privileges</span>
+          <span>Your wallet doesn't have Transporter privileges. Contact Super Admin!</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="font-mono text-xs sm:text-sm">

@@ -11,6 +11,7 @@ import RecentShipments from "~~/components/dashboard/overview/recentShipments";
 import StatsCard from "~~/components/dashboard/overview/statsCard";
 import TopDemands from "~~/components/dashboard/overview/topDemands";
 import { demands, mineralsData, reports, shipments, shipmentsData, supplyData, transfersData } from "~~/data/data";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
 
 const LoadingSpinner = ({ text = "Loading..." }: { text?: string }) => (
@@ -36,14 +37,14 @@ const NoRoleBanner = ({
   };
 
   return (
-    <div className="px-2 py-0 mb-4 p-4 rounded-lg bg-red-900 border border-red-500">
-      <div className="flex items-center justify-between gap-2 text-red-300">
+    <div className="px-2 py-4 mb-4 p-4 rounded-lg bg-red-900/20 border border-red-500">
+      <div className="flex items-center justify-between gap-2 text-yellow-300">
         <div className="flex items-center gap-2">
           <ShieldAlert className="w-5 h-5" />
-          <span>Your wallet doesn't have inspector privileges</span>
+          <span>Your wallet doesn't have Inspector privileges. Contact Super Admin!</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs sm:text-sm">
+          <span className="font-mono text-xs sm:text-sm text-gray-200">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
           <button onClick={copyAddress} className="text-red-300 hover:text-red-200" title="Copy address">

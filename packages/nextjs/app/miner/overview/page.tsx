@@ -40,7 +40,7 @@ const NoRoleBanner = ({
     <div className="w-full mb-3 px-4 py-0 bg-red-900/20 text-yellow-300 flex items-center justify-between rounded-lg shadow-lg border border-red-900/50">
       <div className="flex items-center gap-3">
         <ShieldAlert className="w-5 h-5 text-yellow-300" />
-        <p className="text-sm sm:text-base">Connected wallet does not have Miner previleges. Contact Admin!</p>
+        <p className="text-sm sm:text-base">Connected wallet does not have Miner previleges. Contact Super Admin!</p>
       </div>
       <div className="flex items-center gap-2">
         <span className="font-mono text-xs sm:text-sm text-gray-300">
