@@ -166,7 +166,7 @@ export default function AuditMinerals() {
     <div className="min-h-screen text-white p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-accentBlue to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
             Audit Minerals
           </h1>
           <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mt-3">
@@ -248,10 +248,10 @@ export default function AuditMinerals() {
                               <div
                                 className={`h-full ${
                                   mineral.purity > 90
-                                    ? "bg-accentBlue"
-                                    : mineral.purity > 85
-                                      ? "bg-blue-500"
-                                      : "bg-yellow-500"
+                                    ? "bg-green-200"
+                                    : mineral.purity > 80
+                                      ? "bg-blue-100"
+                                      : "bg-red-500"
                                 }`}
                                 style={{ width: `${mineral.purity}%` }}
                               ></div>
