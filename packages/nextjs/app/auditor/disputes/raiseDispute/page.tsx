@@ -163,10 +163,10 @@ export default function RaiseDisputePage() {
   }
 
   return (
-    <div className="min-h-screen text-white p-4 sm:p-6 md:p-8 bg-gray-900">
+    <div className="min-h-screen text-white p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
             Raise a Dispute
           </h1>
           <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mt-3">
@@ -252,10 +252,10 @@ export default function RaiseDisputePage() {
                               <div
                                 className={`h-full ${
                                   mineral.purity > 90
-                                    ? "bg-green-500"
+                                    ? "bg-green-200"
                                     : mineral.purity > 85
-                                      ? "bg-blue-500"
-                                      : "bg-yellow-500"
+                                      ? "bg-blue-100"
+                                      : "bg-red-500"
                                 }`}
                                 style={{ width: `${mineral.purity}%` }}
                               ></div>
@@ -406,7 +406,7 @@ export default function RaiseDisputePage() {
                   disabled={!isValid || isTransactionPending || (!selectedMineralId && inputMethod === "select")}
                   className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-32"
                 >
-                  {isTransactionPending ? <LoadingSpinner size={20} text="Processing..." /> : "Submit Dispute"}
+                  {isTransactionPending ? <LoadingSpinner size={7} text="Processing..." /> : "Submit Dispute"}
                 </button>
               </div>
             </form>

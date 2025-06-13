@@ -21,7 +21,7 @@ const UNREFINED_MINERALS = [
     id: "SILVER-RAW-0xa3f5e1d2",
     name: "Silver Concentrate",
     type: "Silver",
-    purity: 78.5,
+    purity: 88.5,
     weight: "100 kg",
     origin: "Mexico",
     image: "/dashboard/copper.jpeg",
@@ -31,7 +31,7 @@ const UNREFINED_MINERALS = [
     id: "COPPER-RAW-0xb2c4e3f1",
     name: "Copper Ore",
     type: "Copper",
-    purity: 30.8,
+    purity: 80.8,
     weight: "500 kg",
     origin: "Chile",
     image: "/dashboard/copper.jpeg",
@@ -41,7 +41,7 @@ const UNREFINED_MINERALS = [
     id: "PLATINUM-RAW-0xe1f2a3b4",
     name: "Platinum Ore",
     type: "Platinum",
-    purity: 15.7,
+    purity: 85.7,
     weight: "75 kg",
     origin: "Russia",
     image: "/dashboard/cobalt.jpeg",
@@ -51,7 +51,7 @@ const UNREFINED_MINERALS = [
     id: "TIN-0xe1f2a3b4",
     name: "Tin Ore",
     type: "Tin",
-    purity: 15.7,
+    purity: 88,
     weight: "75 kg",
     origin: "Rwanda",
     image: "/dashboard/copper.jpeg",
@@ -116,10 +116,10 @@ export default function RefinerMineralPage() {
   };
 
   return (
-    <div className="min-h-screen text-white p-4 sm:p-6 md:p-8 bg-gray-900">
+    <div className="min-h-screen text-white p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
             Refine Minerals
           </h1>
           <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mt-3">
@@ -206,10 +206,10 @@ export default function RefinerMineralPage() {
                             <div className="h-2 bg-gray-600 rounded-full overflow-hidden">
                               <div
                                 className={`h-full ${
-                                  mineral.purity > 80
-                                    ? "bg-yellow-500"
-                                    : mineral.purity > 50
-                                      ? "bg-orange-500"
+                                  mineral.purity > 90
+                                    ? "bg-green-200"
+                                    : mineral.purity > 80
+                                      ? "bg-blue-100"
                                       : "bg-red-500"
                                 }`}
                                 style={{ width: `${mineral.purity}%` }}

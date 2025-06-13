@@ -636,14 +636,14 @@ export default function InspectionMinerals() {
                               <span className="text-gray-300">Purity: {mineral.purity}%</span>
                               <span className="text-blue-400">{form.mineralId === mineral.id ? "Selected" : ""}</span>
                             </div>
-                            <div className="h-2  rounded-full overflow-hidden">
+                            <div className="h-2 rounded-full overflow-hidden">
                               <div
                                 className={`h-full ${
                                   mineral.purity > 90
-                                    ? "bg-green-600"
+                                    ? "bg-green-200"
                                     : mineral.purity > 85
-                                      ? "bg-blue-600"
-                                      : "bg-red-600"
+                                      ? "bg-blue-100"
+                                      : "bg-red-500"
                                 }`}
                                 style={{ width: `${mineral.purity}%` }}
                               ></div>
