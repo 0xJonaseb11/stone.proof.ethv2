@@ -1,8 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+
 import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  
+  Calendar,
+  ChevronRight,
+  Clock,
+  
+  FileText,
+  Filter,
+  Mail,
+  
+  Settings,
+  Star,
+  Tag,
+  TrendingUp,
+  User,
+} from "lucide-react";
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -188,27 +205,33 @@ const Blog = () => {
                 className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-2xl p-8 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors"
               >
                 <div className="flex items-center mb-4">
-                  <span className="bg-[#0A77FF] text-white px-3 py-1 rounded-full text-sm font-semibold">Featured</span>
-                  <span className="ml-3 text-gray-400 text-sm">{post.readTime}</span>
+                  <div className="flex items-center space-x-2">
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="bg-[#0A77FF] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                      Featured
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-1 ml-3 text-gray-400 text-sm">
+                    <Clock className="w-4 h-4" />
+                    <span>{post.readTime}</span>
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-4">{post.title}</h3>
                 <p className="text-gray-300 mb-6">{post.excerpt}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-[#0A77FF]/20 rounded-full flex items-center justify-center mr-3">
-                      <span className="text-sm font-semibold text-[#0A77FF]">
-                        {post.author
-                          .split(" ")
-                          .map(n => n[0])
-                          .join("")}
-                      </span>
+                      <User className="w-5 h-5 text-[#0A77FF]" />
                     </div>
                     <div>
                       <div className="text-white font-semibold">{post.author}</div>
                       <div className="text-gray-400 text-sm">{post.role}</div>
                     </div>
                   </div>
-                  <div className="text-gray-400 text-sm">{post.date}</div>
+                  <div className="flex items-center space-x-1 text-gray-400 text-sm">
+                    <Calendar className="w-4 h-4" />
+                    <span>{post.date}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -219,18 +242,26 @@ const Blog = () => {
       {/* Category Filter */}
       <section className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
             {categories.map(category => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`px-6 py-3 rounded-full transition-all duration-300 flex items-center space-x-2 ${
                   activeCategory === category.id
-                    ? "bg-[#0A77FF] text-white"
-                    : "bg-[#181B20] text-gray-300 hover:bg-[#23262F]"
+                    ? "bg-gradient-to-r from-[#0A77FF] to-[#0A77FF]/80 text-white shadow-lg shadow-[#0A77FF]/25"
+                    : "bg-gradient-to-br from-[#181B20] to-[#10131A] text-gray-300 hover:bg-[#23262F] border border-[#23262F] hover:border-[#0A77FF]/30"
                 }`}
               >
-                {category.name} ({category.count})
+                <Filter className="w-4 h-4" />
+                <span className="font-medium">{category.name}</span>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    activeCategory === category.id ? "bg-white/20" : "bg-[#0A77FF]/20 text-[#0A77FF]"
+                  }`}
+                >
+                  {category.count}
+                </span>
               </button>
             ))}
           </div>
@@ -252,10 +283,16 @@ const Blog = () => {
               >
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="bg-[#0A77FF]/20 text-[#0A77FF] px-3 py-1 rounded-full text-sm">
-                      {post.category}
-                    </span>
-                    <span className="text-gray-400 text-sm">{post.readTime}</span>
+                    <div className="flex items-center space-x-2">
+                      <Tag className="w-4 h-4 text-[#0A77FF]" />
+                      <span className="bg-[#0A77FF]/20 text-[#0A77FF] px-3 py-1 rounded-full text-sm capitalize">
+                        {post.category}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-1 text-gray-400 text-sm">
+                      <Clock className="w-4 h-4" />
+                      <span>{post.readTime}</span>
+                    </div>
                   </div>
                   <h3 className="text-lg font-bold text-white mb-3 line-clamp-2">{post.title}</h3>
                   <p className="text-gray-300 text-sm mb-4 line-clamp-3">{post.excerpt}</p>
@@ -263,19 +300,20 @@ const Blog = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-[#0A77FF]/20 rounded-full flex items-center justify-center mr-2">
-                      <span className="text-xs font-semibold text-[#0A77FF]">
-                        {post.author
-                          .split(" ")
-                          .map(n => n[0])
-                          .join("")}
-                      </span>
+                      <User className="w-4 h-4 text-[#0A77FF]" />
                     </div>
                     <div>
                       <div className="text-white text-sm font-semibold">{post.author}</div>
-                      <div className="text-gray-400 text-xs">{post.date}</div>
+                      <div className="flex items-center space-x-1 text-gray-400 text-xs">
+                        <Calendar className="w-3 h-3" />
+                        <span>{post.date}</span>
+                      </div>
                     </div>
                   </div>
-                  <button className="text-[#0A77FF] hover:text-[#0A77FF]/80 text-sm font-semibold">Read More →</button>
+                  <button className="flex items-center space-x-1 text-[#0A77FF] hover:text-[#0A77FF]/80 text-sm font-semibold group">
+                    <span>Read More</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -298,13 +336,17 @@ const Blog = () => {
               supply chain innovations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg bg-[#181B20] border border-[#23262F] text-white placeholder-gray-400 focus:outline-none focus:border-[#0A77FF]"
-              />
-              <button className="bg-[#0A77FF] hover:bg-[#0A77FF]/80 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-                Subscribe
+              <div className="flex-1 relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-[#181B20] border border-[#23262F] text-white placeholder-gray-400 focus:outline-none focus:border-[#0A77FF] transition-colors"
+                />
+              </div>
+              <button className="bg-[#0A77FF] hover:bg-[#0A77FF]/80 text-white font-semibold px-6 py-3 rounded-lg transition-colors flex items-center space-x-2">
+                <Mail className="w-4 h-4" />
+                <span>Subscribe</span>
               </button>
             </div>
           </motion.div>
@@ -330,19 +372,19 @@ const Blog = () => {
               {
                 title: "Market Trends",
                 description: "Analysis of current market conditions and future outlook for mineral trading",
-                icon: "📈",
+                icon: TrendingUp,
                 posts: "12 articles",
               },
               {
                 title: "Technology Updates",
                 description: "Latest developments in blockchain and supply chain technology",
-                icon: "🔧",
+                icon: Settings,
                 posts: "8 articles",
               },
               {
                 title: "Regulatory News",
                 description: "Updates on regulations affecting mineral trading and compliance",
-                icon: "📋",
+                icon: FileText,
                 posts: "6 articles",
               },
             ].map((insight, index) => (
@@ -352,12 +394,17 @@ const Blog = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors"
+                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors group"
               >
-                <div className="text-3xl mb-4">{insight.icon}</div>
+                <div className="w-12 h-12 bg-[#0A77FF]/20 rounded-lg flex items-center justify-center mb-4 group-hover:bg-[#0A77FF]/30 transition-colors">
+                  <insight.icon className="w-6 h-6 text-[#0A77FF]" />
+                </div>
                 <h3 className="text-xl font-bold text-white mb-3">{insight.title}</h3>
                 <p className="text-gray-300 text-sm mb-4">{insight.description}</p>
-                <div className="text-[#0A77FF] text-sm font-semibold">{insight.posts}</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-[#0A77FF] text-sm font-semibold">{insight.posts}</div>
+                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#0A77FF] transition-colors" />
+                </div>
               </motion.div>
             ))}
           </div>

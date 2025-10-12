@@ -1,8 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Award,
+  Battery,
+  Bolt,
+  Building,
+  Building2,
+  CheckCircle,
+  Diamond,
+  
+  Filter,
+  Gem,
+  Globe,
+  HardHat,
+  MapPin,
+  Quote,
+  Settings,
+  Star,
+  
+  Zap,
+} from "lucide-react";
 
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -139,10 +159,10 @@ const Portfolio = () => {
   ];
 
   const stats = [
-    { number: "500+", label: "Companies Served", icon: "🏢" },
-    { number: "1M+", label: "Minerals Tracked", icon: "💎" },
-    { number: "99.9%", label: "Uptime Guarantee", icon: "⚡" },
-    { number: "50+", label: "Countries Active", icon: "🌍" },
+    { number: "500+", label: "Companies Served", icon: Building2 },
+    { number: "1M+", label: "Minerals Tracked", icon: Gem },
+    { number: "99.9%", label: "Uptime Guarantee", icon: Zap },
+    { number: "50+", label: "Countries Active", icon: Globe },
   ];
 
   const filteredCaseStudies =
@@ -179,9 +199,11 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center"
+                className="text-center bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors"
               >
-                <div className="text-4xl mb-2">{stat.icon}</div>
+                <div className="w-16 h-16 bg-[#0A77FF]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <stat.icon className="w-8 h-8 text-[#0A77FF]" />
+                </div>
                 <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
                 <div className="text-gray-300">{stat.label}</div>
               </motion.div>
@@ -206,18 +228,26 @@ const Portfolio = () => {
           </motion.div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map(category => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`px-6 py-3 rounded-full transition-all duration-300 flex items-center space-x-2 ${
                   activeCategory === category.id
-                    ? "bg-[#0A77FF] text-white"
-                    : "bg-[#181B20] text-gray-300 hover:bg-[#23262F]"
+                    ? "bg-gradient-to-r from-[#0A77FF] to-[#0A77FF]/80 text-white shadow-lg shadow-[#0A77FF]/25"
+                    : "bg-gradient-to-br from-[#181B20] to-[#10131A] text-gray-300 hover:bg-[#23262F] border border-[#23262F] hover:border-[#0A77FF]/30"
                 }`}
               >
-                {category.name} ({category.count})
+                <Filter className="w-4 h-4" />
+                <span className="font-medium">{category.name}</span>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    activeCategory === category.id ? "bg-white/20" : "bg-[#0A77FF]/20 text-[#0A77FF]"
+                  }`}
+                >
+                  {category.count}
+                </span>
               </button>
             ))}
           </div>
@@ -240,9 +270,15 @@ const Portfolio = () => {
                       {study.industry}
                     </span>
                   </div>
-                  <div className="flex items-center text-gray-400 text-sm mb-4">
-                    <span className="mr-4">📍 {study.location}</span>
-                    <span>🏢 {study.category}</span>
+                  <div className="flex items-center text-gray-400 text-sm mb-4 space-x-4">
+                    <div className="flex items-center space-x-1">
+                      <MapPin className="w-4 h-4" />
+                      <span>{study.location}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Building className="w-4 h-4" />
+                      <span className="capitalize">{study.category}</span>
+                    </div>
                   </div>
                 </div>
 
@@ -259,21 +295,29 @@ const Portfolio = () => {
 
                 <div className="mb-6">
                   <h4 className="text-lg font-semibold text-white mb-3">Results</h4>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {study.results.map((result, resultIndex) => (
-                      <div key={resultIndex} className="flex items-center">
-                        <div className="w-2 h-2 bg-[#0A77FF] rounded-full mr-2"></div>
-                        <span className="text-gray-300 text-sm">{result}</span>
+                      <div
+                        key={resultIndex}
+                        className="flex items-center p-2 rounded-lg bg-[#0A77FF]/5 border border-[#0A77FF]/10"
+                      >
+                        <CheckCircle className="w-4 h-4 text-[#0A77FF] mr-3 flex-shrink-0" />
+                        <span className="text-gray-300 text-sm font-medium">{result}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 <div className="bg-gradient-to-r from-[#0A77FF]/10 to-[#0A77FF]/5 rounded-lg p-4 border border-[#0A77FF]/20">
-                  <p className="text-gray-300 text-sm italic mb-2">"{study.testimonial}"</p>
-                  <div className="text-sm">
-                    <span className="text-white font-semibold">{study.author}</span>
-                    <span className="text-gray-400">, {study.company}</span>
+                  <div className="flex items-start space-x-3">
+                    <Quote className="w-5 h-5 text-[#0A77FF] mt-1 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-gray-300 text-sm italic mb-3">"{study.testimonial}"</p>
+                      <div className="text-sm">
+                        <span className="text-white font-semibold">{study.author}</span>
+                        <span className="text-gray-400">, {study.company}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -301,32 +345,32 @@ const Portfolio = () => {
               {
                 name: "Precious Metals",
                 description: "Gold, Silver, Platinum tracking",
-                icon: "🥇",
+                icon: Award,
                 count: "150+ companies",
               },
               {
                 name: "Industrial Minerals",
                 description: "Copper, Iron, Aluminum processing",
-                icon: "⚙️",
+                icon: Settings,
                 count: "200+ companies",
               },
               {
                 name: "Rare Earth Elements",
                 description: "Lithium, Cobalt, Nickel mining",
-                icon: "🔋",
+                icon: Battery,
                 count: "75+ companies",
               },
               {
                 name: "Gemstones",
                 description: "Diamond, Ruby, Emerald certification",
-                icon: "💎",
+                icon: Diamond,
                 count: "50+ companies",
               },
-              { name: "Energy Minerals", description: "Coal, Uranium, Oil sands", icon: "⚡", count: "100+ companies" },
+              { name: "Energy Minerals", description: "Coal, Uranium, Oil sands", icon: Bolt, count: "100+ companies" },
               {
                 name: "Construction Materials",
                 description: "Sand, Gravel, Limestone tracking",
-                icon: "🏗️",
+                icon: HardHat,
                 count: "125+ companies",
               },
             ].map((industry, index) => (
@@ -336,12 +380,17 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors"
+                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors group"
               >
-                <div className="text-3xl mb-3">{industry.icon}</div>
+                <div className="w-12 h-12 bg-[#0A77FF]/20 rounded-lg flex items-center justify-center mb-4 group-hover:bg-[#0A77FF]/30 transition-colors">
+                  <industry.icon className="w-6 h-6 text-[#0A77FF]" />
+                </div>
                 <h3 className="text-lg font-bold text-white mb-2">{industry.name}</h3>
                 <p className="text-gray-300 text-sm mb-3">{industry.description}</p>
-                <div className="text-[#0A77FF] text-sm font-semibold">{industry.count}</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-[#0A77FF] text-sm font-semibold">{industry.count}</div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#0A77FF] transition-colors" />
+                </div>
               </motion.div>
             ))}
           </div>
@@ -392,14 +441,27 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F]"
+                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors"
               >
-                <div className="text-4xl mb-4">💬</div>
-                <p className="text-gray-300 mb-4 italic">"{testimonial.quote}"</p>
-                <div>
-                  <div className="text-white font-semibold">{testimonial.author}</div>
-                  <div className="text-gray-400 text-sm">
-                    {testimonial.role}, {testimonial.company}
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-[#0A77FF]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Quote className="w-6 h-6 text-[#0A77FF]" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-300 mb-4 italic">"{testimonial.quote}"</p>
+                    <div className="flex items-center space-x-2">
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <div className="text-white font-semibold">{testimonial.author}</div>
+                      <div className="text-gray-400 text-sm">
+                        {testimonial.role}, {testimonial.company}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>

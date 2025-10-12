@@ -1,8 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import {
+  Award,
+  BarChart3,
+  Brain,
+  CheckCircle,
+  DollarSign,
+  Factory,
+  FileText,
+  Globe,
+  Link,
+  Pickaxe,
+  Search,
+  Shield,
+  Smartphone,
+  Truck,
+  Users,
+  Zap,
+} from "lucide-react";
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("mining");
@@ -20,7 +37,7 @@ const Services = () => {
         "Real-time Status Updates",
         "Compliance & Regulatory Reporting",
       ],
-      icon: "⛏️",
+      icon: Pickaxe,
       color: "from-[#FF6B35] to-[#FF8E53]",
     },
     {
@@ -35,7 +52,7 @@ const Services = () => {
         "Chain of Custody Records",
         "Automated Compliance Checks",
       ],
-      icon: "🏭",
+      icon: Factory,
       color: "from-[#4ECDC4] to-[#44A08D]",
     },
     {
@@ -50,7 +67,7 @@ const Services = () => {
         "Delivery Confirmation",
         "Insurance & Risk Management",
       ],
-      icon: "🚛",
+      icon: Truck,
       color: "from-[#667eea] to-[#764ba2]",
     },
     {
@@ -65,7 +82,7 @@ const Services = () => {
         "Risk Assessment",
         "Certification Services",
       ],
-      icon: "🔍",
+      icon: Search,
       color: "from-[#f093fb] to-[#f5576c]",
     },
     {
@@ -80,7 +97,7 @@ const Services = () => {
         "Dispute Resolution",
         "Market Analytics",
       ],
-      icon: "💱",
+      icon: DollarSign,
       color: "from-[#4facfe] to-[#00f2fe]",
     },
     {
@@ -95,7 +112,7 @@ const Services = () => {
         "Compliance Monitoring",
         "Business Intelligence",
       ],
-      icon: "📊",
+      icon: BarChart3,
       color: "from-[#43e97b] to-[#38f9d7]",
     },
   ];
@@ -110,7 +127,7 @@ const Services = () => {
         "Reduced administrative overhead",
         "Improved traceability and provenance",
       ],
-      icon: "⛏️",
+      icon: Pickaxe,
     },
     {
       role: "Refiners",
@@ -121,7 +138,7 @@ const Services = () => {
         "Compliance automation",
         "Enhanced customer trust",
       ],
-      icon: "🏭",
+      icon: Factory,
     },
     {
       role: "Transporters",
@@ -132,7 +149,7 @@ const Services = () => {
         "Risk management features",
         "Customer transparency",
       ],
-      icon: "🚛",
+      icon: Truck,
     },
     {
       role: "Buyers",
@@ -143,7 +160,7 @@ const Services = () => {
         "Secure transaction processing",
         "Comprehensive asset history",
       ],
-      icon: "🛒",
+      icon: Users,
     },
     {
       role: "Inspectors",
@@ -154,7 +171,7 @@ const Services = () => {
         "Compliance verification tools",
         "Documentation management",
       ],
-      icon: "🔍",
+      icon: Search,
     },
     {
       role: "Auditors",
@@ -165,54 +182,34 @@ const Services = () => {
         "Documentation verification",
         "Regulatory reporting",
       ],
-      icon: "📋",
+      icon: FileText,
     },
   ];
 
-  const pricingTiers = [
+  const successMetrics = [
     {
-      name: "Starter",
-      price: "$99",
-      period: "/month",
-      description: "Perfect for small mining operations",
-      features: [
-        "Up to 100 mineral registrations",
-        "Basic tracking and documentation",
-        "Standard support",
-        "Mobile app access",
-        "Basic reporting",
-      ],
-      popular: false,
+      metric: "50+",
+      label: "Countries Served",
+      description: "Global reach across major mining regions",
+      icon: Globe,
     },
     {
-      name: "Professional",
-      price: "$299",
-      period: "/month",
-      description: "Ideal for growing enterprises",
-      features: [
-        "Up to 1,000 mineral registrations",
-        "Advanced analytics and reporting",
-        "Priority support",
-        "API access",
-        "Custom integrations",
-        "Multi-user management",
-      ],
-      popular: true,
+      metric: "10,000+",
+      label: "Minerals Tracked",
+      description: "Successfully registered and monitored",
+      icon: CheckCircle,
     },
     {
-      name: "Enterprise",
-      price: "Custom",
-      period: "",
-      description: "Tailored for large organizations",
-      features: [
-        "Unlimited registrations",
-        "Custom workflows and integrations",
-        "Dedicated account manager",
-        "On-premise deployment options",
-        "Advanced security features",
-        "Custom training and onboarding",
-      ],
-      popular: false,
+      metric: "99.9%",
+      label: "Uptime Guarantee",
+      description: "Reliable platform availability",
+      icon: Shield,
+    },
+    {
+      metric: "500+",
+      label: "Enterprise Clients",
+      description: "Trusted by industry leaders",
+      icon: Users,
     },
   ];
 
@@ -252,62 +249,149 @@ const Services = () => {
             </p>
           </motion.div>
 
-          {/* Service Tabs */}
-          <div className="mb-8">
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {services.map(service => (
-                <button
-                  key={service.id}
-                  onClick={() => setActiveTab(service.id)}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    activeTab === service.id
-                      ? "bg-[#0A77FF] text-white"
-                      : "bg-[#181B20] text-gray-300 hover:bg-[#23262F]"
-                  }`}
-                >
-                  {service.title}
-                </button>
-              ))}
-            </div>
+          {/* Service Tabs Carousel */}
+          <div className="mb-12">
+            <div className="relative">
+              {/* Navigation Arrows */}
+              <button
+                onClick={() => {
+                  const currentIndex = services.findIndex(s => s.id === activeTab);
+                  const prevIndex = currentIndex > 0 ? currentIndex - 1 : services.length - 1;
+                  setActiveTab(services[prevIndex].id);
+                }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 bg-[#0A77FF]/20 hover:bg-[#0A77FF]/30 rounded-full flex items-center justify-center text-[#0A77FF] transition-all duration-300 hover:scale-110"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
 
-            {/* Active Service Details */}
-            {services.map(
-              service =>
-                activeTab === service.id && (
-                  <motion.div
-                    key={service.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-2xl p-8 border border-[#23262F]"
-                  >
-                    <div className="grid lg:grid-cols-2 gap-8 items-center">
-                      <div>
-                        <div className="flex items-center mb-4">
-                          <span className="text-4xl mr-4">{service.icon}</span>
-                          <h3 className="text-2xl font-bold text-white">{service.title}</h3>
+              <button
+                onClick={() => {
+                  const currentIndex = services.findIndex(s => s.id === activeTab);
+                  const nextIndex = currentIndex < services.length - 1 ? currentIndex + 1 : 0;
+                  setActiveTab(services[nextIndex].id);
+                }}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 bg-[#0A77FF]/20 hover:bg-[#0A77FF]/30 rounded-full flex items-center justify-center text-[#0A77FF] transition-all duration-300 hover:scale-110"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Tab Carousel Container */}
+              <div className="overflow-hidden mx-12">
+                <div
+                  className="flex gap-4 transition-transform duration-500 ease-in-out"
+                  style={{
+                    transform: `translateX(-${services.findIndex(s => s.id === activeTab) * 100}%)`,
+                  }}
+                >
+                  {services.map(service => (
+                    <div key={service.id} className="min-w-full flex-shrink-0">
+                      <button
+                        onClick={() => setActiveTab(service.id)}
+                        className={`w-full p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 ${
+                          activeTab === service.id
+                            ? "bg-gradient-to-r from-[#0A77FF] to-[#0A77FF]/80 text-white shadow-lg shadow-[#0A77FF]/25"
+                            : "bg-gradient-to-br from-[#181B20] to-[#10131A] text-gray-300 hover:bg-[#23262F] border border-[#23262F] hover:border-[#0A77FF]/30"
+                        }`}
+                      >
+                        <div className="flex items-center justify-center space-x-4">
+                          <div
+                            className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                              activeTab === service.id ? "bg-white/20" : "bg-[#0A77FF]/20"
+                            }`}
+                          >
+                            <service.icon
+                              className={`w-6 h-6 ${activeTab === service.id ? "text-white" : "text-[#0A77FF]"}`}
+                            />
+                          </div>
+                          <div className="text-left">
+                            <h3 className="text-lg font-semibold mb-1">{service.title}</h3>
+                            <p className="text-sm opacity-80 line-clamp-2">{service.description}</p>
+                          </div>
                         </div>
-                        <p className="text-gray-300 mb-6">{service.description}</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {service.features.map((feature, index) => (
-                            <div key={index} className="flex items-center">
-                              <div className="w-2 h-2 bg-[#0A77FF] rounded-full mr-3"></div>
-                              <span className="text-gray-300 text-sm">{feature}</span>
-                            </div>
-                          ))}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Dots Indicator */}
+              <div className="flex justify-center mt-6 space-x-2">
+                {services.map(service => (
+                  <button
+                    key={service.id}
+                    onClick={() => setActiveTab(service.id)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      activeTab === service.id ? "bg-[#0A77FF] scale-125" : "bg-gray-600 hover:bg-gray-500"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Active Service Details */}
+          {services.map(
+            service =>
+              activeTab === service.id && (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-3xl p-8 border border-[#23262F] shadow-2xl"
+                >
+                  <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                      <div className="flex items-center mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-[#0A77FF] to-[#0A77FF]/80 rounded-2xl flex items-center justify-center mr-6 shadow-lg shadow-[#0A77FF]/25">
+                          <service.icon className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-3xl font-bold text-white mb-2">{service.title}</h3>
+                          <div className="w-20 h-1 bg-gradient-to-r from-[#0A77FF] to-[#0A77FF]/50 rounded-full"></div>
                         </div>
                       </div>
-                      <div className={`bg-gradient-to-br ${service.color} rounded-xl p-8 text-center`}>
-                        <div className="text-white">
-                          <div className="text-6xl mb-4">{service.icon}</div>
-                          <h4 className="text-xl font-bold mb-2">Get Started Today</h4>
-                          <p className="text-sm opacity-90">Join thousands of companies already using our platform</p>
-                        </div>
+                      <p className="text-gray-300 mb-8 text-lg leading-relaxed">{service.description}</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {service.features.map((feature, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="flex items-center p-3 rounded-lg bg-[#0A77FF]/5 border border-[#0A77FF]/10 hover:bg-[#0A77FF]/10 transition-colors"
+                          >
+                            <div className="w-2 h-2 bg-[#0A77FF] rounded-full mr-4 flex-shrink-0"></div>
+                            <span className="text-gray-300 text-sm font-medium">{feature}</span>
+                          </motion.div>
+                        ))}
                       </div>
                     </div>
-                  </motion.div>
-                ),
-            )}
-          </div>
+                    <div
+                      className={`bg-gradient-to-br ${service.color} rounded-3xl p-8 text-center relative overflow-hidden`}
+                    >
+                      <div className="absolute inset-0 bg-black/10"></div>
+                      <div className="relative text-white">
+                        <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm">
+                          <service.icon className="w-12 h-12 text-white" />
+                        </div>
+                        <h4 className="text-2xl font-bold mb-3">Get Started Today</h4>
+                        <p className="text-sm opacity-90 mb-6">
+                          Join thousands of companies already using our platform
+                        </p>
+                        <button className="bg-white/20 hover:bg-white/30 text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20">
+                          Learn More
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ),
+          )}
         </div>
       </section>
 
@@ -335,7 +419,9 @@ const Services = () => {
                 transition={{ delay: index * 0.1 }}
                 className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] hover:border-[#0A77FF]/30 transition-colors"
               >
-                <div className="text-4xl mb-4">{role.icon}</div>
+                <div className="w-12 h-12 bg-[#0A77FF]/20 rounded-lg flex items-center justify-center mb-4">
+                  <role.icon className="w-6 h-6 text-[#0A77FF]" />
+                </div>
                 <h3 className="text-xl font-bold text-white mb-4">{role.role}</h3>
                 <ul className="space-y-2">
                   {role.benefits.map((benefit, benefitIndex) => (
@@ -367,14 +453,14 @@ const Services = () => {
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: "Base Layer 2", description: "Low-cost, high-speed transactions", icon: "⛓️" },
-              { name: "Smart Contracts", description: "Automated business logic execution", icon: "📜" },
-              { name: "NFT Technology", description: "Unique digital asset representation", icon: "🎫" },
-              { name: "IPFS Storage", description: "Decentralized file storage", icon: "💾" },
-              { name: "Zero-Knowledge Proofs", description: "Privacy-preserving verification", icon: "🔐" },
-              { name: "Real-time APIs", description: "Instant data synchronization", icon: "⚡" },
-              { name: "Mobile Apps", description: "On-the-go access and management", icon: "📱" },
-              { name: "AI Analytics", description: "Intelligent insights and predictions", icon: "🤖" },
+              { name: "Base Layer 2", description: "Low-cost, high-speed transactions", icon: Link },
+              { name: "Smart Contracts", description: "Automated business logic execution", icon: FileText },
+              { name: "NFT Technology", description: "Unique digital asset representation", icon: Award },
+              { name: "IPFS Storage", description: "Decentralized file storage", icon: Shield },
+              { name: "Zero-Knowledge Proofs", description: "Privacy-preserving verification", icon: Shield },
+              { name: "Real-time APIs", description: "Instant data synchronization", icon: Zap },
+              { name: "Mobile Apps", description: "On-the-go access and management", icon: Smartphone },
+              { name: "AI Analytics", description: "Intelligent insights and predictions", icon: Brain },
             ].map((tech, index) => (
               <motion.div
                 key={index}
@@ -384,7 +470,9 @@ const Services = () => {
                 transition={{ delay: index * 0.1 }}
                 className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] text-center hover:border-[#0A77FF]/30 transition-colors"
               >
-                <div className="text-3xl mb-3">{tech.icon}</div>
+                <div className="w-12 h-12 bg-[#0A77FF]/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <tech.icon className="w-6 h-6 text-[#0A77FF]" />
+                </div>
                 <h3 className="text-lg font-bold text-white mb-2">{tech.name}</h3>
                 <p className="text-gray-300 text-sm">{tech.description}</p>
               </motion.div>
@@ -393,7 +481,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Success Metrics Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -402,55 +490,27 @@ const Services = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Simple, Transparent Pricing</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Trusted by Industry Leaders</h2>
             <p className="text-gray-300 max-w-2xl mx-auto">
-              Choose the plan that fits your organization's needs. All plans include our core blockchain features.
+              Our platform has proven its value across the global mineral supply chain with impressive results.
             </p>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {pricingTiers.map((tier, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {successMetrics.map((metric, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-2xl p-8 border ${
-                  tier.popular ? "border-[#0A77FF]" : "border-[#23262F]"
-                } hover:border-[#0A77FF]/30 transition-colors`}
+                className="bg-gradient-to-br from-[#181B20] to-[#10131A] rounded-xl p-6 border border-[#23262F] text-center hover:border-[#0A77FF]/30 transition-colors"
               >
-                {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-[#0A77FF] text-white px-4 py-1 rounded-full text-sm font-semibold">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
-                  <div className="flex items-baseline justify-center mb-2">
-                    <span className="text-4xl font-bold text-white">{tier.price}</span>
-                    <span className="text-gray-400 ml-1">{tier.period}</span>
-                  </div>
-                  <p className="text-gray-300">{tier.description}</p>
+                <div className="w-16 h-16 bg-[#0A77FF]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <metric.icon className="w-8 h-8 text-[#0A77FF]" />
                 </div>
-                <ul className="space-y-3 mb-8">
-                  {tier.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <div className="w-2 h-2 bg-[#0A77FF] rounded-full mr-3"></div>
-                      <span className="text-gray-300 text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  className={`w-full py-3 rounded-lg font-semibold transition-colors ${
-                    tier.popular
-                      ? "bg-[#0A77FF] hover:bg-[#0A77FF]/80 text-white"
-                      : "border border-[#0A77FF] text-[#0A77FF] hover:bg-[#0A77FF]/10"
-                  }`}
-                >
-                  {tier.name === "Enterprise" ? "Contact Sales" : "Get Started"}
-                </button>
+                <div className="text-3xl font-bold text-white mb-2">{metric.metric}</div>
+                <h3 className="text-lg font-semibold text-white mb-2">{metric.label}</h3>
+                <p className="text-gray-300 text-sm">{metric.description}</p>
               </motion.div>
             ))}
           </div>
