@@ -89,7 +89,7 @@ const Careers = () => {
       location: "Remote / London",
       type: "Full-time",
       experience: "3+ years",
-      description: "Lead our marketing efforts in the mining and blockchain space.",
+      description: "Lead our marketing effort in the mining and blockchain space.",
       requirements: [
         "3+ years of B2B marketing experience",
         "Knowledge of blockchain/crypto industry",
