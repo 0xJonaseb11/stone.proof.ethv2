@@ -1,60 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Loader2 } from "lucide-react";
 import { FaWallet } from "react-icons/fa";
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
 
 const ConnectWalletButton: React.FC = () => {
   return (
@@ -80,20 +29,20 @@ const ConnectWalletButton: React.FC = () => {
                 return (
                   <button
                     onClick={openConnectModal}
-                    className="relative flex items-center justify-center gap-2 px-8 py-3 font-semibold bg-[#23272F] text-white focus:outline-none min-h-[48px] rounded-md border border-transparent"
+                    type="button"
+                    className="bg-gradient-to-r from-[#0A77FF] to-[#0047CC] hover:from-[#0A77FF]/90 hover:to-[#0047CC]/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
-                    {/* Left Bracket */}
-                    <div className="absolute left-0 top-0 h-[2px] w-[12px] bg-white rounded-tr-sm" />
-                    <div className="absolute left-0 bottom-0 h-[2px] w-[12px] bg-white rounded-br-sm" />
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white" />
-
-                    {/* Right Bracket */}
-                    <div className="absolute right-0 top-0 h-[2px] w-[12px] bg-white rounded-tl-sm" />
-                    <div className="absolute right-0 bottom-0 h-[2px] w-[12px] bg-white rounded-bl-sm" />
-                    <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white" />
-
-                    {isConnecting ? <Loader2 className="animate-spin w-5 h-5" /> : <FaWallet className="text-lg" />}
-                    {isConnecting ? "Connecting..." : "Connect Wallet"}
+                    {isConnecting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Connecting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaWallet className="w-5 h-5" />
+                        <span>Connect Wallet</span>
+                      </>
+                    )}
                   </button>
                 );
               }
@@ -102,52 +51,47 @@ const ConnectWalletButton: React.FC = () => {
                 return (
                   <button
                     onClick={openChainModal}
-                    className="relative flex items-center gap-2 px-6 py-3 rounded-lg font-semibold bg-red-600 text-white border-2 border-white focus:outline-none focus:ring-2 focus:ring-red-400 shadow-[0_0_16px_2px_rgba(239,68,68,0.25)] min-h-[48px]"
+                    type="button"
+                    className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-full transition-colors"
                   >
-                    Wrong Network
+                    Wrong network
                   </button>
                 );
               }
 
               return (
-                <div className="flex items-center gap-2">
-                  {/* Account Button with matching bracket borders */}
-                  <button
-                    onClick={openAccountModal}
-                    className="relative flex items-center gap-2 px-6 py-3 font-semibold bg-[#23272F] text-white focus:outline-none min-h-[48px] rounded-md border border-transparent"
-                  >
-                    {/* Left Bracket */}
-                    <div className="absolute left-0 top-0 h-[2px] w-[12px] bg-white rounded-tr-sm" />
-                    <div className="absolute left-0 bottom-0 h-[2px] w-[12px] bg-white rounded-br-sm" />
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white" />
-
-                    {/* Right Bracket */}
-                    <div className="absolute right-0 top-0 h-[2px] w-[12px] bg-white rounded-tl-sm" />
-                    <div className="absolute right-0 bottom-0 h-[2px] w-[12px] bg-white rounded-bl-sm" />
-                    <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white" />
-
-                    {account.displayName}
-                  </button>
-
-                  {/* Chain Button with matching bracket borders */}
+                <div className="flex items-center space-x-3">
                   <button
                     onClick={openChainModal}
-                    className="relative flex items-center gap-2 px-4 py-3 font-semibold bg-[#23272F] text-white focus:outline-none min-h-[48px] rounded-md border border-transparent"
+                    type="button"
+                    className="bg-[#1A1D21] hover:bg-[#2A2D31] border border-[#323539] text-white font-medium px-4 py-2 rounded-full transition-colors flex items-center space-x-2"
                   >
-                    {/* Left Bracket */}
-                    <div className="absolute left-0 top-0 h-[2px] w-[12px] bg-white rounded-tr-sm" />
-                    <div className="absolute left-0 bottom-0 h-[2px] w-[12px] bg-white rounded-br-sm" />
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white" />
-
-                    {/* Right Bracket */}
-                    <div className="absolute right-0 top-0 h-[2px] w-[12px] bg-white rounded-tl-sm" />
-                    <div className="absolute right-0 bottom-0 h-[2px] w-[12px] bg-white rounded-bl-sm" />
-                    <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white" />
-
-                    {chain.iconUrl && (
-                      <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} className="w-5 h-5 rounded-full" />
+                    {chain.hasIcon && (
+                      <div
+                        style={{
+                          background: chain.iconBackground,
+                          width: 16,
+                          height: 16,
+                          borderRadius: 999,
+                          overflow: "hidden",
+                          marginRight: 4,
+                        }}
+                      >
+                        {chain.iconUrl && (
+                          <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 16, height: 16 }} />
+                        )}
+                      </div>
                     )}
-                    {chain.name}
+                    <span>{chain.name}</span>
+                  </button>
+
+                  <button
+                    onClick={openAccountModal}
+                    type="button"
+                    className="bg-[#1A1D21] hover:bg-[#2A2D31] border border-[#323539] text-white font-medium px-4 py-2 rounded-full transition-colors"
+                  >
+                    {account.displayName}
+                    {account.displayBalance ? ` (${account.displayBalance})` : ""}
                   </button>
                 </div>
               );

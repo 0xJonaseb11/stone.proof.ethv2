@@ -1,151 +1,104 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 "use client";
 
 import { cn } from "~~/utils/dashboard/cn";
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
 
 interface Report {
   id: string;
   title: string;
   mineral: string;
   date: string;
+  status: "pending" | "approved" | "rejected";
+  priority: "low" | "medium" | "high";
 }
 
-interface MineralReportsProps {
-  reports: Report[];
-  title?: string;
-  refreshLabel?: string;
-  onRefresh?: () => void;
-  onViewDetails?: (reportId: string) => void;
-  bgColor?: string;
-}
+const mockReports: Report[] = [
+  {
+    id: "1",
+    title: "Monthly Copper Production Report",
+    mineral: "Copper",
+    date: "2024-01-15",
+    status: "approved",
+    priority: "high",
+  },
+  {
+    id: "2",
+    title: "Gold Quality Assessment",
+    mineral: "Gold",
+    date: "2024-01-14",
+    status: "pending",
+    priority: "medium",
+  },
+  {
+    id: "3",
+    title: "Iron Ore Extraction Summary",
+    mineral: "Iron",
+    date: "2024-01-13",
+    status: "rejected",
+    priority: "low",
+  },
+  {
+    id: "4",
+    title: "Silver Refinement Report",
+    mineral: "Silver",
+    date: "2024-01-12",
+    status: "approved",
+    priority: "high",
+  },
+  {
+    id: "5",
+    title: "Platinum Mining Analysis",
+    mineral: "Platinum",
+    date: "2024-01-11",
+    status: "pending",
+    priority: "medium",
+  },
+];
 
-export default function MineralReports({
-  reports,
-  title = "Mineral Reports",
-  refreshLabel = "Refresh List",
-  onRefresh = () => {},
-  onViewDetails = () => {},
-  bgColor = "bg-[#252525]",
-}: MineralReportsProps) {
+const statusColors = {
+  pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+  approved: "bg-green-500/20 text-green-400 border-green-500/30",
+  rejected: "bg-red-500/20 text-red-400 border-red-500/30",
+};
+
+const priorityColors = {
+  low: "bg-blue-500/20 text-blue-400",
+  medium: "bg-orange-500/20 text-orange-400",
+  high: "bg-red-500/20 text-red-400",
+};
+
+export default function MineralReports() {
   return (
-    <div className={cn(bgColor, "border border-[#323539] rounded-2xl p-4 w-full")}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-white text-lg font-medium">{title}</h3>
+    <div className="bg-transparent border border-[#323539] rounded-2xl p-6 h-full">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-white text-xl font-semibold">Mineral Reports</h3>
+        <button className="text-[#0A77FF] hover:text-[#0A77FF]/80 text-sm font-medium">View All</button>
       </div>
 
       <div className="space-y-4">
-        {reports.map(report => (
-          <div key={report.id} className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-full">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path d="M12 16V12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M12 8H12.01" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+        {mockReports.map(report => (
+          <div
+            key={report.id}
+            className="bg-[#1A1D21] border border-[#323539] rounded-xl p-4 hover:border-[#0A77FF]/30 transition-colors"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1">
+                <h4 className="text-white font-medium mb-1">{report.title}</h4>
+                <p className="text-gray-400 text-sm">{report.mineral}</p>
               </div>
-              <div>
-                <p className="text-white font-medium">{report.title}</p>
-                <p className="text-gray-400 text-sm">
-                  {report.mineral} - {report.date}
-                </p>
-              </div>
+              <span className={cn("px-2 py-1 rounded-full text-xs font-medium border", statusColors[report.status])}>
+                {report.status}
+              </span>
             </div>
-            <button
-              onClick={() => onViewDetails(report.id)}
-              className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded"
-            >
-              View Details
-            </button>
+
+            <div className="flex items-center justify-between">
+              <span className="text-gray-500 text-sm">{report.date}</span>
+              <span className={cn("px-2 py-1 rounded-full text-xs font-medium", priorityColors[report.priority])}>
+                {report.priority}
+              </span>
+            </div>
           </div>
         ))}
       </div>
-
-      <button onClick={onRefresh} className="flex items-center gap-1 text-blue-500 hover:text-blue-400 mt-4 mx-auto">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M16 12C16 14.21 14.21 16 12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        {refreshLabel}
-      </button>
     </div>
   );
 }
