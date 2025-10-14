@@ -15,7 +15,7 @@ interface AuditionWorkrateGraphProps {
 }
 
 const defaultData: WorkrateDataPoint[] = [
-  { day: "Sun", validated: 12000, pending: 5000 },
+  { day: "Sun", validated: 1200, pending: 5000 },
   { day: "Mon", validated: 20000, pending: 8000 },
   { day: "Tue", validated: 17000, pending: 10000 },
   { day: "Wed", validated: 35000, pending: 12000 },
