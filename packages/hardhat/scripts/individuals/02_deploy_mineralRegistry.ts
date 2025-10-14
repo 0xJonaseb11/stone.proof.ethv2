@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 const deployMineralRegistry: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;
@@ -14,7 +13,6 @@ const deployMineralRegistry: DeployFunction = async function (hre: HardhatRuntim
     console.log("///////////////////////////////////////////////////////////////////");
   };
 
-
   console.log("Deploying MineralRegistry...");
   const mineralRegistry = await deploy("MineralRegistry", {
     from: deployer,
@@ -24,8 +22,7 @@ const deployMineralRegistry: DeployFunction = async function (hre: HardhatRuntim
   });
   await logGasUsed("MineralRegistry", mineralRegistry);
 
-
-console.log("🚀 Deployment complete!");
+  console.log("🚀 Deployment complete!");
 };
 
 export default deployMineralRegistry;

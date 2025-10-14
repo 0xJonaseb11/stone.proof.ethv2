@@ -118,10 +118,7 @@ export class IERC1155Errors__factory {
   static createInterface(): IERC1155ErrorsInterface {
     return new Interface(_abi) as IERC1155ErrorsInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC1155Errors {
+  static connect(address: string, runner?: ContractRunner | null): IERC1155Errors {
     return new Contract(address, _abi, runner) as unknown as IERC1155Errors;
   }
 }

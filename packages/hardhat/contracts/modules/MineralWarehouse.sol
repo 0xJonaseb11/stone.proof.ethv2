@@ -48,7 +48,9 @@ contract MineralWarehouse is RolesManager /*,MineralRegistry*/ {
     event MineralListedForSale(string mineralId, string price, address indexed lister);
     event MineralSold(string mineralId, address indexed buyer, address seller, uint256 soldAt);
 
-    constructor(address rolesManagerAddress/*, address mineralRegistryAddress*/) /*MineralRegistry(rolesManagerAddress) */{
+    constructor(
+        address rolesManagerAddress /*, address mineralRegistryAddress*/
+    ) /*MineralRegistry(rolesManagerAddress) */ {
         rolesManager = RolesManager(rolesManagerAddress);
         // mineralRegistry = MineralRegistry(mineralRegistryAddress);
     }
@@ -64,7 +66,6 @@ contract MineralWarehouse is RolesManager /*,MineralRegistry*/ {
         address[] memory tokens,
         uint256[] memory prices
     ) public restrictedToRole(REFINER_ROLE) {
-
         if (mineralDetails[_mineralId].isRefined == false) {
             revert MineralWarehouse__MineralNotRefined(_mineralId);
         }
@@ -130,7 +131,7 @@ contract MineralWarehouse is RolesManager /*,MineralRegistry*/ {
             payable(mineral.refiner).transfer(msg.value);
         } else {
             // require(acceptedTokens[token], "Token not accepted");
-            
+
             require(amount == mineral.saleInfo.tokenPrices[token], "Incorrect token amount");
             IERC20(token).transferFrom(msg.sender, mineral.refiner, amount);
         }

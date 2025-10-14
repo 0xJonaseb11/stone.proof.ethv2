@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 const deployTokenization: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;
@@ -14,8 +13,6 @@ const deployTokenization: DeployFunction = async function (hre: HardhatRuntimeEn
     console.log("///////////////////////////////////////////////////////////////////");
   };
 
-
-
   console.log("Deploying Tokenization...");
   const tokenization = await deploy("Tokenization", {
     from: deployer,
@@ -24,9 +21,7 @@ const deployTokenization: DeployFunction = async function (hre: HardhatRuntimeEn
   });
   await logGasUsed("Tokenization", tokenization);
 
-
-
-console.log("🚀 Deployment complete!");
+  console.log("🚀 Deployment complete!");
 };
 
 export default deployTokenization;

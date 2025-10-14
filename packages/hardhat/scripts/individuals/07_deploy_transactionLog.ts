@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 const deployTransactionLog: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;
@@ -14,7 +13,6 @@ const deployTransactionLog: DeployFunction = async function (hre: HardhatRuntime
     console.log("///////////////////////////////////////////////////////////////////");
   };
 
-
   console.log("Deploying TransactionLog...");
   const transactionLog = await deploy("TransactionLog", {
     from: deployer,
@@ -23,8 +21,7 @@ const deployTransactionLog: DeployFunction = async function (hre: HardhatRuntime
   });
   await logGasUsed("TransactionLog", transactionLog);
 
-
-console.log("🚀 Deployment complete!");
+  console.log("🚀 Deployment complete!");
 };
 
 export default deployTransactionLog;

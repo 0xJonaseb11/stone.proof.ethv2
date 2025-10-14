@@ -102,10 +102,7 @@ export class IERC20Errors__factory {
   static createInterface(): IERC20ErrorsInterface {
     return new Interface(_abi) as IERC20ErrorsInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC20Errors {
+  static connect(address: string, runner?: ContractRunner | null): IERC20Errors {
     return new Contract(address, _abi, runner) as unknown as IERC20Errors;
   }
 }

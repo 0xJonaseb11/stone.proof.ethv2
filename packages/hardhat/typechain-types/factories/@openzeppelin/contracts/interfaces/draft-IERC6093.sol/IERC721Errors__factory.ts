@@ -119,10 +119,7 @@ export class IERC721Errors__factory {
   static createInterface(): IERC721ErrorsInterface {
     return new Interface(_abi) as IERC721ErrorsInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC721Errors {
+  static connect(address: string, runner?: ContractRunner | null): IERC721Errors {
     return new Contract(address, _abi, runner) as unknown as IERC721Errors;
   }
 }

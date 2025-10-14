@@ -46,7 +46,7 @@ export interface StonepProofEventsInterface extends Interface {
       | "RoleAssigned"
       | "RoleRevoked"
       | "TransporterRoleAssigned"
-      | "TransporterRoleRevoked"
+      | "TransporterRoleRevoked",
   ): EventFragment;
 }
 
@@ -181,18 +181,8 @@ export namespace MinerRoleRevokedEvent {
 }
 
 export namespace MineralAuditedEvent {
-  export type InputTuple = [
-    mineralId: string,
-    status: BytesLike,
-    auditor: AddressLike,
-    auditedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    status: string,
-    auditor: string,
-    auditedAt: bigint
-  ];
+  export type InputTuple = [mineralId: string, status: BytesLike, auditor: AddressLike, auditedAt: BigNumberish];
+  export type OutputTuple = [mineralId: string, status: string, auditor: string, auditedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     status: string;
@@ -210,14 +200,9 @@ export namespace MineralInspectedEvent {
     mineralId: string,
     mineralStatus: string,
     inspector: AddressLike,
-    inspectedAt: BigNumberish
+    inspectedAt: BigNumberish,
   ];
-  export type OutputTuple = [
-    mineralId: string,
-    mineralStatus: string,
-    inspector: string,
-    inspectedAt: bigint
-  ];
+  export type OutputTuple = [mineralId: string, mineralStatus: string, inspector: string, inspectedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     mineralStatus: string;
@@ -231,16 +216,8 @@ export namespace MineralInspectedEvent {
 }
 
 export namespace MineralPurchasedEvent {
-  export type InputTuple = [
-    mineralId: string,
-    buyer: AddressLike,
-    purchasedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    buyer: string,
-    purchasedAt: bigint
-  ];
+  export type InputTuple = [mineralId: string, buyer: AddressLike, purchasedAt: BigNumberish];
+  export type OutputTuple = [mineralId: string, buyer: string, purchasedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     buyer: string;
@@ -257,14 +234,9 @@ export namespace MineralReadyToTradeEvent {
     mineralId: string,
     inspector_Auditor: AddressLike,
     status: string,
-    inspectionDate: BigNumberish
+    inspectionDate: BigNumberish,
   ];
-  export type OutputTuple = [
-    mineralId: string,
-    inspector_Auditor: string,
-    status: string,
-    inspectionDate: bigint
-  ];
+  export type OutputTuple = [mineralId: string, inspector_Auditor: string, status: string, inspectionDate: bigint];
   export interface OutputObject {
     mineralId: string;
     inspector_Auditor: string;
@@ -278,16 +250,8 @@ export namespace MineralReadyToTradeEvent {
 }
 
 export namespace MineralRefinedEvent {
-  export type InputTuple = [
-    mineralId: BigNumberish,
-    refiner: AddressLike,
-    refinedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: bigint,
-    refiner: string,
-    refinedAt: bigint
-  ];
+  export type InputTuple = [mineralId: BigNumberish, refiner: AddressLike, refinedAt: BigNumberish];
+  export type OutputTuple = [mineralId: bigint, refiner: string, refinedAt: bigint];
   export interface OutputObject {
     mineralId: bigint;
     refiner: string;
@@ -308,7 +272,7 @@ export namespace MineralRegisteredEvent {
     weight: string,
     purityPercentage: BigNumberish,
     miner: AddressLike,
-    registeredAt: BigNumberish
+    registeredAt: BigNumberish,
   ];
   export type OutputTuple = [
     mineralId: string,
@@ -318,7 +282,7 @@ export namespace MineralRegisteredEvent {
     weight: string,
     purityPercentage: bigint,
     miner: string,
-    registeredAt: bigint
+    registeredAt: bigint,
   ];
   export interface OutputObject {
     mineralId: string;
@@ -343,7 +307,7 @@ export namespace MineralTransportedEvent {
     receivingParty: AddressLike,
     origin: string,
     destination: string,
-    transportedAt: BigNumberish
+    transportedAt: BigNumberish,
   ];
   export type OutputTuple = [
     mineralId: string,
@@ -351,7 +315,7 @@ export namespace MineralTransportedEvent {
     receivingParty: string,
     origin: string,
     destination: string,
-    transportedAt: bigint
+    transportedAt: bigint,
   ];
   export interface OutputObject {
     mineralId: string;
@@ -394,16 +358,8 @@ export namespace RefinerRoleRevokedEvent {
 }
 
 export namespace RoleAssignedEvent {
-  export type InputTuple = [
-    account: AddressLike,
-    role: BytesLike,
-    roleAssignedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    account: string,
-    role: string,
-    roleAssignedAt: bigint
-  ];
+  export type InputTuple = [account: AddressLike, role: BytesLike, roleAssignedAt: BigNumberish];
+  export type OutputTuple = [account: string, role: string, roleAssignedAt: bigint];
   export interface OutputObject {
     account: string;
     role: string;
@@ -416,18 +372,8 @@ export namespace RoleAssignedEvent {
 }
 
 export namespace RoleRevokedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    revoker: AddressLike,
-    roleRevokedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    role: string,
-    account: string,
-    revoker: string,
-    roleRevokedAt: bigint
-  ];
+  export type InputTuple = [role: BytesLike, account: AddressLike, revoker: AddressLike, roleRevokedAt: BigNumberish];
+  export type OutputTuple = [role: string, account: string, revoker: string, roleRevokedAt: bigint];
   export interface OutputObject {
     role: string;
     account: string;
@@ -475,200 +421,180 @@ export interface StonepProofEvents extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getEvent(
-    key: "AdminRoleAssigned"
+    key: "AdminRoleAssigned",
   ): TypedContractEvent<
     AdminRoleAssignedEvent.InputTuple,
     AdminRoleAssignedEvent.OutputTuple,
     AdminRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "AdminRoleRevoked"
+    key: "AdminRoleRevoked",
   ): TypedContractEvent<
     AdminRoleRevokedEvent.InputTuple,
     AdminRoleRevokedEvent.OutputTuple,
     AdminRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "AuditorRoleRevoked"
+    key: "AuditorRoleRevoked",
   ): TypedContractEvent<
     AuditorRoleRevokedEvent.InputTuple,
     AuditorRoleRevokedEvent.OutputTuple,
     AuditorRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "AuiditorRoleRevoked"
+    key: "AuiditorRoleRevoked",
   ): TypedContractEvent<
     AuiditorRoleRevokedEvent.InputTuple,
     AuiditorRoleRevokedEvent.OutputTuple,
     AuiditorRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "BuyerRoleAssigned"
+    key: "BuyerRoleAssigned",
   ): TypedContractEvent<
     BuyerRoleAssignedEvent.InputTuple,
     BuyerRoleAssignedEvent.OutputTuple,
     BuyerRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "BuyerRoleRevoked"
+    key: "BuyerRoleRevoked",
   ): TypedContractEvent<
     BuyerRoleRevokedEvent.InputTuple,
     BuyerRoleRevokedEvent.OutputTuple,
     BuyerRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "InspectorRoleAssigned"
+    key: "InspectorRoleAssigned",
   ): TypedContractEvent<
     InspectorRoleAssignedEvent.InputTuple,
     InspectorRoleAssignedEvent.OutputTuple,
     InspectorRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "InspectorRoleRevoked"
+    key: "InspectorRoleRevoked",
   ): TypedContractEvent<
     InspectorRoleRevokedEvent.InputTuple,
     InspectorRoleRevokedEvent.OutputTuple,
     InspectorRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "MinerRoleAssigned"
+    key: "MinerRoleAssigned",
   ): TypedContractEvent<
     MinerRoleAssignedEvent.InputTuple,
     MinerRoleAssignedEvent.OutputTuple,
     MinerRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "MinerRoleRevoked"
+    key: "MinerRoleRevoked",
   ): TypedContractEvent<
     MinerRoleRevokedEvent.InputTuple,
     MinerRoleRevokedEvent.OutputTuple,
     MinerRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralAudited"
+    key: "MineralAudited",
   ): TypedContractEvent<
     MineralAuditedEvent.InputTuple,
     MineralAuditedEvent.OutputTuple,
     MineralAuditedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralInspected"
+    key: "MineralInspected",
   ): TypedContractEvent<
     MineralInspectedEvent.InputTuple,
     MineralInspectedEvent.OutputTuple,
     MineralInspectedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralPurchased"
+    key: "MineralPurchased",
   ): TypedContractEvent<
     MineralPurchasedEvent.InputTuple,
     MineralPurchasedEvent.OutputTuple,
     MineralPurchasedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralReadyToTrade"
+    key: "MineralReadyToTrade",
   ): TypedContractEvent<
     MineralReadyToTradeEvent.InputTuple,
     MineralReadyToTradeEvent.OutputTuple,
     MineralReadyToTradeEvent.OutputObject
   >;
   getEvent(
-    key: "MineralRefined"
+    key: "MineralRefined",
   ): TypedContractEvent<
     MineralRefinedEvent.InputTuple,
     MineralRefinedEvent.OutputTuple,
     MineralRefinedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralRegistered"
+    key: "MineralRegistered",
   ): TypedContractEvent<
     MineralRegisteredEvent.InputTuple,
     MineralRegisteredEvent.OutputTuple,
     MineralRegisteredEvent.OutputObject
   >;
   getEvent(
-    key: "MineralTransported"
+    key: "MineralTransported",
   ): TypedContractEvent<
     MineralTransportedEvent.InputTuple,
     MineralTransportedEvent.OutputTuple,
     MineralTransportedEvent.OutputObject
   >;
   getEvent(
-    key: "RefinerRoleAssigned"
+    key: "RefinerRoleAssigned",
   ): TypedContractEvent<
     RefinerRoleAssignedEvent.InputTuple,
     RefinerRoleAssignedEvent.OutputTuple,
     RefinerRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "RefinerRoleRevoked"
+    key: "RefinerRoleRevoked",
   ): TypedContractEvent<
     RefinerRoleRevokedEvent.InputTuple,
     RefinerRoleRevokedEvent.OutputTuple,
     RefinerRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "RoleAssigned"
-  ): TypedContractEvent<
-    RoleAssignedEvent.InputTuple,
-    RoleAssignedEvent.OutputTuple,
-    RoleAssignedEvent.OutputObject
-  >;
+    key: "RoleAssigned",
+  ): TypedContractEvent<RoleAssignedEvent.InputTuple, RoleAssignedEvent.OutputTuple, RoleAssignedEvent.OutputObject>;
   getEvent(
-    key: "RoleRevoked"
-  ): TypedContractEvent<
-    RoleRevokedEvent.InputTuple,
-    RoleRevokedEvent.OutputTuple,
-    RoleRevokedEvent.OutputObject
-  >;
+    key: "RoleRevoked",
+  ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
   getEvent(
-    key: "TransporterRoleAssigned"
+    key: "TransporterRoleAssigned",
   ): TypedContractEvent<
     TransporterRoleAssignedEvent.InputTuple,
     TransporterRoleAssignedEvent.OutputTuple,
     TransporterRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "TransporterRoleRevoked"
+    key: "TransporterRoleRevoked",
   ): TypedContractEvent<
     TransporterRoleRevokedEvent.InputTuple,
     TransporterRoleRevokedEvent.OutputTuple,

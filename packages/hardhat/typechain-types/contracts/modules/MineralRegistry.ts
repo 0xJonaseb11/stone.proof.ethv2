@@ -37,7 +37,7 @@ export declare namespace RolesManager {
     fieldChanged: string,
     newValue: string,
     updatedBy: string,
-    timestamp: bigint
+    timestamp: bigint,
   ] & {
     id: string;
     fieldChanged: string;
@@ -81,7 +81,7 @@ export declare namespace RolesManager {
     isRefined: boolean,
     isAudited: boolean,
     isInspected: boolean,
-    timestamp: bigint
+    timestamp: bigint,
   ] & {
     id: string;
     name: string;
@@ -158,7 +158,7 @@ export interface MineralRegistryInterface extends Interface {
       | "supportsInterface"
       | "transferMineral"
       | "updateMineralLocation"
-      | "updateMineralStatus"
+      | "updateMineralStatus",
   ): FunctionFragment;
 
   getEvent(
@@ -190,427 +190,121 @@ export interface MineralRegistryInterface extends Interface {
       | "RoleRevoked(bytes32,address,address)"
       | "RoleRevoked(bytes32,address,address,uint256)"
       | "TransporterRoleAssigned"
-      | "TransporterRoleRevoked"
+      | "TransporterRoleRevoked",
   ): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "AUDITOR_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "BUYER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "INSPECTOR_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MINER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "REFINER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "TRANSPORTER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "_auditMineral",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "_checkAuditAndInspectionStatus",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "_getMineralHistory",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "assignAuditor",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "assignBuyer",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "assignInspector",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "assignMiner",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "assignRefiner",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "assignTransporter",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "checkAuditAndInspectionStatus",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAllRoleCounts",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getMineralDetails",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getMineralHistory",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMemberCount",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRolesForAddress",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasAdminRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasAuditorRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasBuyerRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasInspectorRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasMinerRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRefinerRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasTransporterRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "inspectMineral",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isMineralAudited",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isMineralInspected",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isMineralRegistered",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mineralDetails",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mineralHistories",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "purchaseMineral",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "refineMineral",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "AUDITOR_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "BUYER_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "INSPECTOR_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "MINER_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "REFINER_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "TRANSPORTER_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "_auditMineral", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "_checkAuditAndInspectionStatus", values: [string]): string;
+  encodeFunctionData(functionFragment: "_getMineralHistory", values: [string]): string;
+  encodeFunctionData(functionFragment: "assignAuditor", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "assignBuyer", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "assignInspector", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "assignMiner", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "assignRefiner", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "assignTransporter", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "checkAuditAndInspectionStatus", values: [string]): string;
+  encodeFunctionData(functionFragment: "getAllRoleCounts", values?: undefined): string;
+  encodeFunctionData(functionFragment: "getMineralDetails", values: [string]): string;
+  encodeFunctionData(functionFragment: "getMineralHistory", values: [string]): string;
+  encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "getRolesForAddress", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasAdminRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasAuditorRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasBuyerRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasInspectorRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasMinerRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasRefinerRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasTransporterRole", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "inspectMineral", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "isMineralAudited", values: [string]): string;
+  encodeFunctionData(functionFragment: "isMineralInspected", values: [string]): string;
+  encodeFunctionData(functionFragment: "isMineralRegistered", values: [string]): string;
+  encodeFunctionData(functionFragment: "mineralDetails", values: [string]): string;
+  encodeFunctionData(functionFragment: "mineralHistories", values: [string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "purchaseMineral", values: [string]): string;
+  encodeFunctionData(functionFragment: "refineMineral", values: [string, string]): string;
   encodeFunctionData(
     functionFragment: "registerMineral",
-    values: [string, string, BigNumberish, string, BigNumberish, string]
+    values: [string, string, BigNumberish, string, BigNumberish, string],
   ): string;
-  encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeAuditor",
-    values: [AddressLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeBuyer",
-    values: [AddressLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeInspector",
-    values: [AddressLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeMiner",
-    values: [AddressLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRefiner",
-    values: [AddressLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeTransporter",
-    values: [AddressLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "roleMemberCount",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferMineral",
-    values: [string, AddressLike, string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateMineralLocation",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateMineralStatus",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "revokeAuditor", values: [AddressLike, string]): string;
+  encodeFunctionData(functionFragment: "revokeBuyer", values: [AddressLike, string]): string;
+  encodeFunctionData(functionFragment: "revokeInspector", values: [AddressLike, string]): string;
+  encodeFunctionData(functionFragment: "revokeMiner", values: [AddressLike, string]): string;
+  encodeFunctionData(functionFragment: "revokeRefiner", values: [AddressLike, string]): string;
+  encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "revokeTransporter", values: [AddressLike, string]): string;
+  encodeFunctionData(functionFragment: "roleMemberCount", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "transferMineral", values: [string, AddressLike, string, string]): string;
+  encodeFunctionData(functionFragment: "updateMineralLocation", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "updateMineralStatus", values: [string, string]): string;
 
-  decodeFunctionResult(
-    functionFragment: "AUDITOR_ROLE",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "AUDITOR_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "BUYER_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "INSPECTOR_ROLE",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "INSPECTOR_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MINER_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "REFINER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "TRANSPORTER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "_auditMineral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "_checkAuditAndInspectionStatus",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "_getMineralHistory",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "assignAuditor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "assignBuyer",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "assignInspector",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "assignMiner",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "assignRefiner",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "assignTransporter",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "checkAuditAndInspectionStatus",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getAllRoleCounts",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getMineralDetails",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getMineralHistory",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMemberCount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRolesForAddress",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "REFINER_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "TRANSPORTER_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "_auditMineral", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "_checkAuditAndInspectionStatus", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "_getMineralHistory", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "assignAuditor", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "assignBuyer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "assignInspector", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "assignMiner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "assignRefiner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "assignTransporter", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "checkAuditAndInspectionStatus", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getAllRoleCounts", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getMineralDetails", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getMineralHistory", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRolesForAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "hasAdminRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasAuditorRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasBuyerRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasInspectorRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasMinerRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasRefinerRole",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "hasAdminRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasAuditorRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasBuyerRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasInspectorRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasMinerRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRefinerRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "hasTransporterRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "inspectMineral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isMineralAudited",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isMineralInspected",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isMineralRegistered",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "mineralDetails",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "mineralHistories",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "purchaseMineral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "refineMineral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "registerMineral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeAuditor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeBuyer",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeInspector",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeMiner",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeRefiner",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "hasTransporterRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "inspectMineral", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isMineralAudited", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isMineralInspected", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isMineralRegistered", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mineralDetails", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mineralHistories", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "purchaseMineral", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "refineMineral", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "registerMineral", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeAuditor", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeBuyer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeInspector", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeMiner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeRefiner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeTransporter",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "roleMemberCount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferMineral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateMineralLocation",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateMineralStatus",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "revokeTransporter", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "roleMemberCount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transferMineral", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updateMineralLocation", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updateMineralStatus", data: BytesLike): Result;
 }
 
 export namespace AdminRoleAssignedEvent {
@@ -627,16 +321,8 @@ export namespace AdminRoleAssignedEvent {
 }
 
 export namespace AdminRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -662,16 +348,8 @@ export namespace AuditorRoleAssignedEvent {
 }
 
 export namespace AuditorRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -697,16 +375,8 @@ export namespace BuyerRoleAssignedEvent {
 }
 
 export namespace BuyerRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -732,16 +402,8 @@ export namespace InspectorRoleAssignedEvent {
 }
 
 export namespace InspectorRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -767,16 +429,8 @@ export namespace MinerRoleAssignedEvent {
 }
 
 export namespace MinerRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -789,18 +443,8 @@ export namespace MinerRoleRevokedEvent {
 }
 
 export namespace MineralAuditedEvent {
-  export type InputTuple = [
-    mineralId: string,
-    status: string,
-    auditor: AddressLike,
-    auditedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    status: string,
-    auditor: string,
-    auditedAt: bigint
-  ];
+  export type InputTuple = [mineralId: string, status: string, auditor: AddressLike, auditedAt: BigNumberish];
+  export type OutputTuple = [mineralId: string, status: string, auditor: string, auditedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     status: string;
@@ -818,14 +462,9 @@ export namespace MineralInspectedEvent {
     mineralId: string,
     mineralStatus: string,
     inspector: AddressLike,
-    inspectedAt: BigNumberish
+    inspectedAt: BigNumberish,
   ];
-  export type OutputTuple = [
-    mineralId: string,
-    mineralStatus: string,
-    inspector: string,
-    inspectedAt: bigint
-  ];
+  export type OutputTuple = [mineralId: string, mineralStatus: string, inspector: string, inspectedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     mineralStatus: string;
@@ -839,18 +478,8 @@ export namespace MineralInspectedEvent {
 }
 
 export namespace MineralLocationUpdatedEvent {
-  export type InputTuple = [
-    mineralId: string,
-    previousLocation: string,
-    newLocation: string,
-    tranporter: AddressLike
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    previousLocation: string,
-    newLocation: string,
-    tranporter: string
-  ];
+  export type InputTuple = [mineralId: string, previousLocation: string, newLocation: string, tranporter: AddressLike];
+  export type OutputTuple = [mineralId: string, previousLocation: string, newLocation: string, tranporter: string];
   export interface OutputObject {
     mineralId: string;
     previousLocation: string;
@@ -864,16 +493,8 @@ export namespace MineralLocationUpdatedEvent {
 }
 
 export namespace MineralPurchasedEvent {
-  export type InputTuple = [
-    mineralId: string,
-    buyer: AddressLike,
-    purchasedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    buyer: string,
-    purchasedAt: bigint
-  ];
+  export type InputTuple = [mineralId: string, buyer: AddressLike, purchasedAt: BigNumberish];
+  export type OutputTuple = [mineralId: string, buyer: string, purchasedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     buyer: string;
@@ -886,18 +507,8 @@ export namespace MineralPurchasedEvent {
 }
 
 export namespace MineralReadyToTradeEvent {
-  export type InputTuple = [
-    mineralId: string,
-    ApprovedBy: AddressLike,
-    status: string,
-    inspectionDate: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    ApprovedBy: string,
-    status: string,
-    inspectionDate: bigint
-  ];
+  export type InputTuple = [mineralId: string, ApprovedBy: AddressLike, status: string, inspectionDate: BigNumberish];
+  export type OutputTuple = [mineralId: string, ApprovedBy: string, status: string, inspectionDate: bigint];
   export interface OutputObject {
     mineralId: string;
     ApprovedBy: string;
@@ -911,18 +522,8 @@ export namespace MineralReadyToTradeEvent {
 }
 
 export namespace MineralRefinedEvent {
-  export type InputTuple = [
-    mineralId: string,
-    refineryReport: string,
-    refiner: AddressLike,
-    refinedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    mineralId: string,
-    refineryReport: string,
-    refiner: string,
-    refinedAt: bigint
-  ];
+  export type InputTuple = [mineralId: string, refineryReport: string, refiner: AddressLike, refinedAt: BigNumberish];
+  export type OutputTuple = [mineralId: string, refineryReport: string, refiner: string, refinedAt: bigint];
   export interface OutputObject {
     mineralId: string;
     refineryReport: string;
@@ -944,7 +545,7 @@ export namespace MineralRegisteredEvent {
     weight: BigNumberish,
     purityPercentage: BigNumberish,
     miner: AddressLike,
-    registeredAt: BigNumberish
+    registeredAt: BigNumberish,
   ];
   export type OutputTuple = [
     mineralId: string,
@@ -954,7 +555,7 @@ export namespace MineralRegisteredEvent {
     weight: bigint,
     purityPercentage: bigint,
     miner: string,
-    registeredAt: bigint
+    registeredAt: bigint,
   ];
   export interface OutputObject {
     mineralId: string;
@@ -979,7 +580,7 @@ export namespace MineralTransportedEvent {
     receivingParty: AddressLike,
     origin: string,
     destination: string,
-    transportedAt: BigNumberish
+    transportedAt: BigNumberish,
   ];
   export type OutputTuple = [
     mineralId: string,
@@ -987,7 +588,7 @@ export namespace MineralTransportedEvent {
     receivingParty: string,
     origin: string,
     destination: string,
-    transportedAt: bigint
+    transportedAt: bigint,
   ];
   export interface OutputObject {
     mineralId: string;
@@ -1009,14 +610,14 @@ export namespace MineralUpdatedEvent {
     updatedField: string,
     newValue: string,
     updatedBy: AddressLike,
-    updatedAt: BigNumberish
+    updatedAt: BigNumberish,
   ];
   export type OutputTuple = [
     mineralId: string,
     updatedField: string,
     newValue: string,
     updatedBy: string,
-    updatedAt: bigint
+    updatedAt: bigint,
   ];
   export interface OutputObject {
     mineralId: string;
@@ -1045,16 +646,8 @@ export namespace RefinerRoleAssignedEvent {
 }
 
 export namespace RefinerRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -1067,16 +660,8 @@ export namespace RefinerRoleRevokedEvent {
 }
 
 export namespace RoleAdminChangedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    previousAdminRole: BytesLike,
-    newAdminRole: BytesLike
-  ];
-  export type OutputTuple = [
-    role: string,
-    previousAdminRole: string,
-    newAdminRole: string
-  ];
+  export type InputTuple = [role: BytesLike, previousAdminRole: BytesLike, newAdminRole: BytesLike];
+  export type OutputTuple = [role: string, previousAdminRole: string, newAdminRole: string];
   export interface OutputObject {
     role: string;
     previousAdminRole: string;
@@ -1089,16 +674,8 @@ export namespace RoleAdminChangedEvent {
 }
 
 export namespace RoleAssignedEvent {
-  export type InputTuple = [
-    account: AddressLike,
-    role: BytesLike,
-    roleAssignedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    account: string,
-    role: string,
-    roleAssignedAt: bigint
-  ];
+  export type InputTuple = [account: AddressLike, role: BytesLike, roleAssignedAt: BigNumberish];
+  export type OutputTuple = [account: string, role: string, roleAssignedAt: bigint];
   export interface OutputObject {
     account: string;
     role: string;
@@ -1111,11 +688,7 @@ export namespace RoleAssignedEvent {
 }
 
 export namespace RoleGrantedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    sender: AddressLike
-  ];
+  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike];
   export type OutputTuple = [role: string, account: string, sender: string];
   export interface OutputObject {
     role: string;
@@ -1129,11 +702,7 @@ export namespace RoleGrantedEvent {
 }
 
 export namespace RoleRevoked_bytes32_address_address_Event {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    sender: AddressLike
-  ];
+  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike];
   export type OutputTuple = [role: string, account: string, sender: string];
   export interface OutputObject {
     role: string;
@@ -1147,18 +716,8 @@ export namespace RoleRevoked_bytes32_address_address_Event {
 }
 
 export namespace RoleRevoked_bytes32_address_address_uint256_Event {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    revoker: AddressLike,
-    roleRevokedAt: BigNumberish
-  ];
-  export type OutputTuple = [
-    role: string,
-    account: string,
-    revoker: string,
-    roleRevokedAt: bigint
-  ];
+  export type InputTuple = [role: BytesLike, account: AddressLike, revoker: AddressLike, roleRevokedAt: BigNumberish];
+  export type OutputTuple = [role: string, account: string, revoker: string, roleRevokedAt: bigint];
   export interface OutputObject {
     role: string;
     account: string;
@@ -1185,16 +744,8 @@ export namespace TransporterRoleAssignedEvent {
 }
 
 export namespace TransporterRoleRevokedEvent {
-  export type InputTuple = [
-    revokee: AddressLike,
-    reason: string,
-    timestamp: BigNumberish
-  ];
-  export type OutputTuple = [
-    revokee: string,
-    reason: string,
-    timestamp: bigint
-  ];
+  export type InputTuple = [revokee: AddressLike, reason: string, timestamp: BigNumberish];
+  export type OutputTuple = [revokee: string, reason: string, timestamp: bigint];
   export interface OutputObject {
     revokee: string;
     reason: string;
@@ -1215,39 +766,29 @@ export interface MineralRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
   AUDITOR_ROLE: TypedContractMethod<[], [string], "view">;
 
@@ -1263,11 +804,7 @@ export interface MineralRegistry extends BaseContract {
 
   TRANSPORTER_ROLE: TypedContractMethod<[], [string], "view">;
 
-  _auditMineral: TypedContractMethod<
-    [mineralId: string, report: string],
-    [void],
-    "nonpayable"
-  >;
+  _auditMineral: TypedContractMethod<[mineralId: string, report: string], [void], "nonpayable">;
 
   _checkAuditAndInspectionStatus: TypedContractMethod<
     [mineralId: string],
@@ -1275,47 +812,19 @@ export interface MineralRegistry extends BaseContract {
     "nonpayable"
   >;
 
-  _getMineralHistory: TypedContractMethod<
-    [mineralId: string],
-    [RolesManager.MineralHistoryStructOutput[]],
-    "view"
-  >;
+  _getMineralHistory: TypedContractMethod<[mineralId: string], [RolesManager.MineralHistoryStructOutput[]], "view">;
 
-  assignAuditor: TypedContractMethod<
-    [account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  assignAuditor: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
-  assignBuyer: TypedContractMethod<
-    [account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  assignBuyer: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
-  assignInspector: TypedContractMethod<
-    [account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  assignInspector: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
-  assignMiner: TypedContractMethod<
-    [account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  assignMiner: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
-  assignRefiner: TypedContractMethod<
-    [account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  assignRefiner: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
-  assignTransporter: TypedContractMethod<
-    [account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  assignTransporter: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
   checkAuditAndInspectionStatus: TypedContractMethod<
     [mineralId: string],
@@ -1333,94 +842,46 @@ export interface MineralRegistry extends BaseContract {
         auditorCount: bigint;
         inspectorCount: bigint;
         buyerCount: bigint;
-      }
+      },
     ],
     "view"
   >;
 
-  getMineralDetails: TypedContractMethod<
-    [mineralId: string],
-    [RolesManager.MineralDetailsStructOutput],
-    "view"
-  >;
+  getMineralDetails: TypedContractMethod<[mineralId: string], [RolesManager.MineralDetailsStructOutput], "view">;
 
-  getMineralHistory: TypedContractMethod<
-    [mineralId: string],
-    [RolesManager.MineralHistoryStructOutput[]],
-    "view"
-  >;
+  getMineralHistory: TypedContractMethod<[mineralId: string], [RolesManager.MineralHistoryStructOutput[]], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
   getRoleMemberCount: TypedContractMethod<[role: BytesLike], [bigint], "view">;
 
-  getRolesForAddress: TypedContractMethod<
-    [account: AddressLike],
-    [string[]],
-    "view"
-  >;
+  getRolesForAddress: TypedContractMethod<[account: AddressLike], [string[]], "view">;
 
-  grantRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  grantRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   hasAdminRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
-  hasAuditorRole: TypedContractMethod<
-    [account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasAuditorRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
   hasBuyerRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
-  hasInspectorRole: TypedContractMethod<
-    [account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasInspectorRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
   hasMinerRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
-  hasRefinerRole: TypedContractMethod<
-    [account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasRefinerRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
-  hasRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
 
-  hasTransporterRole: TypedContractMethod<
-    [account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasTransporterRole: TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
-  inspectMineral: TypedContractMethod<
-    [mineralId: string, report: string],
-    [void],
-    "nonpayable"
-  >;
+  inspectMineral: TypedContractMethod<[mineralId: string, report: string], [void], "nonpayable">;
 
   isMineralAudited: TypedContractMethod<[mineralId: string], [boolean], "view">;
 
-  isMineralInspected: TypedContractMethod<
-    [mineralId: string],
-    [boolean],
-    "view"
-  >;
+  isMineralInspected: TypedContractMethod<[mineralId: string], [boolean], "view">;
 
-  isMineralRegistered: TypedContractMethod<
-    [mineralId: string],
-    [boolean],
-    "nonpayable"
-  >;
+  isMineralRegistered: TypedContractMethod<[mineralId: string], [boolean], "nonpayable">;
 
   mineralDetails: TypedContractMethod<
     [arg0: string],
@@ -1441,7 +902,7 @@ export interface MineralRegistry extends BaseContract {
         boolean,
         boolean,
         boolean,
-        bigint
+        bigint,
       ] & {
         id: string;
         name: string;
@@ -1459,7 +920,7 @@ export interface MineralRegistry extends BaseContract {
         isAudited: boolean;
         isInspected: boolean;
         timestamp: bigint;
-      }
+      },
     ],
     "view"
   >;
@@ -1473,22 +934,14 @@ export interface MineralRegistry extends BaseContract {
         newValue: string;
         updatedBy: string;
         timestamp: bigint;
-      }
+      },
     ],
     "view"
   >;
 
-  purchaseMineral: TypedContractMethod<
-    [mineralId: string],
-    [void],
-    "nonpayable"
-  >;
+  purchaseMineral: TypedContractMethod<[mineralId: string], [void], "nonpayable">;
 
-  refineMineral: TypedContractMethod<
-    [mineralId: string, report: string],
-    [void],
-    "nonpayable"
-  >;
+  refineMineral: TypedContractMethod<[mineralId: string, report: string], [void], "nonpayable">;
 
   registerMineral: TypedContractMethod<
     [
@@ -1497,165 +950,78 @@ export interface MineralRegistry extends BaseContract {
       _weight: BigNumberish,
       _origin: string,
       _purityPercentage: BigNumberish,
-      _storageConditions: string
+      _storageConditions: string,
     ],
     [string],
     "nonpayable"
   >;
 
-  renounceRole: TypedContractMethod<
-    [role: BytesLike, callerConfirmation: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  renounceRole: TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], "nonpayable">;
 
-  revokeAuditor: TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+  revokeAuditor: TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
 
-  revokeBuyer: TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+  revokeBuyer: TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
 
-  revokeInspector: TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+  revokeInspector: TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
 
-  revokeMiner: TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+  revokeMiner: TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
 
-  revokeRefiner: TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+  revokeRefiner: TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
 
-  revokeRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
-  revokeTransporter: TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+  revokeTransporter: TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
 
   roleMemberCount: TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
 
-  supportsInterface: TypedContractMethod<
-    [interfaceId: BytesLike],
-    [boolean],
-    "view"
-  >;
+  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   transferMineral: TypedContractMethod<
-    [
-      mineralId: string,
-      _receivingParty: AddressLike,
-      _origin: string,
-      _destination: string
-    ],
+    [mineralId: string, _receivingParty: AddressLike, _origin: string, _destination: string],
     [void],
     "nonpayable"
   >;
 
-  updateMineralLocation: TypedContractMethod<
-    [mineralId: string, newLocation: string],
-    [void],
-    "nonpayable"
-  >;
+  updateMineralLocation: TypedContractMethod<[mineralId: string, newLocation: string], [void], "nonpayable">;
 
-  updateMineralStatus: TypedContractMethod<
-    [mineralId: string, newStatus: string],
-    [void],
-    "nonpayable"
-  >;
+  updateMineralStatus: TypedContractMethod<[mineralId: string, newStatus: string], [void], "nonpayable">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
+  getFunction(nameOrSignature: "AUDITOR_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "BUYER_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "INSPECTOR_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "MINER_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "REFINER_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "TRANSPORTER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "AUDITOR_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: "_auditMineral",
+  ): TypedContractMethod<[mineralId: string, report: string], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "BUYER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "DEFAULT_ADMIN_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "INSPECTOR_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "MINER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "REFINER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "TRANSPORTER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "_auditMineral"
-  ): TypedContractMethod<
-    [mineralId: string, report: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "_checkAuditAndInspectionStatus"
+    nameOrSignature: "_checkAuditAndInspectionStatus",
   ): TypedContractMethod<
     [mineralId: string],
     [[boolean, boolean] & { isAudited: boolean; isInspected: boolean }],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "_getMineralHistory"
-  ): TypedContractMethod<
-    [mineralId: string],
-    [RolesManager.MineralHistoryStructOutput[]],
-    "view"
-  >;
+    nameOrSignature: "_getMineralHistory",
+  ): TypedContractMethod<[mineralId: string], [RolesManager.MineralHistoryStructOutput[]], "view">;
+  getFunction(nameOrSignature: "assignAuditor"): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "assignBuyer"): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "assignInspector"): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "assignMiner"): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "assignRefiner"): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "assignTransporter"): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "assignAuditor"
-  ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "assignBuyer"
-  ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "assignInspector"
-  ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "assignMiner"
-  ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "assignRefiner"
-  ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "assignTransporter"
-  ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "checkAuditAndInspectionStatus"
+    nameOrSignature: "checkAuditAndInspectionStatus",
   ): TypedContractMethod<
     [mineralId: string],
     [[boolean, boolean] & { isAudited: boolean; isInspected: boolean }],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "getAllRoleCounts"
-  ): TypedContractMethod<
+  getFunction(nameOrSignature: "getAllRoleCounts"): TypedContractMethod<
     [],
     [
       [bigint, bigint, bigint, bigint, bigint, bigint] & {
@@ -1665,87 +1031,41 @@ export interface MineralRegistry extends BaseContract {
         auditorCount: bigint;
         inspectorCount: bigint;
         buyerCount: bigint;
-      }
+      },
     ],
     "view"
   >;
   getFunction(
-    nameOrSignature: "getMineralDetails"
-  ): TypedContractMethod<
-    [mineralId: string],
-    [RolesManager.MineralDetailsStructOutput],
-    "view"
-  >;
+    nameOrSignature: "getMineralDetails",
+  ): TypedContractMethod<[mineralId: string], [RolesManager.MineralDetailsStructOutput], "view">;
   getFunction(
-    nameOrSignature: "getMineralHistory"
-  ): TypedContractMethod<
-    [mineralId: string],
-    [RolesManager.MineralHistoryStructOutput[]],
-    "view"
-  >;
+    nameOrSignature: "getMineralHistory",
+  ): TypedContractMethod<[mineralId: string], [RolesManager.MineralHistoryStructOutput[]], "view">;
+  getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
+  getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
+  getFunction(nameOrSignature: "getRolesForAddress"): TypedContractMethod<[account: AddressLike], [string[]], "view">;
   getFunction(
-    nameOrSignature: "getRoleAdmin"
-  ): TypedContractMethod<[role: BytesLike], [string], "view">;
+    nameOrSignature: "grantRole",
+  ): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "hasAdminRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "hasAuditorRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "hasBuyerRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "hasInspectorRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "hasMinerRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "hasRefinerRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
   getFunction(
-    nameOrSignature: "getRoleMemberCount"
-  ): TypedContractMethod<[role: BytesLike], [bigint], "view">;
+    nameOrSignature: "hasRole",
+  ): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "hasTransporterRole"): TypedContractMethod<[account: AddressLike], [boolean], "view">;
   getFunction(
-    nameOrSignature: "getRolesForAddress"
-  ): TypedContractMethod<[account: AddressLike], [string[]], "view">;
+    nameOrSignature: "inspectMineral",
+  ): TypedContractMethod<[mineralId: string, report: string], [void], "nonpayable">;
+  getFunction(nameOrSignature: "isMineralAudited"): TypedContractMethod<[mineralId: string], [boolean], "view">;
+  getFunction(nameOrSignature: "isMineralInspected"): TypedContractMethod<[mineralId: string], [boolean], "view">;
   getFunction(
-    nameOrSignature: "grantRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "hasAdminRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasAuditorRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasBuyerRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasInspectorRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasMinerRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasRefinerRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "hasTransporterRole"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "inspectMineral"
-  ): TypedContractMethod<
-    [mineralId: string, report: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "isMineralAudited"
-  ): TypedContractMethod<[mineralId: string], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "isMineralInspected"
-  ): TypedContractMethod<[mineralId: string], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "isMineralRegistered"
+    nameOrSignature: "isMineralRegistered",
   ): TypedContractMethod<[mineralId: string], [boolean], "nonpayable">;
-  getFunction(
-    nameOrSignature: "mineralDetails"
-  ): TypedContractMethod<
+  getFunction(nameOrSignature: "mineralDetails"): TypedContractMethod<
     [arg0: string],
     [
       [
@@ -1764,7 +1084,7 @@ export interface MineralRegistry extends BaseContract {
         boolean,
         boolean,
         boolean,
-        bigint
+        bigint,
       ] & {
         id: string;
         name: string;
@@ -1782,13 +1102,11 @@ export interface MineralRegistry extends BaseContract {
         isAudited: boolean;
         isInspected: boolean;
         timestamp: bigint;
-      }
+      },
     ],
     "view"
   >;
-  getFunction(
-    nameOrSignature: "mineralHistories"
-  ): TypedContractMethod<
+  getFunction(nameOrSignature: "mineralHistories"): TypedContractMethod<
     [arg0: string, arg1: BigNumberish],
     [
       [string, string, string, string, bigint] & {
@@ -1797,22 +1115,16 @@ export interface MineralRegistry extends BaseContract {
         newValue: string;
         updatedBy: string;
         timestamp: bigint;
-      }
+      },
     ],
     "view"
   >;
+  getFunction(nameOrSignature: "purchaseMineral"): TypedContractMethod<[mineralId: string], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "purchaseMineral"
-  ): TypedContractMethod<[mineralId: string], [void], "nonpayable">;
+    nameOrSignature: "refineMineral",
+  ): TypedContractMethod<[mineralId: string, report: string], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "refineMineral"
-  ): TypedContractMethod<
-    [mineralId: string, report: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "registerMineral"
+    nameOrSignature: "registerMineral",
   ): TypedContractMethod<
     [
       _name: string,
@@ -1820,291 +1132,234 @@ export interface MineralRegistry extends BaseContract {
       _weight: BigNumberish,
       _origin: string,
       _purityPercentage: BigNumberish,
-      _storageConditions: string
+      _storageConditions: string,
     ],
     [string],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "renounceRole"
+    nameOrSignature: "renounceRole",
+  ): TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeAuditor",
+  ): TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeBuyer",
+  ): TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeInspector",
+  ): TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeMiner",
+  ): TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeRefiner",
+  ): TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeRole",
+  ): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeTransporter",
+  ): TypedContractMethod<[account: AddressLike, reason: string], [void], "nonpayable">;
+  getFunction(nameOrSignature: "roleMemberCount"): TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "transferMineral",
   ): TypedContractMethod<
-    [role: BytesLike, callerConfirmation: AddressLike],
+    [mineralId: string, _receivingParty: AddressLike, _origin: string, _destination: string],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "revokeAuditor"
-  ): TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "updateMineralLocation",
+  ): TypedContractMethod<[mineralId: string, newLocation: string], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "revokeBuyer"
-  ): TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeInspector"
-  ): TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeMiner"
-  ): TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeRefiner"
-  ): TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeTransporter"
-  ): TypedContractMethod<
-    [account: AddressLike, reason: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "roleMemberCount"
-  ): TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "supportsInterface"
-  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "transferMineral"
-  ): TypedContractMethod<
-    [
-      mineralId: string,
-      _receivingParty: AddressLike,
-      _origin: string,
-      _destination: string
-    ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "updateMineralLocation"
-  ): TypedContractMethod<
-    [mineralId: string, newLocation: string],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "updateMineralStatus"
-  ): TypedContractMethod<
-    [mineralId: string, newStatus: string],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "updateMineralStatus",
+  ): TypedContractMethod<[mineralId: string, newStatus: string], [void], "nonpayable">;
 
   getEvent(
-    key: "AdminRoleAssigned"
+    key: "AdminRoleAssigned",
   ): TypedContractEvent<
     AdminRoleAssignedEvent.InputTuple,
     AdminRoleAssignedEvent.OutputTuple,
     AdminRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "AdminRoleRevoked"
+    key: "AdminRoleRevoked",
   ): TypedContractEvent<
     AdminRoleRevokedEvent.InputTuple,
     AdminRoleRevokedEvent.OutputTuple,
     AdminRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "AuditorRoleAssigned"
+    key: "AuditorRoleAssigned",
   ): TypedContractEvent<
     AuditorRoleAssignedEvent.InputTuple,
     AuditorRoleAssignedEvent.OutputTuple,
     AuditorRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "AuditorRoleRevoked"
+    key: "AuditorRoleRevoked",
   ): TypedContractEvent<
     AuditorRoleRevokedEvent.InputTuple,
     AuditorRoleRevokedEvent.OutputTuple,
     AuditorRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "BuyerRoleAssigned"
+    key: "BuyerRoleAssigned",
   ): TypedContractEvent<
     BuyerRoleAssignedEvent.InputTuple,
     BuyerRoleAssignedEvent.OutputTuple,
     BuyerRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "BuyerRoleRevoked"
+    key: "BuyerRoleRevoked",
   ): TypedContractEvent<
     BuyerRoleRevokedEvent.InputTuple,
     BuyerRoleRevokedEvent.OutputTuple,
     BuyerRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "InspectorRoleAssigned"
+    key: "InspectorRoleAssigned",
   ): TypedContractEvent<
     InspectorRoleAssignedEvent.InputTuple,
     InspectorRoleAssignedEvent.OutputTuple,
     InspectorRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "InspectorRoleRevoked"
+    key: "InspectorRoleRevoked",
   ): TypedContractEvent<
     InspectorRoleRevokedEvent.InputTuple,
     InspectorRoleRevokedEvent.OutputTuple,
     InspectorRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "MinerRoleAssigned"
+    key: "MinerRoleAssigned",
   ): TypedContractEvent<
     MinerRoleAssignedEvent.InputTuple,
     MinerRoleAssignedEvent.OutputTuple,
     MinerRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "MinerRoleRevoked"
+    key: "MinerRoleRevoked",
   ): TypedContractEvent<
     MinerRoleRevokedEvent.InputTuple,
     MinerRoleRevokedEvent.OutputTuple,
     MinerRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralAudited"
+    key: "MineralAudited",
   ): TypedContractEvent<
     MineralAuditedEvent.InputTuple,
     MineralAuditedEvent.OutputTuple,
     MineralAuditedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralInspected"
+    key: "MineralInspected",
   ): TypedContractEvent<
     MineralInspectedEvent.InputTuple,
     MineralInspectedEvent.OutputTuple,
     MineralInspectedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralLocationUpdated"
+    key: "MineralLocationUpdated",
   ): TypedContractEvent<
     MineralLocationUpdatedEvent.InputTuple,
     MineralLocationUpdatedEvent.OutputTuple,
     MineralLocationUpdatedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralPurchased"
+    key: "MineralPurchased",
   ): TypedContractEvent<
     MineralPurchasedEvent.InputTuple,
     MineralPurchasedEvent.OutputTuple,
     MineralPurchasedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralReadyToTrade"
+    key: "MineralReadyToTrade",
   ): TypedContractEvent<
     MineralReadyToTradeEvent.InputTuple,
     MineralReadyToTradeEvent.OutputTuple,
     MineralReadyToTradeEvent.OutputObject
   >;
   getEvent(
-    key: "MineralRefined"
+    key: "MineralRefined",
   ): TypedContractEvent<
     MineralRefinedEvent.InputTuple,
     MineralRefinedEvent.OutputTuple,
     MineralRefinedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralRegistered"
+    key: "MineralRegistered",
   ): TypedContractEvent<
     MineralRegisteredEvent.InputTuple,
     MineralRegisteredEvent.OutputTuple,
     MineralRegisteredEvent.OutputObject
   >;
   getEvent(
-    key: "MineralTransported"
+    key: "MineralTransported",
   ): TypedContractEvent<
     MineralTransportedEvent.InputTuple,
     MineralTransportedEvent.OutputTuple,
     MineralTransportedEvent.OutputObject
   >;
   getEvent(
-    key: "MineralUpdated"
+    key: "MineralUpdated",
   ): TypedContractEvent<
     MineralUpdatedEvent.InputTuple,
     MineralUpdatedEvent.OutputTuple,
     MineralUpdatedEvent.OutputObject
   >;
   getEvent(
-    key: "RefinerRoleAssigned"
+    key: "RefinerRoleAssigned",
   ): TypedContractEvent<
     RefinerRoleAssignedEvent.InputTuple,
     RefinerRoleAssignedEvent.OutputTuple,
     RefinerRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "RefinerRoleRevoked"
+    key: "RefinerRoleRevoked",
   ): TypedContractEvent<
     RefinerRoleRevokedEvent.InputTuple,
     RefinerRoleRevokedEvent.OutputTuple,
     RefinerRoleRevokedEvent.OutputObject
   >;
   getEvent(
-    key: "RoleAdminChanged"
+    key: "RoleAdminChanged",
   ): TypedContractEvent<
     RoleAdminChangedEvent.InputTuple,
     RoleAdminChangedEvent.OutputTuple,
     RoleAdminChangedEvent.OutputObject
   >;
   getEvent(
-    key: "RoleAssigned"
-  ): TypedContractEvent<
-    RoleAssignedEvent.InputTuple,
-    RoleAssignedEvent.OutputTuple,
-    RoleAssignedEvent.OutputObject
-  >;
+    key: "RoleAssigned",
+  ): TypedContractEvent<RoleAssignedEvent.InputTuple, RoleAssignedEvent.OutputTuple, RoleAssignedEvent.OutputObject>;
   getEvent(
-    key: "RoleGranted"
-  ): TypedContractEvent<
-    RoleGrantedEvent.InputTuple,
-    RoleGrantedEvent.OutputTuple,
-    RoleGrantedEvent.OutputObject
-  >;
+    key: "RoleGranted",
+  ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
   getEvent(
-    key: "RoleRevoked(bytes32,address,address)"
+    key: "RoleRevoked(bytes32,address,address)",
   ): TypedContractEvent<
     RoleRevoked_bytes32_address_address_Event.InputTuple,
     RoleRevoked_bytes32_address_address_Event.OutputTuple,
     RoleRevoked_bytes32_address_address_Event.OutputObject
   >;
   getEvent(
-    key: "RoleRevoked(bytes32,address,address,uint256)"
+    key: "RoleRevoked(bytes32,address,address,uint256)",
   ): TypedContractEvent<
     RoleRevoked_bytes32_address_address_uint256_Event.InputTuple,
     RoleRevoked_bytes32_address_address_uint256_Event.OutputTuple,
     RoleRevoked_bytes32_address_address_uint256_Event.OutputObject
   >;
   getEvent(
-    key: "TransporterRoleAssigned"
+    key: "TransporterRoleAssigned",
   ): TypedContractEvent<
     TransporterRoleAssignedEvent.InputTuple,
     TransporterRoleAssignedEvent.OutputTuple,
     TransporterRoleAssignedEvent.OutputObject
   >;
   getEvent(
-    key: "TransporterRoleRevoked"
+    key: "TransporterRoleRevoked",
   ): TypedContractEvent<
     TransporterRoleRevokedEvent.InputTuple,
     TransporterRoleRevokedEvent.OutputTuple,

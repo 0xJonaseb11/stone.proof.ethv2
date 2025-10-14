@@ -3,10 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IERC165,
-  IERC165Interface,
-} from "../../../../../@openzeppelin/contracts/utils/introspection/IERC165";
+import type { IERC165, IERC165Interface } from "../../../../../@openzeppelin/contracts/utils/introspection/IERC165";
 
 const _abi = [
   {
