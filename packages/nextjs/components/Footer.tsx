@@ -5,7 +5,6 @@ import {
   ArrowRight,
   BookOpen,
   Github,
-
   Linkedin,
   Mail,
   MapPin,

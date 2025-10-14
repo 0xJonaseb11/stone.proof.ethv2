@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { FaRegCopy } from "react-icons/fa";
+// import { FaRegCopy } from "react-icons/fa";
 import { mockRecentActivities } from "~~/data/data";
 
 const PAGE_SIZE = 7;

@@ -1,15 +1,6 @@
 import React, { useState } from "react";
 import { mineralsData } from "../../data/data";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Area, AreaChart, Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const ACCORDION_ITEMS = [
   {

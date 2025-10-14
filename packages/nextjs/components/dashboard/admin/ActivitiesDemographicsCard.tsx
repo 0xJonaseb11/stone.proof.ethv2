@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
@@ -9,8 +9,8 @@ const markers: { name: string; coordinates: [number, number]; color: string }[] 
 ];
 
 export default function ActivitiesDemographicsCard() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // const [mounted, setMounted] = useState(false);
+  // useEffect(() => setMounted(true), []);
 
   return (
     <div className="bg-transparent border border-[#323539] rounded-2xl p-4 flex flex-col h-full min-w-[220px] w-full max-w-full">

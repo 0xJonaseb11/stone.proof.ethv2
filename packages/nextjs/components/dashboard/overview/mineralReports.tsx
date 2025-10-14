@@ -23,6 +23,46 @@ import { cn } from "~~/utils/dashboard/cn";
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 interface Report {
   id: string;
   title: string;

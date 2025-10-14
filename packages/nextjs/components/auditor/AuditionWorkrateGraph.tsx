@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Link from "next/link";
 import { Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
@@ -28,7 +28,7 @@ export default function AuditionWorkrateGraph({
   data = defaultData,
   title = "Your Audition Workrate",
 }: AuditionWorkrateGraphProps) {
-  const [hoveredData, setHoveredData] = useState<any>(null);
+  // const [hoveredData, setHoveredData] = useState<any>(null);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {

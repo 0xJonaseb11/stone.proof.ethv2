@@ -2,6 +2,7 @@ import { SetStateAction, useState } from "react";
 import { ArrowDown, ChevronLeft, ChevronRight, Copy, MoreVertical, Search } from "lucide-react";
 
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UnpurchasedMineralsTable = ({ minerals, selectedMineral, onSelectMineral, onPurchase }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

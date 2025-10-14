@@ -11,6 +11,8 @@ type UpdateMineralFormProps = {
 };
 
 export default function UpdateMineralForm({ mineral, onSubmit }: UpdateMineralFormProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _mineral = mineral;
   const router = useRouter();
   const [portalOpen, setPortalOpen] = useState(false);
   const [selectedCondition, setSelectedCondition] = useState({
