@@ -209,10 +209,7 @@ export class IAccessControl__factory {
   static createInterface(): IAccessControlInterface {
     return new Interface(_abi) as IAccessControlInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IAccessControl {
+  static connect(address: string, runner?: ContractRunner | null): IAccessControl {
     return new Contract(address, _abi, runner) as unknown as IAccessControl;
   }
 }

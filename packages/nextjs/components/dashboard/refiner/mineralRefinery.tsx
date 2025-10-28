@@ -1,5 +1,5 @@
 // components/MineralRefineryGraph.tsx
-import { useState } from "react";
+// import { useState } from "react";
 import Link from "next/link";
 import Icon from "../Icon";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
@@ -27,7 +27,7 @@ const defaultData = [
 ];
 
 export default function MineralRefineryGraph({ data = defaultData }) {
-  const [hoveredData, setHoveredData] = useState<any | null>(null);
+  // const [hoveredData, setHoveredData] = useState<any | null>(null);
 
   const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
     if (active && payload && payload.length) {

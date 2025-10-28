@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
         <img
           src="/landing/hero_ring.svg"
           alt="Stone Bottom Left"
-          className="hidden lg:block absolute left-[20px] bottom-[-22%] ` w-32 md:w-48 lg:w-56 pointer-events-none select-none"
+          className="hidden lg:block absolute left-[20px] bottom-[-22%] w-32 md:w-48 lg:w-56 pointer-events-none select-none"
         />
 
         {/* Yellow spotlight at far left of hero banner */}
@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8 relative">
             <Link
-              href="/auth/login"
+              href="/welcome"
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 z-20"
             >
               Get Started

@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import ContactUsButton from "./landing/Header/ContactUsButton";
 import StoneProof from "./landing/Header/StoneProof";
 import { Menu, X } from "lucide-react";
@@ -22,6 +23,7 @@ const navLinks: NavLink[] = [
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,16 +70,23 @@ const Header: React.FC = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex flex-1 justify-center">
           <ul className="flex gap-2 lg:gap-10">
-            {navLinks.map(link => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  className="text-white text-xs lg:text-base opacity-70 hover:text-primary hover:opacity-100 transition-colors duration-200 whitespace-nowrap px-1 lg:px-0"
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
+            {navLinks.map(link => {
+              const isActive = pathname === link.href;
+              return (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className={`text-xs lg:text-base transition-colors duration-200 whitespace-nowrap px-1 lg:px-0 ${
+                      isActive
+                        ? "text-[#0A77FF] opacity-100"
+                        : "text-white opacity-70 hover:text-[#0A77FF] hover:opacity-100"
+                    }`}
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
@@ -109,23 +118,30 @@ const Header: React.FC = () => {
           }`}
         >
           <ul className="flex flex-col gap-6 text-center">
-            {navLinks.map((link, index) => (
-              <li
-                key={link.name}
-                className={`transition-all duration-300 ${
-                  mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                }`}
-                style={{ transitionDelay: `${index * 50}ms` }}
-              >
-                <a
-                  href={link.href}
-                  className="text-white text-lg opacity-70 hover:opacity-100 transition-colors duration-200"
-                  onClick={toggleMobileMenu}
+            {navLinks.map((link, index) => {
+              const isActive = pathname === link.href;
+              return (
+                <li
+                  key={link.name}
+                  className={`transition-all duration-300 ${
+                    mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${index * 50}ms` }}
                 >
-                  {link.name}
-                </a>
-              </li>
-            ))}
+                  <a
+                    href={link.href}
+                    className={`text-lg transition-colors duration-200 ${
+                      isActive
+                        ? "text-[#0A77FF] opacity-100"
+                        : "text-white opacity-70 hover:text-[#0A77FF] hover:opacity-100"
+                    }`}
+                    onClick={toggleMobileMenu}
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              );
+            })}
             <li
               className={`mt-4 transition-all duration-300 ${
                 mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"

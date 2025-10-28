@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 const deployPrivacyGuard: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;
@@ -14,17 +13,15 @@ const deployPrivacyGuard: DeployFunction = async function (hre: HardhatRuntimeEn
     console.log("///////////////////////////////////////////////////////////////////");
   };
 
+  console.log("Deploying PrivacyGuard...");
+  const privacyGuard = await deploy("PrivacyGuard", {
+    from: deployer,
+    log: true,
+    autoMine: true,
+  });
+  await logGasUsed("PrivacyGuard", privacyGuard);
 
-console.log("Deploying PrivacyGuard...");
-const privacyGuard = await deploy("PrivacyGuard", {
-  from: deployer,
-  log: true,
-  autoMine: true,
-});
-await logGasUsed("PrivacyGuard", privacyGuard);
-
-
-console.log("🚀 Deployment complete!");
+  console.log("🚀 Deployment complete!");
 };
 
 export default deployPrivacyGuard;

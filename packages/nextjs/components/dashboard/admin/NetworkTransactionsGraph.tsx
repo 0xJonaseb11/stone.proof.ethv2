@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Link from "next/link";
 import { Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
@@ -22,7 +22,7 @@ export default function NetworkTransactionsGraph({
   data = defaultData,
   title = "Network Transactions Overall",
 }: NetworkTransactionsGraphProps) {
-  const [hoveredData, setHoveredData] = useState<any>(null);
+  // const [hoveredData, setHoveredData] = useState<any>(null);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {

@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 const deployLogisticsManager: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;
@@ -28,9 +27,7 @@ const deployLogisticsManager: DeployFunction = async function (hre: HardhatRunti
   });
   await logGasUsed("LogisticsManager", logisticsManager);
 
-
-
-console.log("🚀 Deployment complete!");
+  console.log("🚀 Deployment complete!");
 };
 
 export default deployLogisticsManager;

@@ -54,7 +54,9 @@ export default function SubscriptionCard() {
         </div>
         <div className="leading-none">
           <h1 className="font-bold text-[16px]">Subscription plan</h1>
-          <h1 className="text-[#979AA0] text-[14px] leading-none mt-0">Upgrade plan to access the <br /> more of Stone.proof</h1>
+          <h1 className="text-[#979AA0] text-[14px] leading-none mt-0">
+            Upgrade plan to access the <br /> more of Stone.proof
+          </h1>
         </div>
         <div>
           <Link href={"#"} className="font-bold text-[15px] text-accentBlue">

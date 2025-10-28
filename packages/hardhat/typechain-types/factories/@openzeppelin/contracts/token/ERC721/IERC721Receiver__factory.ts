@@ -50,10 +50,7 @@ export class IERC721Receiver__factory {
   static createInterface(): IERC721ReceiverInterface {
     return new Interface(_abi) as IERC721ReceiverInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC721Receiver {
+  static connect(address: string, runner?: ContractRunner | null): IERC721Receiver {
     return new Contract(address, _abi, runner) as unknown as IERC721Receiver;
   }
 }

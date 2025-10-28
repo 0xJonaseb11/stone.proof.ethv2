@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 const deployDisputeResolution: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, ethers } = hre;
@@ -23,9 +22,7 @@ const deployDisputeResolution: DeployFunction = async function (hre: HardhatRunt
   });
   await logGasUsed("DisputeResolution", disputeResolution);
 
-
-
-console.log("🚀 Deployment complete!");
+  console.log("🚀 Deployment complete!");
 };
 
 export default deployDisputeResolution;

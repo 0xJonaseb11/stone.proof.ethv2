@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Icon from "../../Icon";
 import PurityIndicator from "./PurityIndicator";
 import StatusBadge from "./StatusBadge";
 import { Mineral } from "./types";
-import {useRouter} from 'next/navigation'
 
 type MineralRowProps = {
   mineral: Mineral;
