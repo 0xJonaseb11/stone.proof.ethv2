@@ -1,0 +1,14 @@
+# folders
+.next
+node_modules/
+# files
+**/*.less
+**/*.css
+**/*.scss
+**/*.json
+**/*.png
+**/*.svg
+**/generated/**/*
+
+app/admin/minerals/page.tsx
+/app
