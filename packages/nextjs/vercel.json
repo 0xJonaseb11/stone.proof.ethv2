@@ -1,8 +1,0 @@
-{
-  "installCommand": "yarn install",
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_IGNORE_BUILD_ERROR": "true"
-    }
-  }
-}
