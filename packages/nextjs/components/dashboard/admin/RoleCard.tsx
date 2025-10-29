@@ -37,7 +37,7 @@ const RoleCard: React.FC<RoleCardProps> = ({
   const [localReason, setLocalReason] = useState("");
   const [displayAddress, setDisplayAddress] = useState("");
   const [isValidInput, setIsValidInput] = useState(false);
-  // const [isBaseName, setIsBaseName] = useState(false);
+  const [isBaseName, setIsBaseName] = useState(false);
 
   // Validate input (either address or Base name)
   useEffect(() => {
