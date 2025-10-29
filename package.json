@@ -2,12 +2,9 @@
   "name": "se-2",
   "version": "0.0.1",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/hardhat",
-      "packages/nextjs"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "account": "yarn hardhat:account",
     "account:import": "yarn workspace @se-2/hardhat account:import",
@@ -52,13 +49,12 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
+    "hardhat": "^3.0.9",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10"
   },
   "engines": {
     "node": ">=20.18.3"
   },
-  "dependencies": {
-    "dotenv": "^16.5.0"
-  }
+  "type": "module"
 }

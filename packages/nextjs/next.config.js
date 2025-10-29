@@ -1,18 +1,29 @@
+// next.config.js
 // @ts-check
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
     ignoreBuildErrors: true,
   },
   eslint: {
-    // ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
     ignoreDuringBuilds: true,
   },
-  webpack: config => {
-    config.resolve.fallback = { fs: false, net: false, tls: false };
+  webpack: (config, { isServer }) => {
+    // Apply fallbacks ONLY on client-side
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        "@react-native-async-storage/async-storage": false,
+        "react-native": false,
+      };
+    }
+
     config.externals.push("pino-pretty", "lokijs", "encoding");
+
     return config;
   },
 };

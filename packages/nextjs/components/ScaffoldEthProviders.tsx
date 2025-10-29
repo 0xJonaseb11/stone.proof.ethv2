@@ -1,30 +1,41 @@
 "use client";
 
-import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { WagmiConfig, configureChains, createConfig } from "wagmi";
-import { arbitrum, mainnet, optimism, polygon, sepolia } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
+import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { Toaster } from "react-hot-toast";
+import { WagmiProvider } from "wagmi";
+// Import your existing wagmi config - don't change your network setup!
+import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 
-const { chains, publicClient } = configureChains([mainnet, polygon, optimism, arbitrum, sepolia], [publicProvider()]);
-
-const { connectors } = getDefaultWallets({
-  appName: "StoneProof",
-  projectId: "YOUR_WALLETCONNECT_PROJECT_ID", // ⚡ remember to replace!
-  chains,
+// Create query client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
 });
 
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
+// Custom theme for StoneProof
+const customDarkTheme = darkTheme({
+  accentColor: "#0A7AFF",
+  accentColorForeground: "white",
+  borderRadius: "large",
+  fontStack: "rounded",
+  overlayBlur: "small",
 });
 
-const ScaffoldEthProviders = ({ children }: { children: React.ReactNode }) => {
+export default function ScaffoldEthProviders({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <ProgressBar height="3px" color="#2299dd" />
+        <RainbowKitProvider theme={customDarkTheme}>
+          {children}
+          <Toaster />
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
-};
-
-export default ScaffoldEthProviders;
+}
