@@ -1,14 +1,13 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 import "@nomicfoundation/hardhat-verify";
 import "hardhat-deploy";
-import "hardhat-deploy-ethers";
+// REMOVED: "hardhat-deploy-ethers" - this conflicts with @nomicfoundation/hardhat-ethers
 import { task } from "hardhat/config";
 import generateTsAbis from "./scripts/generateTsAbis";
 
@@ -163,12 +162,23 @@ const config: HardhatUserConfig = {
   },
   // configuration for harhdat-verify plugin
   etherscan: {
-    apiKey: `${etherscanApiKey}`,
+    apiKey: {
+      // Ethereum
+      mainnet: etherscanApiKey,
+      sepolia: etherscanApiKey,
+      // Optimism
+      optimisticEthereum: etherscanOptimisticApiKey,
+      optimisticSepolia: etherscanOptimisticApiKey,
+      // Base
+      base: basescanApiKey,
+      baseSepolia: basescanApiKey,
+      // Add other networks as needed
+    },
   },
   // configuration for etherscan-verify from hardhat-deploy plugin
   verify: {
     etherscan: {
-      apiKey: `${etherscanApiKey}`,
+      apiKey: etherscanApiKey,
     },
   },
   sourcify: {

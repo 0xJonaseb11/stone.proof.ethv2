@@ -1,13 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useAccount, useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
+import React, { useState } from "react";
+import { formatEther } from "viem";
+import { useAccount } from "wagmi";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  DocumentTextIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
+import { useDeployedContractInfo, useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 
 interface LicenseApplication {
   applicationId: bigint;
-  applicant: string;
+  applicant: `0x${string}`;
   licenseType: number;
   status: number;
   submissionDate: bigint;
@@ -18,68 +26,70 @@ interface LicenseApplication {
 }
 
 export default function ReviewLicenses() {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const [selectedApplication, setSelectedApplication] = useState<LicenseApplication | null>(null);
   const [reviewComment, setReviewComment] = useState("");
-  const [actionLoading, setActionLoading] = useState<number | null>(null);
 
   const { data: mineralLicenseManager } = useDeployedContractInfo("MineralLicenseManager");
   const writeTx = useTransactor();
 
-  // Fetch pending applications
-  const { data: pendingApplications, refetch: refetchApplications } = useContractRead({
-    address: mineralLicenseManager?.address,
-    abi: mineralLicenseManager?.abi,
+  // Fetch pending applications (SUBMITTED = 1)
+  const { data: pendingAppIds = [], refetch: refetchApplications } = useScaffoldReadContract({
+    contractName: "MineralLicenseManager",
     functionName: "getApplicationsByStatus",
-    args: [1], // SUBMITTED status
-    watch: true,
+    args: [BigInt(1)], // SUBMITTED
   });
 
-  const { writeAsync: reviewApplication } = useContractWrite({
-    address: mineralLicenseManager?.address,
-    abi: mineralLicenseManager?.abi,
-    functionName: "reviewApplication",
-  });
+  const { writeContractAsync, isPending: isReviewing } = useScaffoldWriteContract("MineralLicenseManager");
 
-  const { isLoading: isReviewLoading } = useWaitForTransaction({
-    hash: reviewApplication?.toString(),
-  });
+  // Fetch full application details for each ID
+  const applications = pendingAppIds
+    .map((id: bigint) => {
+      const { data } = useScaffoldReadContract({
+        contractName: "MineralLicenseManager",
+        functionName: "getApplication",
+        args: [id],
+      });
+      return { id, data };
+    })
+    .filter(app => app.data);
 
-  const handleReviewAction = async (applicationId: number, status: number) => {
-    if (!mineralLicenseManager?.address) return;
+  const handleReview = async (appId: bigint, approve: boolean) => {
+    if (!mineralLicenseManager) return;
 
-    setActionLoading(applicationId);
+    const status = approve ? BigInt(3) : BigInt(4); // 3=APPROVED, 4=REJECTED
+    const defaultComment = approve ? "Application approved" : "Application rejected";
 
     try {
-      await reviewApplication({
-        args: [
-          BigInt(applicationId),
-          status,
-          reviewComment || (status === 4 ? "Application rejected" : "Application approved"),
-        ],
+      const hash = await writeContractAsync({
+        functionName: "reviewApplication",
+        args: [appId, status, reviewComment || defaultComment],
       });
 
-      setReviewComment("");
-      setSelectedApplication(null);
-      refetchApplications();
-    } catch (error) {
-      console.error("Error reviewing application:", error);
-    } finally {
-      setActionLoading(null);
+      await writeTx({
+        hash,
+        onSuccess: () => {
+          setReviewComment("");
+          setSelectedApplication(null);
+          refetchApplications();
+        },
+      });
+    } catch (error: any) {
+      console.error("Review failed:", error);
+      alert(error?.shortMessage || "Review failed");
     }
   };
 
   const getStatusBadge = (status: number) => {
-    const statusConfig = {
+    const config = {
       1: { label: "Submitted", color: "badge-warning" },
       2: { label: "Under Review", color: "badge-info" },
       3: { label: "Approved", color: "badge-success" },
       4: { label: "Rejected", color: "badge-error" },
       5: { label: "Suspended", color: "badge-warning" },
       6: { label: "Revoked", color: "badge-error" },
-    };
+    }[status] || { label: "Unknown", color: "badge-neutral" };
 
-    const config = statusConfig[status as keyof typeof statusConfig] || { label: "Unknown", color: "badge-neutral" };
     return <div className={`badge ${config.color}`}>{config.label}</div>;
   };
 
@@ -101,7 +111,7 @@ export default function ReviewLicenses() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-base-content">Review License Applications</h1>
-          <p className="text-base-content/70 mt-2">Manage and review pending mineral license applications</p>
+          <p className="text-base-content/70 mt-2">Approve or reject pending mineral license applications</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -111,9 +121,7 @@ export default function ReviewLicenses() {
               <div className="card-body">
                 <h2 className="card-title text-base-content">
                   Pending Applications
-                  <div className="badge badge-primary badge-lg">
-                    {Array.isArray(pendingApplications) ? pendingApplications.length : 0}
-                  </div>
+                  <div className="badge badge-primary badge-lg ml-2">{applications.length}</div>
                 </h2>
 
                 <div className="overflow-x-auto">
@@ -124,32 +132,49 @@ export default function ReviewLicenses() {
                         <th>Applicant</th>
                         <th>Type</th>
                         <th>Submitted</th>
+                        <th>Production</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(pendingApplications) && pendingApplications.length > 0 ? (
-                        pendingApplications.map((app: any, index: number) => (
-                          <tr key={index} className="hover cursor-pointer">
-                            <td className="font-mono">#{app.applicationId.toString()}</td>
-                            <td className="font-mono text-xs">
-                              {`${app.applicant.slice(0, 6)}...${app.applicant.slice(-4)}`}
-                            </td>
-                            <td>{getLicenseTypeName(app.licenseType)}</td>
-                            <td>{new Date(Number(app.submissionDate) * 1000).toLocaleDateString()}</td>
-                            <td>{getStatusBadge(app.status)}</td>
-                            <td>
-                              <button className="btn btn-ghost btn-xs" onClick={() => setSelectedApplication(app)}>
-                                Review
-                              </button>
-                            </td>
-                          </tr>
-                        ))
+                      {applications.length > 0 ? (
+                        applications.map(({ id, data }) => {
+                          const app = data![0] as LicenseApplication;
+                          const appData = data![1] as any;
+
+                          return (
+                            <tr
+                              key={id.toString()}
+                              className="hover cursor-pointer"
+                              onClick={() => setSelectedApplication(app)}
+                            >
+                              <td className="font-mono">#{id.toString()}</td>
+                              <td className="font-mono text-xs">
+                                {`${app.applicant.slice(0, 6)}...${app.applicant.slice(-4)}`}
+                              </td>
+                              <td>{getLicenseTypeName(app.licenseType)}</td>
+                              <td>{new Date(Number(app.submissionDate) * 1000).toLocaleDateString()}</td>
+                              <td>{app.annualProductionLimit.toString()} t</td>
+                              <td>{getStatusBadge(app.status)}</td>
+                              <td>
+                                <button
+                                  className="btn btn-ghost btn-xs"
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    setSelectedApplication(app);
+                                  }}
+                                >
+                                  Review
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })
                       ) : (
                         <tr>
-                          <td colSpan={6} className="text-center py-8">
-                            <div className="text-base-content/50">No pending applications to review</div>
+                          <td colSpan={7} className="text-center py-8 text-base-content/50">
+                            No pending applications
                           </td>
                         </tr>
                       )}
@@ -166,16 +191,17 @@ export default function ReviewLicenses() {
               <div className="card bg-base-200 shadow-xl sticky top-6">
                 <div className="card-body">
                   <h2 className="card-title text-base-content">
-                    Review Application
-                    <div className="badge badge-primary">#{selectedApplication.applicationId.toString()}</div>
+                    Review Application #{selectedApplication.applicationId.toString()}
                   </h2>
 
-                  <div className="space-y-4">
+                  <div className="space-y-4 text-sm">
                     <div>
                       <label className="label">
                         <span className="label-text">Applicant</span>
                       </label>
-                      <div className="font-mono text-sm bg-base-300 p-2 rounded">{selectedApplication.applicant}</div>
+                      <div className="font-mono text-xs bg-base-300 p-2 rounded break-all">
+                        {selectedApplication.applicant}
+                      </div>
                     </div>
 
                     <div>
@@ -195,11 +221,34 @@ export default function ReviewLicenses() {
                     {selectedApplication.requiresEnvironmentalBond && (
                       <div>
                         <label className="label">
-                          <span className="label-text">Environmental Bond</span>
+                          <span className="label-text">Bond Required</span>
                         </label>
-                        <div className="text-warning">Required: {selectedApplication.bondAmount.toString()} ETH</div>
+                        <div className="text-warning font-bold">{formatEther(selectedApplication.bondAmount)} ETH</div>
                       </div>
                     )}
+
+                    <div>
+                      <label className="label">
+                        <span className="label-text">IPFS Documents</span>
+                      </label>
+                      <div className="space-y-1 text-xs">
+                        <a
+                          href={`https://ipfs.io/ipfs/${selectedApplication.applicationData?.companyDetailsIPFS?.split("/")[2]}`}
+                          target="_blank"
+                          className="link link-primary"
+                        >
+                          Company Details
+                        </a>
+                        <br />
+                        <a
+                          href={`https://ipfs.io/ipfs/${selectedApplication.applicationData?.projectDetailsIPFS?.split("/")[2]}`}
+                          target="_blank"
+                          className="link link-primary"
+                        >
+                          Project Details
+                        </a>
+                      </div>
+                    </div>
 
                     <div>
                       <label className="label">
@@ -207,47 +256,47 @@ export default function ReviewLicenses() {
                       </label>
                       <textarea
                         className="textarea textarea-bordered w-full h-24"
-                        placeholder="Enter review comments or rejection reason..."
+                        placeholder="Optional: Add rejection reason or approval notes..."
                         value={reviewComment}
                         onChange={e => setReviewComment(e.target.value)}
                       />
                     </div>
 
-                    <div className="card-actions justify-end space-x-2">
+                    <div className="card-actions justify-end space-x-2 mt-4">
                       <button
-                        className="btn btn-error btn-sm"
-                        disabled={actionLoading === Number(selectedApplication.applicationId)}
-                        onClick={() => handleReviewAction(Number(selectedApplication.applicationId), 4)}
+                        className="btn btn-error btn-sm flex items-center gap-1"
+                        disabled={isReviewing}
+                        onClick={() => handleReview(selectedApplication.applicationId, false)}
                       >
-                        {actionLoading === Number(selectedApplication.applicationId) ? (
+                        {isReviewing ? (
                           <span className="loading loading-spinner"></span>
                         ) : (
-                          "Reject"
+                          <XCircleIcon className="w-4 h-4" />
                         )}
+                        Reject
                       </button>
                       <button
-                        className="btn btn-success btn-sm"
-                        disabled={actionLoading === Number(selectedApplication.applicationId)}
-                        onClick={() => handleReviewAction(Number(selectedApplication.applicationId), 3)}
+                        className="btn btn-success btn-sm flex items-center gap-1"
+                        disabled={isReviewing}
+                        onClick={() => handleReview(selectedApplication.applicationId, true)}
                       >
-                        {actionLoading === Number(selectedApplication.applicationId) ? (
+                        {isReviewing ? (
                           <span className="loading loading-spinner"></span>
                         ) : (
-                          "Approve"
+                          <CheckCircleIcon className="w-4 h-4" />
                         )}
+                        Approve
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="card bg-base-200 shadow-xl">
-                <div className="card-body text-center">
-                  <div className="text-6xl mb-4">👥</div>
-                  <h3 className="card-title justify-center text-base-content">Select Application</h3>
-                  <p className="text-base-content/70">
-                    Choose an application from the list to review details and take action
-                  </p>
+              <div className="card bg-base-200 shadow-xl h-full flex items-center justify-center">
+                <div className="text-center p-8">
+                  <DocumentTextIcon className="w-16 h-16 mx-auto text-base-content/30 mb-4" />
+                  <h3 className="text-lg font-semibold">Select an Application</h3>
+                  <p className="text-base-content/70 text-sm mt-2">Click on any row to review details</p>
                 </div>
               </div>
             )}

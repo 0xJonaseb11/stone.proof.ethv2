@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { LogisticsManager } from "./LogisticsManager";
+export type { MineralLicenseManager } from "./MineralLicenseManager";
 export type { MineralRegistry } from "./MineralRegistry";
 export type { MineralWarehouse } from "./MineralWarehouse";

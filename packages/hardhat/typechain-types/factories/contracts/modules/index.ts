@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export { LogisticsManager__factory } from "./LogisticsManager__factory";
+export { MineralLicenseManager__factory } from "./MineralLicenseManager__factory";
 export { MineralRegistry__factory } from "./MineralRegistry__factory";
 export { MineralWarehouse__factory } from "./MineralWarehouse__factory";

@@ -49,9 +49,29 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
-    "hardhat": "^3.0.9",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@typechain/ethers-v6": "^0.5.1",
+    "chai": "^4.2.0",
+    "hardhat": "^2.19.0",
     "husky": "^9.1.6",
-    "lint-staged": "^15.2.10"
+    "lint-staged": "^15.2.10",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.2"
+  },
+  "dependencies": {
+    "burner-connector": "^0.0.18",
+    "dotenv": "^17.2.3",
+    "eth-block-tracker": "latest",
+    "nft.storage": "^7.2.0",
+    "pify": "latest"
+  },
+  "resolutions": {
+    "hardhat": "^2.22.8",
+    "@nomicfoundation/hardhat-verify": "^2.0.3",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat-deploy": "^0.12.0",
+    "hardhat-deploy-ethers": "^0.4.0"
   },
   "engines": {
     "node": ">=20.18.3"

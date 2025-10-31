@@ -3,7 +3,10 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { IERC721, IERC721Interface } from "../../../../../@openzeppelin/contracts/token/ERC721/IERC721";
+import type {
+  IERC721,
+  IERC721Interface,
+} from "../../../../../@openzeppelin/contracts/token/ERC721/IERC721";
 
 const _abi = [
   {

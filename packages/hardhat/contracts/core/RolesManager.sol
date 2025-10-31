@@ -592,7 +592,7 @@ contract RolesManager is AccessControl, Errors {
 
     // ... (keep all your existing functions below this point) ...
     // Only modification needed is to ensure the _setupRole function also increments counters:
-    function _setupRole(bytes32 role, address account) internal {
+    function _setupRole(bytes32 role, address account) internal override {
         _grantRole(role, account);
 
         roleMemberCount[role]++;
