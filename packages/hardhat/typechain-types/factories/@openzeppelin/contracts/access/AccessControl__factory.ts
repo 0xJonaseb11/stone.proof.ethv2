@@ -3,30 +3,12 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { AccessControl, AccessControlInterface } from "../../../../@openzeppelin/contracts/access/AccessControl";
+import type {
+  AccessControl,
+  AccessControlInterface,
+} from "../../../../@openzeppelin/contracts/access/AccessControl";
 
 const _abi = [
-  {
-    inputs: [],
-    name: "AccessControlBadConfirmation",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "bytes32",
-        name: "neededRole",
-        type: "bytes32",
-      },
-    ],
-    name: "AccessControlUnauthorizedAccount",
-    type: "error",
-  },
   {
     anonymous: false,
     inputs: [
@@ -185,7 +167,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "callerConfirmation",
+        name: "account",
         type: "address",
       },
     ],
@@ -238,7 +220,10 @@ export class AccessControl__factory {
   static createInterface(): AccessControlInterface {
     return new Interface(_abi) as AccessControlInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): AccessControl {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): AccessControl {
     return new Contract(address, _abi, runner) as unknown as AccessControl;
   }
 }

@@ -346,7 +346,10 @@ export class IERC721Metadata__factory {
   static createInterface(): IERC721MetadataInterface {
     return new Interface(_abi) as IERC721MetadataInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IERC721Metadata {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IERC721Metadata {
     return new Contract(address, _abi, runner) as unknown as IERC721Metadata;
   }
 }

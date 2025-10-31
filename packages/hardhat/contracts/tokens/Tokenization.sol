@@ -129,7 +129,7 @@ contract Tokenization is ERC721, RolesManager {
         return value ? uint8(flags | (1 << bit)) : uint8(flags & ~(1 << bit));
     }
 
-    function _exists(uint256 tokenId) internal view returns (bool) {
+    function _exists(uint256 tokenId) internal override view returns (bool) {
         return _tokens[tokenId].owner != address(0);
     }
 

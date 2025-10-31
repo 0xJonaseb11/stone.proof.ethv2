@@ -39,6 +39,8 @@ const RoleCard: React.FC<RoleCardProps> = ({
   const [isValidInput, setIsValidInput] = useState(false);
   const [isBaseName, setIsBaseName] = useState(false);
 
+  console.log(isBaseName);
+
   // Validate input (either address or Base name)
   useEffect(() => {
     const trimmedInput = userId.trim();
